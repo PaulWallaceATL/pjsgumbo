@@ -57,7 +57,7 @@ export const GUMBOS: GumboItem[] = [
       "White rice",
     ],
     featured: true,
-    prices: { CUP: 7.5, BOWL: 12.5, LARGE_BOWL: 15.5, QUART: 21, HALF_GALLON: 38 },
+    prices: { CUP: 10, BOWL: 16, LARGE_BOWL: 20, QUART: 30, HALF_GALLON: 56 },
   },
   {
     slug: "chicken-sausage-gumbo",
@@ -71,7 +71,7 @@ export const GUMBOS: GumboItem[] = [
       "Dark roux",
       "White rice",
     ],
-    prices: { CUP: 6.5, BOWL: 10.5, LARGE_BOWL: 13.5, QUART: 18, HALF_GALLON: 32 },
+    prices: { CUP: 9, BOWL: 14, LARGE_BOWL: 18, QUART: 26, HALF_GALLON: 48 },
   },
   {
     slug: "chicken-gumbo",
@@ -79,7 +79,7 @@ export const GUMBOS: GumboItem[] = [
     description:
       "All-chicken comfort in a bowl, built on the same deep, dark roux.",
     ingredients: ["Chicken", "Holy trinity", "Dark roux", "White rice"],
-    prices: { CUP: 6, BOWL: 9.5, LARGE_BOWL: 12.5, QUART: 16.5, HALF_GALLON: 29 },
+    prices: { CUP: 8, BOWL: 13, LARGE_BOWL: 17, QUART: 24, HALF_GALLON: 44 },
   },
   {
     slug: "veggie-gumbo",
@@ -94,7 +94,7 @@ export const GUMBOS: GumboItem[] = [
       "Dark roux",
       "White rice",
     ],
-    prices: { CUP: 6, BOWL: 9.5, LARGE_BOWL: 12.5, QUART: 16.5, HALF_GALLON: 29 },
+    prices: { CUP: 8, BOWL: 13, LARGE_BOWL: 17, QUART: 24, HALF_GALLON: 44 },
   },
   {
     slug: "blue-crab-sausage-gumbo",
@@ -111,7 +111,7 @@ export const GUMBOS: GumboItem[] = [
     ],
     weekendOnly: true,
     featured: true,
-    prices: { CUP: 9, BOWL: 15, LARGE_BOWL: 19, QUART: 27, HALF_GALLON: 48 },
+    prices: { CUP: 13, BOWL: 19, LARGE_BOWL: 24, QUART: 36, HALF_GALLON: 68 },
   },
 ];
 
@@ -123,15 +123,15 @@ export type AddOn = {
 };
 
 export const ADD_ONS: AddOn[] = [
-  { slug: "shrimp", name: "Shrimp", price: 3.5 },
-  { slug: "okra", name: "Okra", price: 1.5 },
-  { slug: "extra-chicken", name: "Extra Chicken", price: 2.5 },
-  { slug: "extra-smoked-sausage", name: "Extra Smoked Sausage", price: 2.5 },
-  { slug: "extra-rice", name: "Extra Rice", price: 1 },
+  { slug: "shrimp", name: "Shrimp", price: 8 },
+  { slug: "okra", name: "Okra", price: 3 },
+  { slug: "extra-chicken", name: "Extra Chicken", price: 6 },
+  { slug: "extra-smoked-sausage", name: "Extra Smoked Sausage", price: 5 },
+  { slug: "extra-rice", name: "Extra Rice", price: 2.5 },
   {
     slug: "extra-blue-crab",
     name: "Extra Blue Crab",
-    price: 5,
+    price: 10,
     weekendOnly: true,
   },
 ];
@@ -144,18 +144,18 @@ export type SimpleItem = {
 };
 
 export const SIDES: SimpleItem[] = [
-  { slug: "cornbread-muffins", name: "Cornbread Muffins", price: 3.5 },
+  { slug: "cornbread-muffins", name: "Cornbread Muffins", price: 5 },
   {
     slug: "jalapeno-cheddar-cornbread-muffins",
     name: "Jalapeño Cheddar Cornbread Muffins",
-    price: 4.5,
+    price: 6,
   },
-  { slug: "french-fries", name: "French Fries", price: 3.5 },
-  { slug: "cole-slaw", name: "Cole Slaw", price: 3 },
-  { slug: "dirty-rice", name: "Dirty Rice", price: 4 },
-  { slug: "fried-okra", name: "Fried Okra", price: 4 },
-  { slug: "cajun-green-beans", name: "Cajun Green Beans", price: 3.5 },
-  { slug: "white-rice", name: "White Rice", price: 2 },
+  { slug: "french-fries", name: "French Fries", price: 5 },
+  { slug: "cole-slaw", name: "Cole Slaw", price: 4.5 },
+  { slug: "dirty-rice", name: "Dirty Rice", price: 6 },
+  { slug: "fried-okra", name: "Fried Okra", price: 6 },
+  { slug: "cajun-green-beans", name: "Cajun Green Beans", price: 5 },
+  { slug: "white-rice", name: "White Rice", price: 3.5 },
 ];
 
 export const DESSERTS: SimpleItem[] = [
@@ -163,17 +163,17 @@ export const DESSERTS: SimpleItem[] = [
     slug: "ooey-gooey-butter-cake",
     name: "PJ's Ooey Gooey Butter Cake",
     description: "Rich, buttery, and dangerously good — a Southern bakery classic.",
-    price: 5.5,
+    price: 8,
   },
 ];
 
 export const DRINKS: SimpleItem[] = [
-  { slug: "sweet-tea", name: "Sweet Tea", price: 2.75 },
-  { slug: "unsweet-tea", name: "Unsweet Tea", price: 2.75 },
-  { slug: "lemonade", name: "Lemonade", price: 3 },
-  { slug: "strawberry-lemonade", name: "Strawberry Lemonade", price: 3.5 },
-  { slug: "bottled-water", name: "Bottled Water", price: 2 },
-  { slug: "soft-drinks", name: "Soft Drinks", price: 2.5 },
+  { slug: "sweet-tea", name: "Sweet Tea", price: 3.5 },
+  { slug: "unsweet-tea", name: "Unsweet Tea", price: 3.5 },
+  { slug: "lemonade", name: "Lemonade", price: 4 },
+  { slug: "strawberry-lemonade", name: "Strawberry Lemonade", price: 4.5 },
+  { slug: "bottled-water", name: "Bottled Water", price: 2.5 },
+  { slug: "soft-drinks", name: "Soft Drinks", price: 3.5 },
 ];
 
 export const SPICE_LEVELS: { key: SpiceLevel; label: string; note: string }[] = [
