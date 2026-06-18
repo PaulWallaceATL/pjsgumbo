@@ -1,26 +1,173 @@
 @import "tailwindcss";
+@import "tw-animate-css";
+
+/*
+  PJ's Gumbo Platform — design tokens.
+  Brand palette: Dark Roux Brown, Deep Cajun Red, Warm Cream, White, Charcoal.
+  Semantic tokens (shadcn-style) live on :root / .dark and are mapped to Tailwind
+  utilities via @theme inline so `bg-primary`, `text-muted-foreground`, etc. work.
+*/
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  /* Fixed brand scale — always available regardless of light/dark. */
+  --color-roux-50: #f7f0e9;
+  --color-roux-100: #ecdcc9;
+  --color-roux-200: #d8b794;
+  --color-roux-300: #c0905f;
+  --color-roux-400: #9c6a3c;
+  --color-roux-500: #74471f;
+  --color-roux-600: #5c3a21;
+  --color-roux-700: #4b2e1e;
+  --color-roux-800: #38231a;
+  --color-roux-900: #271812;
+
+  --color-cajun-50: #fcf0ee;
+  --color-cajun-100: #f7d6d2;
+  --color-cajun-200: #eda9a3;
+  --color-cajun-300: #e07b73;
+  --color-cajun-400: #cf4f47;
+  --color-cajun-500: #a4262c;
+  --color-cajun-600: #8c1f25;
+  --color-cajun-700: #71191f;
+  --color-cajun-800: #561318;
+  --color-cajun-900: #3c0d11;
+
+  --color-cream-50: #fdfbf6;
+  --color-cream-100: #f9f3e7;
+  --color-cream-200: #f3e8cf;
+  --color-cream-300: #ead9b2;
+  --color-cream-400: #ddc48b;
+
+  --color-charcoal-700: #2a2622;
+  --color-charcoal-800: #221f1c;
+  --color-charcoal-900: #1a1714;
+}
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --radius: 0.75rem;
+
+  --background: #fcfaf5;
+  --foreground: #221f1c;
+
+  --card: #ffffff;
+  --card-foreground: #221f1c;
+
+  --popover: #ffffff;
+  --popover-foreground: #221f1c;
+
+  --primary: #a4262c;
+  --primary-foreground: #fdfbf6;
+
+  --secondary: #4b2e1e;
+  --secondary-foreground: #f9f3e7;
+
+  --muted: #f3e8cf;
+  --muted-foreground: #6b5d4f;
+
+  --accent: #f9f3e7;
+  --accent-foreground: #4b2e1e;
+
+  --destructive: #b3261e;
+  --destructive-foreground: #fdfbf6;
+
+  --success: #2f7d4f;
+  --warning: #c8861a;
+
+  --border: #e6dcc8;
+  --input: #e6dcc8;
+  --ring: #a4262c;
+}
+
+.dark {
+  --background: #1a1714;
+  --foreground: #f9f3e7;
+
+  --card: #221f1c;
+  --card-foreground: #f9f3e7;
+
+  --popover: #221f1c;
+  --popover-foreground: #f9f3e7;
+
+  --primary: #cf4f47;
+  --primary-foreground: #1a1714;
+
+  --secondary: #ead9b2;
+  --secondary-foreground: #221f1c;
+
+  --muted: #2a2622;
+  --muted-foreground: #b8a98f;
+
+  --accent: #2a2622;
+  --accent-foreground: #f9f3e7;
+
+  --destructive: #cf4f47;
+  --destructive-foreground: #1a1714;
+
+  --success: #4caf78;
+  --warning: #e0a83a;
+
+  --border: #38231a;
+  --input: #38231a;
+  --ring: #cf4f47;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-fraunces), ui-serif, Georgia, serif;
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    letter-spacing: -0.02em;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@utility container-px {
+  padding-inline: 1.25rem;
+  @media (min-width: 768px) {
+    padding-inline: 2rem;
+  }
+  @media (min-width: 1280px) {
+    padding-inline: 3rem;
+  }
 }
