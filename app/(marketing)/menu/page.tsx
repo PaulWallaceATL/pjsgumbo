@@ -16,6 +16,7 @@ import {
   DRINKS,
   GUMBOS,
   MENU_SIZES,
+  menuImage,
   SIDES,
   type SimpleItem,
 } from "@/lib/content/menu";
@@ -106,8 +107,7 @@ function SignatureGumbos() {
           <Reveal key={gumbo.slug} delay={i * 0.05}>
             <Card className="overflow-hidden pt-0 lg:flex-row lg:gap-0">
               <MediaPlaceholder
-                tone={gumbo.weekendOnly ? "cajun" : "roux"}
-                label={gumbo.name}
+                src={menuImage(gumbo.slug)}
                 alt={gumbo.name}
                 rounded="rounded-none"
                 className="aspect-[16/10] w-full lg:aspect-auto lg:w-2/5"
@@ -255,20 +255,28 @@ function SimpleSection({
       >
         {items.map((item, i) => (
           <Reveal key={item.slug} delay={i * 0.04}>
-            <div className="flex items-start justify-between gap-4 rounded-xl border p-5">
-              <div>
-                <h3 className="font-display text-lg font-semibold">
-                  {item.name}
-                </h3>
-                {item.description ? (
-                  <p className="text-muted-foreground mt-1 text-sm leading-relaxed">
-                    {item.description}
-                  </p>
-                ) : null}
+            <div className="flex items-stretch gap-4 overflow-hidden rounded-xl border">
+              <MediaPlaceholder
+                src={menuImage(item.slug)}
+                alt={item.name}
+                rounded="rounded-none"
+                className="aspect-square w-24 shrink-0 sm:w-28"
+              />
+              <div className="flex flex-1 items-start justify-between gap-4 py-4 pr-5">
+                <div>
+                  <h3 className="font-display text-lg font-semibold">
+                    {item.name}
+                  </h3>
+                  {item.description ? (
+                    <p className="text-muted-foreground mt-1 text-sm leading-relaxed">
+                      {item.description}
+                    </p>
+                  ) : null}
+                </div>
+                <span className="text-primary shrink-0 font-semibold">
+                  {formatCurrency(item.price)}
+                </span>
               </div>
-              <span className="text-primary shrink-0 font-semibold">
-                {formatCurrency(item.price)}
-              </span>
             </div>
           </Reveal>
         ))}

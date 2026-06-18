@@ -14,6 +14,7 @@ import {
   DESSERTS,
   DRINKS,
   GUMBOS,
+  menuImage,
   SIDES,
   type SimpleItem,
 } from "@/lib/content/menu";
@@ -48,8 +49,7 @@ function OrderInner() {
             {GUMBOS.map((g) => (
               <Card key={g.slug} className="overflow-hidden pt-0">
                 <MediaPlaceholder
-                  tone={g.weekendOnly ? "cajun" : "roux"}
-                  label={g.name}
+                  src={menuImage(g.slug)}
                   alt={g.name}
                   rounded="rounded-none"
                   className="aspect-[16/9] w-full"
@@ -144,9 +144,15 @@ function SimpleGrid({ items }: { items: SimpleItem[] }) {
 function AddSimpleRow({ item }: { item: SimpleItem }) {
   const { addLine } = useCart();
   return (
-    <div className="flex items-center justify-between gap-3 rounded-xl border p-4">
-      <div>
-        <p className="font-medium">{item.name}</p>
+    <div className="flex items-center gap-3 overflow-hidden rounded-xl border p-2 pr-4">
+      <MediaPlaceholder
+        src={menuImage(item.slug)}
+        alt={item.name}
+        rounded="rounded-lg"
+        className="aspect-square w-16 shrink-0"
+      />
+      <div className="min-w-0 flex-1">
+        <p className="truncate font-medium">{item.name}</p>
         {item.description ? (
           <p className="text-muted-foreground line-clamp-1 text-xs">
             {item.description}

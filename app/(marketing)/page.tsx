@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import {
   ArrowRight,
@@ -22,7 +23,7 @@ import { Reveal } from "@/components/marketing/reveal";
 import { MediaPlaceholder } from "@/components/marketing/media-placeholder";
 import { StarRating } from "@/components/marketing/star-rating";
 import { formatCurrency } from "@/lib/utils";
-import { GUMBOS } from "@/lib/content/menu";
+import { GUMBOS, menuImage } from "@/lib/content/menu";
 import {
   DELIVERY_AREAS,
   FAQS,
@@ -98,12 +99,23 @@ function Hero() {
         </div>
 
         <div className="relative">
-          <MediaPlaceholder
-            tone="roux"
-            label="PJ's Signature Gumbo"
-            alt="A steaming bowl of PJ's signature gumbo over rice"
-            className="aspect-[4/5] w-full shadow-2xl"
-          />
+          <div className="from-cream-100 via-cream-50 to-cream-300 relative flex aspect-[4/5] w-full items-center justify-center overflow-hidden rounded-2xl bg-gradient-to-br shadow-2xl ring-1 ring-black/5">
+            <div className="bg-cajun-500/10 pointer-events-none absolute -top-10 -right-10 size-56 rounded-full blur-3xl" />
+            <div className="bg-roux-500/10 pointer-events-none absolute -bottom-12 -left-12 size-56 rounded-full blur-3xl" />
+            <div className="relative flex flex-col items-center gap-5 px-8 text-center">
+              <Image
+                src={SITE.logo}
+                alt="PJ's Gumbo"
+                width={360}
+                height={360}
+                priority
+                className="h-auto w-52 drop-shadow-xl sm:w-64"
+              />
+              <p className="font-display text-roux-800 text-xl font-semibold tracking-tight">
+                {SITE.tagline}
+              </p>
+            </div>
+          </div>
           <Card className="absolute -bottom-6 -left-6 hidden w-52 py-4 shadow-xl sm:block">
             <CardContent className="px-4">
               <div className="flex items-center gap-2">
@@ -136,8 +148,7 @@ function FeaturedGumbo() {
           <Reveal key={g.slug} delay={i * 0.08}>
             <Card className="group h-full overflow-hidden pt-0">
               <MediaPlaceholder
-                tone={g.weekendOnly ? "cajun" : "roux"}
-                label={g.name}
+                src={menuImage(g.slug)}
                 alt={g.name}
                 rounded="rounded-none"
                 className="aspect-[16/10] w-full"
@@ -311,8 +322,7 @@ function BlueCrabSpecial() {
               </div>
             </div>
             <MediaPlaceholder
-              tone="dark"
-              label="Blue Crab & Sausage Gumbo"
+              src={menuImage(blueCrab.slug)}
               alt="Blue crab and sausage gumbo"
               className="aspect-square w-full shadow-2xl lg:aspect-[4/3]"
             />

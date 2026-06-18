@@ -199,3 +199,11 @@ export const MENU_CATEGORIES: {
   { key: "DESSERTS", label: "Desserts", description: "Save room." },
   { key: "DRINKS", label: "Drinks", description: "Wash it all down." },
 ];
+
+/**
+ * Public path to a menu item's photo. Every menu slug has a matching image in
+ * /public/menu, so the path is derived from the slug.
+ */
+export function menuImage(slug: string): string {
+  return `/menu/${slug}.png`;
+}
