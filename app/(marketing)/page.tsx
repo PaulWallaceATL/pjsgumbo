@@ -112,7 +112,7 @@ function Hero() {
           <div className="bg-roux-500/10 pointer-events-none absolute bottom-0 left-0 size-72 rounded-full blur-3xl" />
           <Image
             src="/graffiti/founders-graffiti-v2.png"
-            alt="Paul and John, founders of PJ's Gumbo"
+            alt="Paul and Jonathan, founders of PJ's Gumbo"
             width={1024}
             height={683}
             priority

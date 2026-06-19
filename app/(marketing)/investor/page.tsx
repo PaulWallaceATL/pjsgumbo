@@ -152,7 +152,7 @@ const SCALE_PILLARS = [
   {
     icon: Trophy,
     title: "Falcons & Athlete Network",
-    body: "Co-founder John's Atlanta Falcons connections can unlock athlete partnerships, stadium activations, and citywide awareness money can't easily buy.",
+    body: "Co-founder Jonathan's Atlanta Falcons connections can unlock athlete partnerships, stadium activations, and citywide awareness money can't easily buy.",
   },
 ] as const;
 
@@ -948,7 +948,7 @@ export default function InvestorPage() {
               <div className="bg-cajun-500/10 pointer-events-none absolute inset-0 scale-90 rounded-full blur-3xl" />
               <Image
                 src="/graffiti/founders-graffiti-v2.png"
-                alt="Paul and John, founders of PJ's Gumbo"
+                alt="Paul and Jonathan, founders of PJ's Gumbo"
                 width={1024}
                 height={683}
                 sizes="(max-width: 1024px) 90vw, 45vw"
@@ -972,7 +972,7 @@ export default function InvestorPage() {
               <div className="flex items-start gap-4">
                 <BrandIcon icon={Trophy} size="lg" />
                 <div>
-                  <h3 className="font-display text-xl font-bold">John</h3>
+                  <h3 className="font-display text-xl font-bold">Jonathan</h3>
                   <p className="text-muted-foreground mt-1 leading-relaxed">
                     Brand and partnerships. His Atlanta Falcons connections can
                     open doors to athlete activations, events, and the kind of
