@@ -11,6 +11,7 @@ import { MenuNav } from "@/components/marketing/menu-nav";
 import { Reveal } from "@/components/marketing/reveal";
 import { AnimatedHeading } from "@/components/marketing/animated-heading";
 import { BrandWaves } from "@/components/marketing/brand-waves";
+import { HeroBackdrop } from "@/components/marketing/hero-backdrop";
 import { formatCurrency } from "@/lib/utils";
 import {
   ADD_ONS,
@@ -77,8 +78,9 @@ export default function MenuPage() {
 
 function MenuHeader() {
   return (
-    <section className="from-cream-100 to-background bg-gradient-to-b">
-      <div className="container-px mx-auto max-w-7xl py-16 text-center sm:py-20">
+    <section className="from-cream-100 to-background relative overflow-hidden bg-gradient-to-b">
+      <HeroBackdrop />
+      <div className="container-px relative z-10 mx-auto max-w-7xl py-16 text-center sm:py-20">
         <p className="text-primary font-display text-sm font-semibold tracking-[0.18em] uppercase">
           Our Menu
         </p>
@@ -201,7 +203,7 @@ function SpiceLevels() {
 function AddOns() {
   return (
     <section id="add-ons" className="scroll-mt-32 py-16">
-      <div className="bg-cream-50 rounded-3xl border p-8 sm:p-12">
+      <div className="bg-card rounded-3xl border p-8 sm:p-12">
         <SectionHeading
           align="left"
           eyebrow="Add-Ons"

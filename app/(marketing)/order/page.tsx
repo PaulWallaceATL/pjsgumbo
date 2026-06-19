@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 
 import { OrderExperience } from "@/components/order/order-experience";
+import { HeroBackdrop } from "@/components/marketing/hero-backdrop";
 
 export const metadata: Metadata = {
   title: "Order Online",
@@ -11,8 +12,9 @@ export const metadata: Metadata = {
 export default function OrderPage() {
   return (
     <>
-      <section className="from-cream-100 to-background border-b bg-gradient-to-b">
-        <div className="container-px mx-auto max-w-7xl py-12 text-center">
+      <section className="from-cream-100 to-background relative overflow-hidden border-b bg-gradient-to-b">
+        <HeroBackdrop />
+        <div className="container-px relative z-10 mx-auto max-w-7xl py-12 text-center">
           <p className="text-primary font-display text-sm font-semibold tracking-[0.18em] uppercase">
             Order Online
           </p>

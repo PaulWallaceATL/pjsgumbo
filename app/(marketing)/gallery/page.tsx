@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { MediaPlaceholder } from "@/components/marketing/media-placeholder";
 import { Reveal } from "@/components/marketing/reveal";
 import { AnimatedHeading } from "@/components/marketing/animated-heading";
+import { HeroBackdrop } from "@/components/marketing/hero-backdrop";
 import { SITE } from "@/lib/content/site";
 
 export const metadata: Metadata = {
@@ -47,8 +48,9 @@ const TILES: Tile[] = [
 export default function GalleryPage() {
   return (
     <>
-      <section className="from-cream-100 to-background bg-gradient-to-b">
-        <div className="container-px mx-auto max-w-7xl py-16 text-center">
+      <section className="from-cream-100 to-background relative overflow-hidden bg-gradient-to-b">
+        <HeroBackdrop />
+        <div className="container-px relative z-10 mx-auto max-w-7xl py-16 text-center">
           <p className="text-primary font-display text-sm font-semibold tracking-[0.18em] uppercase">
             Gallery
           </p>
@@ -84,7 +86,7 @@ export default function GalleryPage() {
         </div>
       </section>
 
-      <section className="bg-cream-50">
+      <section className="bg-card">
         <div className="container-px mx-auto max-w-7xl py-16 text-center">
           <AnimatedHeading
             as="h2"

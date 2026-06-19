@@ -122,7 +122,7 @@ export function CheckoutForm({
             </div>
           </div>
         ) : (
-          <div className="bg-cream-50 rounded-xl border p-4 text-sm">
+          <div className="bg-card rounded-xl border p-4 text-sm">
             <p className="font-semibold">Pickup</p>
             <p className="text-muted-foreground">
               229 Peachtree St NE, Atlanta, GA 30303

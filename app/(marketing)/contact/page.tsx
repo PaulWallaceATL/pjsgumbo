@@ -4,6 +4,7 @@ import { Camera, Clock, Mail, MapPin, Phone, Share2 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { AnimatedHeading } from "@/components/marketing/animated-heading";
+import { HeroBackdrop } from "@/components/marketing/hero-backdrop";
 import { HOURS, SITE } from "@/lib/content/site";
 
 export const metadata: Metadata = {
@@ -19,8 +20,9 @@ const mapSrc = `https://www.google.com/maps?q=${encodeURIComponent(
 export default function ContactPage() {
   return (
     <>
-      <section className="from-cream-100 to-background bg-gradient-to-b">
-        <div className="container-px mx-auto max-w-7xl py-16 text-center">
+      <section className="from-cream-100 to-background relative overflow-hidden bg-gradient-to-b">
+        <HeroBackdrop />
+        <div className="container-px relative z-10 mx-auto max-w-7xl py-16 text-center">
           <p className="text-primary font-display text-sm font-semibold tracking-[0.18em] uppercase">
             Contact
           </p>

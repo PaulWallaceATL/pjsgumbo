@@ -39,7 +39,7 @@ export const STORAGE_LOCATIONS: { name: string; type: StorageType }[] = [
 export const SUPPLIERS: { name: string; type: string }[] = [
   { name: "Restaurant Depot", type: "Wholesale" },
   { name: "Gulf Coast Seafood Co.", type: "Seafood" },
-  { name: "Acadiana Produce", type: "Produce" },
+  { name: "Peach State Produce", type: "Produce" },
   { name: "LA Paper & Packaging", type: "Paper Goods" },
   { name: "CleanPro Supplies", type: "Cleaning" },
 ];
@@ -66,12 +66,12 @@ export const INVENTORY_ITEMS: SeedItem[] = [
   { sku: "SEA-SHR", name: "Gulf Shrimp (21/25)", category: "Seafood", unit: "lb", storage: "Freezer", supplier: "Gulf Coast Seafood Co.", costPerUnit: 7.95, parLevel: 40, onHand: 30, trackExpiration: true },
   { sku: "SEA-CRB", name: "Blue Crab", category: "Seafood", unit: "lb", storage: "Freezer", supplier: "Gulf Coast Seafood Co.", costPerUnit: 9.5, parLevel: 24, onHand: 11, trackExpiration: true },
   // Produce
-  { sku: "PRD-OKR", name: "Fresh Okra", category: "Produce", unit: "lb", storage: "Walk-In Cooler", supplier: "Acadiana Produce", costPerUnit: 2.25, parLevel: 30, onHand: 22, trackExpiration: true },
-  { sku: "PRD-ONI", name: "Yellow Onions", category: "Produce", unit: "lb", storage: "Dry Storage", supplier: "Acadiana Produce", costPerUnit: 0.69, parLevel: 50, onHand: 58 },
-  { sku: "PRD-BPR", name: "Green Bell Peppers", category: "Produce", unit: "lb", storage: "Walk-In Cooler", supplier: "Acadiana Produce", costPerUnit: 1.15, parLevel: 30, onHand: 34 },
-  { sku: "PRD-CEL", name: "Celery", category: "Produce", unit: "lb", storage: "Walk-In Cooler", supplier: "Acadiana Produce", costPerUnit: 1.05, parLevel: 25, onHand: 28 },
-  { sku: "PRD-SER", name: "Serrano Peppers", category: "Produce", unit: "lb", storage: "Walk-In Cooler", supplier: "Acadiana Produce", costPerUnit: 2.4, parLevel: 8, onHand: 3 },
-  { sku: "PRD-JAL", name: "Jalapeños", category: "Produce", unit: "lb", storage: "Walk-In Cooler", supplier: "Acadiana Produce", costPerUnit: 1.6, parLevel: 8, onHand: 5 },
+  { sku: "PRD-OKR", name: "Fresh Okra", category: "Produce", unit: "lb", storage: "Walk-In Cooler", supplier: "Peach State Produce", costPerUnit: 2.25, parLevel: 30, onHand: 22, trackExpiration: true },
+  { sku: "PRD-ONI", name: "Yellow Onions", category: "Produce", unit: "lb", storage: "Dry Storage", supplier: "Peach State Produce", costPerUnit: 0.69, parLevel: 50, onHand: 58 },
+  { sku: "PRD-BPR", name: "Green Bell Peppers", category: "Produce", unit: "lb", storage: "Walk-In Cooler", supplier: "Peach State Produce", costPerUnit: 1.15, parLevel: 30, onHand: 34 },
+  { sku: "PRD-CEL", name: "Celery", category: "Produce", unit: "lb", storage: "Walk-In Cooler", supplier: "Peach State Produce", costPerUnit: 1.05, parLevel: 25, onHand: 28 },
+  { sku: "PRD-SER", name: "Serrano Peppers", category: "Produce", unit: "lb", storage: "Walk-In Cooler", supplier: "Peach State Produce", costPerUnit: 2.4, parLevel: 8, onHand: 3 },
+  { sku: "PRD-JAL", name: "Jalapeños", category: "Produce", unit: "lb", storage: "Walk-In Cooler", supplier: "Peach State Produce", costPerUnit: 1.6, parLevel: 8, onHand: 5 },
   // Dry goods
   { sku: "DRY-FLR", name: "All-Purpose Flour", category: "Dry Goods", unit: "lb", storage: "Dry Storage", supplier: "Restaurant Depot", costPerUnit: 0.45, parLevel: 50, onHand: 60 },
   { sku: "DRY-OIL", name: "Vegetable Oil", category: "Dry Goods", unit: "gal", storage: "Dry Storage", supplier: "Restaurant Depot", costPerUnit: 7.2, parLevel: 10, onHand: 7 },

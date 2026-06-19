@@ -8,6 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import { Reveal } from "@/components/marketing/reveal";
 import { AnimatedHeading } from "@/components/marketing/animated-heading";
 import { BrandWaves } from "@/components/marketing/brand-waves";
+import { HeroBackdrop } from "@/components/marketing/hero-backdrop";
 import { FRESH_INGREDIENTS } from "@/lib/content/site";
 
 export const metadata: Metadata = {
@@ -41,8 +42,9 @@ export default function AboutPage() {
   return (
     <>
       {/* Hero */}
-      <section className="from-cream-100 to-background bg-gradient-to-b">
-        <div className="container-px mx-auto grid max-w-7xl items-center gap-12 py-16 lg:grid-cols-2 lg:py-24">
+      <section className="from-cream-100 to-background relative overflow-hidden bg-gradient-to-b">
+        <HeroBackdrop />
+        <div className="container-px relative z-10 mx-auto grid max-w-7xl items-center gap-12 py-16 lg:grid-cols-2 lg:py-24">
           <div>
             <p className="text-primary font-display text-sm font-semibold tracking-[0.18em] uppercase">
               Our Story
@@ -113,7 +115,7 @@ export default function AboutPage() {
       </section>
 
       {/* Process */}
-      <section className="bg-cream-50">
+      <section className="bg-card">
         <div className="container-px mx-auto max-w-7xl py-20">
           <div className="mx-auto max-w-2xl text-center">
             <p className="text-primary font-display text-sm font-semibold tracking-[0.18em] uppercase">

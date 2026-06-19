@@ -4,6 +4,7 @@ import { Check } from "lucide-react";
 import { MediaPlaceholder } from "@/components/marketing/media-placeholder";
 import { CateringForm } from "@/components/marketing/catering-form";
 import { AnimatedHeading } from "@/components/marketing/animated-heading";
+import { HeroBackdrop } from "@/components/marketing/hero-backdrop";
 
 export const metadata: Metadata = {
   title: "Catering",
@@ -23,8 +24,9 @@ const PERKS = [
 export default function CateringPage() {
   return (
     <>
-      <section className="from-cream-100 to-background bg-gradient-to-b">
-        <div className="container-px mx-auto max-w-7xl py-16 text-center">
+      <section className="from-cream-100 to-background relative overflow-hidden bg-gradient-to-b">
+        <HeroBackdrop />
+        <div className="container-px relative z-10 mx-auto max-w-7xl py-16 text-center">
           <p className="text-primary font-display text-sm font-semibold tracking-[0.18em] uppercase">
             Catering
           </p>
@@ -66,7 +68,7 @@ export default function CateringPage() {
             </div>
           </div>
 
-          <div className="bg-cream-50 rounded-2xl border p-6 sm:p-8">
+          <div className="bg-card rounded-2xl border p-6 sm:p-8">
             <h2 className="font-display text-2xl font-bold">Request a quote</h2>
             <p className="text-muted-foreground mt-1 mb-6 text-sm">
               Tell us about your event and we&apos;ll be in touch within one

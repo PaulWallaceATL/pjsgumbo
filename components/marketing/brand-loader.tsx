@@ -11,18 +11,24 @@ const MIN_VISIBLE_MS = 1900;
 const HARD_CAP_MS = 4500;
 
 /**
- * Full-screen branded intro loader. Shows once per browser session (so repeat
- * navigations aren't interrupted), then peels away to reveal the site.
- * Honors prefers-reduced-motion by skipping the animated reveal.
+ * Full-screen branded intro loader. Renders immediately (covers content before
+ * the page paints) on every full page load / reload, waits for the window to
+ * finish loading, then peels away to reveal the site. Always starts the page
+ * scrolled to the top.
  */
 export function BrandLoader() {
-  const [show, setShow] = useState(false);
+  // Start visible so the overlay is present in the very first paint (no flash
+  // of the page before the loader appears).
+  const [show, setShow] = useState(true);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
-    if (sessionStorage.getItem("pjs-intro-seen")) return;
 
-    setShow(true);
+    // Always (re)load at the top of the page.
+    if ("scrollRestoration" in window.history) {
+      window.history.scrollRestoration = "manual";
+    }
+    window.scrollTo(0, 0);
     document.body.style.overflow = "hidden";
 
     const start = Date.now();
@@ -32,7 +38,6 @@ export function BrandLoader() {
       finished = true;
       const wait = Math.max(0, MIN_VISIBLE_MS - (Date.now() - start));
       window.setTimeout(() => {
-        sessionStorage.setItem("pjs-intro-seen", "1");
         setShow(false);
         document.body.style.overflow = "";
       }, wait);

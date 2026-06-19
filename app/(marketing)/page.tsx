@@ -24,6 +24,7 @@ import { MediaPlaceholder } from "@/components/marketing/media-placeholder";
 import { StarRating } from "@/components/marketing/star-rating";
 import { AnimatedHeading } from "@/components/marketing/animated-heading";
 import { BrandWaves } from "@/components/marketing/brand-waves";
+import { HeroBackdrop } from "@/components/marketing/hero-backdrop";
 import { formatCurrency } from "@/lib/utils";
 import { GUMBOS, menuImage } from "@/lib/content/menu";
 import {
@@ -58,9 +59,10 @@ export default function HomePage() {
 
 function Hero() {
   return (
-    <section className="from-cream-100 via-background to-cream-50 relative overflow-hidden bg-gradient-to-b">
+    <section className="from-cream-100 to-background relative overflow-hidden bg-gradient-to-b">
+      <HeroBackdrop />
       <div className="bg-cajun-500/5 pointer-events-none absolute -top-24 -right-24 size-96 rounded-full blur-3xl" />
-      <div className="container-px mx-auto grid max-w-7xl items-center gap-12 py-20 lg:grid-cols-2 lg:py-28">
+      <div className="container-px relative z-10 mx-auto grid max-w-7xl items-center gap-12 py-20 lg:grid-cols-2 lg:py-28">
         <div>
           <Badge variant="cream" className="mb-5 px-3 py-1 text-sm">
             <Star className="fill-warning text-warning size-3.5" />
@@ -189,7 +191,7 @@ function FeaturedGumbo() {
 
 function OurStory() {
   return (
-    <section id="story" className="bg-cream-50">
+    <section id="story" className="bg-card">
       <div className="container-px mx-auto grid max-w-7xl items-center gap-12 py-20 lg:grid-cols-2">
         <Reveal>
           <div className="relative">
@@ -342,7 +344,7 @@ function BlueCrabSpecial() {
 
 function Reviews() {
   return (
-    <section id="reviews" className="bg-cream-50">
+    <section id="reviews" className="bg-card">
       <div className="container-px mx-auto max-w-7xl py-20">
         <SectionHeading
           eyebrow="Reviews"
@@ -380,7 +382,7 @@ function DeliveryAreas() {
     <section className="container-px mx-auto max-w-7xl py-20">
       <SectionHeading
         eyebrow="Delivery Areas"
-        title="We deliver across Acadiana"
+        title="We deliver across Atlanta"
         description="Hot, fresh gumbo brought right to your door. Enter your address at checkout to confirm delivery."
       />
       <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -404,7 +406,7 @@ function DeliveryAreas() {
 
 function Faq() {
   return (
-    <section id="faq" className="bg-cream-50">
+    <section id="faq" className="bg-card">
       <div className="container-px mx-auto max-w-3xl py-20">
         <SectionHeading eyebrow="FAQ" title="Questions, answered" />
         <Accordion type="single" collapsible className="mt-10">

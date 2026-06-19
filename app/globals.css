@@ -48,36 +48,37 @@
 :root {
   --radius: 0.75rem;
 
-  --background: #fcfaf5;
-  --foreground: #221f1c;
+  /* Warm, deeper "roux & cream" light theme — less stark white, more soul. */
+  --background: #e7d9bf;
+  --foreground: #211a13;
 
-  --card: #ffffff;
-  --card-foreground: #221f1c;
+  --card: #f6eedd;
+  --card-foreground: #211a13;
 
-  --popover: #ffffff;
-  --popover-foreground: #221f1c;
+  --popover: #f6eedd;
+  --popover-foreground: #211a13;
 
-  --primary: #a4262c;
+  --primary: #98232a;
   --primary-foreground: #fdfbf6;
 
   --secondary: #4b2e1e;
   --secondary-foreground: #f9f3e7;
 
-  --muted: #f3e8cf;
-  --muted-foreground: #6b5d4f;
+  --muted: #ddc9a6;
+  --muted-foreground: #5f5240;
 
-  --accent: #f9f3e7;
+  --accent: #e2d2b0;
   --accent-foreground: #4b2e1e;
 
   --destructive: #b3261e;
   --destructive-foreground: #fdfbf6;
 
   --success: #2f7d4f;
-  --warning: #c8861a;
+  --warning: #b9791a;
 
-  --border: #e6dcc8;
-  --input: #e6dcc8;
-  --ring: #a4262c;
+  --border: #d2bd97;
+  --input: #d2bd97;
+  --ring: #98232a;
 }
 
 .dark {
@@ -143,6 +144,24 @@
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
+}
+
+/* Lenis smooth-scroll base styles */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+.lenis.lenis-smooth iframe {
+  pointer-events: none;
 }
 
 @layer base {
