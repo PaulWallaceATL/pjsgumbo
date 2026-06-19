@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { CheckCircle2, Flame, Plus } from "lucide-react";
+import { CheckCircle2, Flame, Plus, ShoppingBag } from "lucide-react";
 import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
@@ -18,6 +18,7 @@ import {
   SIDES,
   type SimpleItem,
 } from "@/lib/content/menu";
+import { computeBreakdown } from "@/lib/order/pricing";
 import { CartProvider, useCart } from "@/lib/order/cart-store";
 import { GumboCustomizer } from "./gumbo-customizer";
 import { CartPanel } from "./cart-panel";
@@ -42,7 +43,7 @@ function OrderInner() {
   }
 
   return (
-    <div className="container-px mx-auto grid max-w-7xl gap-10 py-12 lg:grid-cols-[1fr_400px]">
+    <div className="container-px mx-auto grid max-w-7xl gap-10 pt-12 pb-28 lg:grid-cols-[1fr_400px] lg:pb-12">
       <div className="space-y-12">
         <MenuGroup title="Signature Gumbos" id="gumbos">
           <div className="grid gap-4 sm:grid-cols-2">
@@ -90,7 +91,7 @@ function OrderInner() {
         </MenuGroup>
       </div>
 
-      <aside className="lg:sticky lg:top-24 lg:h-fit">
+      <aside id="order-summary" className="scroll-mt-24 lg:sticky lg:top-24 lg:h-fit">
         <Card>
           <CardContent className="py-6">
             <h2 className="font-display mb-4 text-xl font-bold">
@@ -110,6 +111,48 @@ function OrderInner() {
           </CardContent>
         </Card>
       </aside>
+
+      {step === "build" ? <ContinueToCartBar /> : null}
+    </div>
+  );
+}
+
+/**
+ * Always-visible floating CTA that jumps to the order summary / cart. Shown on
+ * every breakpoint while building an order (the cart sits far below the menu on
+ * smaller screens, so this keeps it one tap away).
+ */
+function ContinueToCartBar() {
+  const cart = useCart();
+
+  if (!cart.hydrated || cart.itemCount === 0) return null;
+
+  const breakdown = computeBreakdown({
+    lines: cart.lines,
+    fulfillment: cart.fulfillment,
+    promoCode: cart.promoCode,
+    tip: cart.tip,
+  });
+
+  return (
+    <div className="pointer-events-none fixed inset-x-0 bottom-0 z-40 flex justify-center px-4 pb-[max(0.75rem,env(safe-area-inset-bottom))]">
+      <Button
+        asChild
+        size="lg"
+        className="pointer-events-auto w-full max-w-md gap-3 shadow-2xl"
+      >
+        <a href="#order-summary">
+          <ShoppingBag className="size-4 shrink-0" />
+          <span>Continue to cart</span>
+          <span className="ml-auto flex items-center gap-2 font-semibold">
+            <span>
+              {cart.itemCount} {cart.itemCount === 1 ? "item" : "items"}
+            </span>
+            <span aria-hidden>·</span>
+            <span>{formatCurrency(breakdown.total)}</span>
+          </span>
+        </a>
+      </Button>
     </div>
   );
 }
