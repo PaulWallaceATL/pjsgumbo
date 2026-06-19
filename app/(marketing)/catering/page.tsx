@@ -5,6 +5,8 @@ import { MediaPlaceholder } from "@/components/marketing/media-placeholder";
 import { CateringForm } from "@/components/marketing/catering-form";
 import { AnimatedHeading } from "@/components/marketing/animated-heading";
 import { HeroBackdrop } from "@/components/marketing/hero-backdrop";
+import { Eyebrow } from "@/components/marketing/section-heading";
+import { CtaBand } from "@/components/marketing/cta-band";
 
 export const metadata: Metadata = {
   title: "Catering",
@@ -27,9 +29,7 @@ export default function CateringPage() {
       <section className="from-cream-100 to-background relative overflow-hidden bg-gradient-to-b">
         <HeroBackdrop />
         <div className="container-px relative z-10 mx-auto max-w-7xl py-16 text-center">
-          <p className="text-primary font-display text-sm font-semibold tracking-[0.18em] uppercase">
-            Catering
-          </p>
+          <Eyebrow>Catering</Eyebrow>
           <AnimatedHeading
             as="h1"
             text="Feed the whole crew"
@@ -78,6 +78,14 @@ export default function CateringPage() {
           </div>
         </div>
       </section>
+
+      <CtaBand
+        eyebrow="Catering"
+        title="Let's plan your event"
+        description="From intimate dinners to office-wide lunches, we'll bring the pot. Tell us what you need."
+        primary={{ href: "/menu", label: "Browse the menu" }}
+        secondary={{ href: "/contact", label: "Talk to us" }}
+      />
     </>
   );
 }

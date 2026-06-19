@@ -10,8 +10,9 @@ import { MediaPlaceholder } from "@/components/marketing/media-placeholder";
 import { MenuNav } from "@/components/marketing/menu-nav";
 import { Reveal } from "@/components/marketing/reveal";
 import { AnimatedHeading } from "@/components/marketing/animated-heading";
-import { BrandWaves } from "@/components/marketing/brand-waves";
 import { HeroBackdrop } from "@/components/marketing/hero-backdrop";
+import { SectionHeading } from "@/components/marketing/section-heading";
+import { CtaBand } from "@/components/marketing/cta-band";
 import { formatCurrency } from "@/lib/utils";
 import {
   ADD_ONS,
@@ -296,58 +297,12 @@ function SimpleSection({
 
 function MenuCta() {
   return (
-    <section className="bg-roux-700 text-cream-100 relative mt-8 overflow-hidden">
-      <BrandWaves opacity={0.45} />
-      <div className="container-px relative z-10 mx-auto max-w-7xl py-16 text-center">
-        <AnimatedHeading
-          as="h2"
-          text="Ready to order?"
-          center
-          className="font-display text-cream-50 text-3xl font-bold sm:text-4xl"
-        />
-        <p className="text-cream-100/75 mx-auto mt-3 max-w-md">
-          Build your order for delivery or pickup in just a few taps.
-        </p>
-        <Button asChild size="lg" variant="secondary" className="mt-6">
-          <Link href="/order">
-            Start your order
-            <ArrowRight className="size-4" />
-          </Link>
-        </Button>
-      </div>
-    </section>
-  );
-}
-
-/* ------------------------------- Shared -------------------------------- */
-
-function SectionHeading({
-  eyebrow,
-  title,
-  description,
-  align = "center",
-}: {
-  eyebrow: string;
-  title: string;
-  description?: string;
-  align?: "center" | "left";
-}) {
-  return (
-    <div className={align === "center" ? "mx-auto max-w-2xl text-center" : ""}>
-      <p className="text-primary font-display text-sm font-semibold tracking-[0.18em] uppercase">
-        {eyebrow}
-      </p>
-      <AnimatedHeading
-        as="h2"
-        text={title}
-        center={align === "center"}
-        className="font-display mt-2 text-3xl font-bold tracking-tight sm:text-4xl"
-      />
-      {description ? (
-        <p className="text-muted-foreground mt-3 leading-relaxed">
-          {description}
-        </p>
-      ) : null}
-    </div>
+    <CtaBand
+      className="mt-8"
+      eyebrow="Order Online"
+      title="Ready to order?"
+      description="Build your order for delivery or pickup in just a few taps."
+      primary={{ href: "/order", label: "Start your order" }}
+    />
   );
 }

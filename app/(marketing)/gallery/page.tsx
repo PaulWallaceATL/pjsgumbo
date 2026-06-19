@@ -1,12 +1,11 @@
 import type { Metadata } from "next";
-import Link from "next/link";
-import { ArrowRight } from "lucide-react";
 
-import { Button } from "@/components/ui/button";
 import { MediaPlaceholder } from "@/components/marketing/media-placeholder";
 import { Reveal } from "@/components/marketing/reveal";
 import { AnimatedHeading } from "@/components/marketing/animated-heading";
 import { HeroBackdrop } from "@/components/marketing/hero-backdrop";
+import { Eyebrow } from "@/components/marketing/section-heading";
+import { CtaBand } from "@/components/marketing/cta-band";
 import { SITE } from "@/lib/content/site";
 
 export const metadata: Metadata = {
@@ -53,9 +52,7 @@ export default function GalleryPage() {
       <section className="from-cream-100 to-background relative overflow-hidden bg-gradient-to-b">
         <HeroBackdrop />
         <div className="container-px relative z-10 mx-auto max-w-7xl py-16 text-center">
-          <p className="text-primary font-display text-sm font-semibold tracking-[0.18em] uppercase">
-            Gallery
-          </p>
+          <Eyebrow>Gallery</Eyebrow>
           <AnimatedHeading
             as="h1"
             text="A taste of PJ's"
@@ -106,22 +103,13 @@ export default function GalleryPage() {
         </div>
       </section>
 
-      <section className="bg-card">
-        <div className="container-px mx-auto max-w-7xl py-16 text-center">
-          <AnimatedHeading
-            as="h2"
-            text="Hungry yet?"
-            center
-            className="font-display text-3xl font-bold sm:text-4xl"
-          />
-          <Button asChild size="lg" className="mt-6">
-            <Link href="/order">
-              Order Now
-              <ArrowRight className="size-4" />
-            </Link>
-          </Button>
-        </div>
-      </section>
+      <CtaBand
+        eyebrow="Order Online"
+        title="Hungry yet?"
+        description="Everything you just saw is made fresh daily. Order online for delivery or pickup."
+        primary={{ href: "/order", label: "Order Now" }}
+        secondary={{ href: "/menu", label: "View Menu" }}
+      />
     </>
   );
 }

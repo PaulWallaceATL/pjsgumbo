@@ -1,10 +1,21 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Camera, Clock, Mail, MapPin, Phone, Share2 } from "lucide-react";
+import {
+  Camera,
+  Clock,
+  Mail,
+  MapPin,
+  Phone,
+  Share2,
+  type LucideIcon,
+} from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { AnimatedHeading } from "@/components/marketing/animated-heading";
 import { HeroBackdrop } from "@/components/marketing/hero-backdrop";
+import { Eyebrow } from "@/components/marketing/section-heading";
+import { BrandIcon } from "@/components/marketing/brand-icon";
+import { CtaBand } from "@/components/marketing/cta-band";
 import { HOURS, SITE } from "@/lib/content/site";
 
 export const metadata: Metadata = {
@@ -23,9 +34,7 @@ export default function ContactPage() {
       <section className="from-cream-100 to-background relative overflow-hidden bg-gradient-to-b">
         <HeroBackdrop />
         <div className="container-px relative z-10 mx-auto max-w-7xl py-16 text-center">
-          <p className="text-primary font-display text-sm font-semibold tracking-[0.18em] uppercase">
-            Contact
-          </p>
+          <Eyebrow>Contact</Eyebrow>
           <AnimatedHeading
             as="h1"
             text="Come say hey"
@@ -108,24 +117,30 @@ export default function ContactPage() {
           </div>
         </div>
       </section>
+
+      <CtaBand
+        eyebrow="Order Online"
+        title="Craving a bowl right now?"
+        description="Skip the wait — order online for delivery or pickup across metro Atlanta."
+        primary={{ href: "/order", label: "Order Now" }}
+        secondary={{ href: "/menu", label: "View Menu" }}
+      />
     </>
   );
 }
 
 function InfoRow({
-  icon: Icon,
+  icon,
   title,
   children,
 }: {
-  icon: React.ComponentType<{ className?: string }>;
+  icon: LucideIcon;
   title: string;
   children: React.ReactNode;
 }) {
   return (
     <div className="flex gap-4">
-      <span className="bg-primary/10 text-primary flex size-11 shrink-0 items-center justify-center rounded-xl">
-        <Icon className="size-5" />
-      </span>
+      <BrandIcon icon={icon} />
       <div>
         <h3 className="font-display font-bold">{title}</h3>
         <div className="text-muted-foreground mt-1 text-sm">{children}</div>

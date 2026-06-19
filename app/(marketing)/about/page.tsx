@@ -7,8 +7,10 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Reveal } from "@/components/marketing/reveal";
 import { AnimatedHeading } from "@/components/marketing/animated-heading";
-import { BrandWaves } from "@/components/marketing/brand-waves";
 import { HeroBackdrop } from "@/components/marketing/hero-backdrop";
+import { Eyebrow } from "@/components/marketing/section-heading";
+import { BrandIcon } from "@/components/marketing/brand-icon";
+import { CtaBand } from "@/components/marketing/cta-band";
 import { FRESH_INGREDIENTS } from "@/lib/content/site";
 
 export const metadata: Metadata = {
@@ -46,9 +48,7 @@ export default function AboutPage() {
         <HeroBackdrop />
         <div className="container-px relative z-10 mx-auto grid max-w-7xl items-center gap-12 py-16 lg:grid-cols-2 lg:py-24">
           <div>
-            <p className="text-primary font-display text-sm font-semibold tracking-[0.18em] uppercase">
-              Our Story
-            </p>
+            <Eyebrow align="left">Our Story</Eyebrow>
             <h1 className="font-display mt-3 text-4xl font-bold tracking-tight text-balance sm:text-6xl">
               Atlanta Made. <span className="text-primary">Cajun Soul.</span>
             </h1>
@@ -118,23 +118,19 @@ export default function AboutPage() {
       <section className="bg-card">
         <div className="container-px mx-auto max-w-7xl py-20">
           <div className="mx-auto max-w-2xl text-center">
-            <p className="text-primary font-display text-sm font-semibold tracking-[0.18em] uppercase">
-              How We Cook
-            </p>
+            <Eyebrow>How We Cook</Eyebrow>
             <AnimatedHeading
               as="h2"
               text="Three steps, no shortcuts"
               center
-              className="font-display mt-2 text-3xl font-bold sm:text-4xl"
+              className="font-display mt-3 text-3xl font-bold sm:text-4xl"
             />
           </div>
           <div className="mt-12 grid gap-6 md:grid-cols-3">
             {PROCESS.map((step, i) => (
               <Reveal key={step.title} delay={i * 0.08}>
-                <div className="bg-background h-full rounded-2xl border p-7">
-                  <span className="bg-primary/10 text-primary flex size-12 items-center justify-center rounded-xl">
-                    <step.icon className="size-6" />
-                  </span>
+                <div className="bg-background h-full rounded-2xl border p-7 transition-shadow hover:shadow-lg">
+                  <BrandIcon icon={step.icon} size="lg" />
                   <h3 className="font-display mt-4 text-xl font-bold">
                     {step.title}
                   </h3>
@@ -150,9 +146,7 @@ export default function AboutPage() {
 
       {/* Ingredients */}
       <section className="container-px mx-auto max-w-7xl py-20 text-center">
-        <p className="text-primary font-display text-sm font-semibold tracking-[0.18em] uppercase">
-          What Goes In
-        </p>
+        <Eyebrow>What Goes In</Eyebrow>
         <AnimatedHeading
           as="h2"
           text="Fresh ingredients, every batch"
@@ -172,24 +166,14 @@ export default function AboutPage() {
       </section>
 
       {/* CTA */}
-      <section className="bg-roux-700 text-cream-100 relative overflow-hidden">
-        <BrandWaves opacity={0.4} speed={0.5} />
-        <div className="container-px relative z-10 mx-auto max-w-7xl py-16 text-center">
-          <Heart className="text-cream-100/80 mx-auto size-8" />
-          <AnimatedHeading
-            as="h2"
-            text="Made with love in Atlanta"
-            center
-            className="font-display text-cream-50 mt-4 text-3xl font-bold sm:text-4xl"
-          />
-          <p className="text-cream-100/75 mx-auto mt-3 max-w-md">
-            Taste the difference a slow-cooked roux makes.
-          </p>
-          <Button asChild size="lg" variant="secondary" className="mt-6">
-            <Link href="/menu">See the menu</Link>
-          </Button>
-        </div>
-      </section>
+      <CtaBand
+        icon={Heart}
+        eyebrow="Made with love"
+        title="Made with love in Atlanta"
+        description="Taste the difference a slow-cooked roux makes."
+        primary={{ href: "/menu", label: "See the menu" }}
+        secondary={{ href: "/order", label: "Order Now" }}
+      />
     </>
   );
 }

@@ -3,11 +3,13 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { Menu, X } from "lucide-react";
+import { usePathname } from "next/navigation";
+import { Menu, ShoppingBag, X } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { SITE } from "@/lib/content/site";
+import { AnnouncementBar } from "@/components/marketing/announcement-bar";
 
 const NAV_LINKS = [
   { href: "/menu", label: "Menu" },
@@ -21,6 +23,7 @@ const NAV_LINKS = [
 export function SiteHeader() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const pathname = usePathname();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12);
@@ -29,24 +32,30 @@ export function SiteHeader() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  const isActive = (href: string) =>
+    !href.startsWith("/#") &&
+    (pathname === href || pathname.startsWith(`${href}/`));
+
   return (
-    <header
-      className={cn(
-        "sticky top-0 z-50 w-full transition-all duration-300",
-        scrolled
-          ? "bg-background/90 border-b backdrop-blur-md"
-          : "bg-transparent",
-      )}
-    >
+    <>
+      <AnnouncementBar />
+      <header
+        className={cn(
+          "sticky top-0 z-50 w-full transition-all duration-300",
+          scrolled
+            ? "bg-background/90 border-b backdrop-blur-md"
+            : "bg-transparent",
+        )}
+      >
       <div className="container-px mx-auto flex h-18 max-w-7xl items-center justify-between py-3">
-        <Link href="/" className="flex items-center gap-2.5">
+        <Link href="/" className="group flex items-center gap-2.5">
           <Image
             src={SITE.logo}
             alt="PJ's Gumbo"
             width={48}
             height={48}
             priority
-            className="size-11 rounded-full object-contain"
+            className="ring-primary/10 size-11 rounded-full object-contain ring-1 transition-transform group-hover:scale-105"
           />
           <span className="font-display text-xl font-bold tracking-tight">
             PJ&apos;s Gumbo
@@ -58,7 +67,12 @@ export function SiteHeader() {
             <Link
               key={link.href}
               href={link.href}
-              className="hover:text-primary text-sm font-medium transition-colors"
+              className={cn(
+                "hover:text-primary relative text-sm font-medium transition-colors",
+                isActive(link.href)
+                  ? "text-primary after:bg-primary after:absolute after:-bottom-1.5 after:left-0 after:h-0.5 after:w-full after:rounded-full"
+                  : "text-foreground/80",
+              )}
             >
               {link.label}
             </Link>
@@ -67,7 +81,10 @@ export function SiteHeader() {
 
         <div className="hidden md:block">
           <Button asChild size="lg">
-            <Link href="/order">Order Now</Link>
+            <Link href="/order">
+              <ShoppingBag className="size-4" />
+              Order Now
+            </Link>
           </Button>
         </div>
 
@@ -88,19 +105,26 @@ export function SiteHeader() {
                 key={link.href}
                 href={link.href}
                 onClick={() => setOpen(false)}
-                className="hover:bg-accent rounded-md px-3 py-2.5 text-sm font-medium"
+                className={cn(
+                  "rounded-md px-3 py-2.5 text-sm font-medium",
+                  isActive(link.href)
+                    ? "bg-primary/10 text-primary"
+                    : "hover:bg-accent",
+                )}
               >
                 {link.label}
               </Link>
             ))}
             <Button asChild size="lg" className="mt-2">
               <Link href="/order" onClick={() => setOpen(false)}>
+                <ShoppingBag className="size-4" />
                 Order Now
               </Link>
             </Button>
           </nav>
         </div>
       ) : null}
-    </header>
+      </header>
+    </>
   );
 }

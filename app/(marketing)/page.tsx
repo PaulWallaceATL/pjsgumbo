@@ -5,9 +5,10 @@ import {
   Flame,
   Leaf,
   MapPin,
+  Soup,
   Star,
   Truck,
-  UtensilsCrossed,
+  Users,
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -25,6 +26,9 @@ import { StarRating } from "@/components/marketing/star-rating";
 import { AnimatedHeading } from "@/components/marketing/animated-heading";
 import { BrandWaves } from "@/components/marketing/brand-waves";
 import { HeroBackdrop } from "@/components/marketing/hero-backdrop";
+import { SectionHeading } from "@/components/marketing/section-heading";
+import { BrandIcon } from "@/components/marketing/brand-icon";
+import { CtaBand } from "@/components/marketing/cta-band";
 import { formatCurrency } from "@/lib/utils";
 import { GUMBOS, menuImage } from "@/lib/content/menu";
 import {
@@ -37,6 +41,8 @@ import {
 
 const featured = GUMBOS.filter((g) => g.featured);
 const blueCrab = GUMBOS.find((g) => g.slug === "blue-crab-sausage-gumbo")!;
+
+const WHY_ICONS = [Soup, Leaf, Users, Flame];
 
 export default function HomePage() {
   return (
@@ -252,11 +258,9 @@ function WhyDifferent() {
       <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
         {WHY_DIFFERENT.map((item, i) => (
           <Reveal key={item.title} delay={i * 0.06}>
-            <Card className="h-full">
+            <Card className="group h-full transition-shadow hover:shadow-lg">
               <CardContent className="space-y-3">
-                <span className="bg-primary/10 text-primary flex size-11 items-center justify-center rounded-xl">
-                  <UtensilsCrossed className="size-5" />
-                </span>
+                <BrandIcon icon={WHY_ICONS[i % WHY_ICONS.length]} />
                 <h3 className="font-display text-lg font-bold">{item.title}</h3>
                 <p className="text-muted-foreground text-sm leading-relaxed">
                   {item.description}
@@ -426,68 +430,13 @@ function Faq() {
 
 function FinalCta() {
   return (
-    <section className="bg-charcoal-800 relative overflow-hidden">
-      <BrandWaves opacity={0.55} />
-      <div className="container-px relative z-10 mx-auto max-w-7xl py-20 text-center">
-        <AnimatedHeading
-          as="h2"
-          text="Hungry yet? Let's get you some gumbo."
-          center
-          className="font-display text-cream-50 text-4xl font-bold sm:text-5xl"
-        />
-        <p className="text-cream-100/70 mx-auto mt-4 max-w-lg text-lg">
-          Order online for delivery or pickup in just a few taps.
-        </p>
-        <div className="mt-8 flex flex-wrap justify-center gap-3">
-          <Button asChild size="lg">
-            <Link href="/order">
-              Order Now
-              <ArrowRight className="size-4" />
-            </Link>
-          </Button>
-          <Button
-            asChild
-            size="lg"
-            variant="outline"
-            className="border-cream-100/30 text-cream-100 hover:bg-cream-100/10 hover:text-cream-50"
-          >
-            <Link href="/catering">Catering Inquiries</Link>
-          </Button>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* ------------------------------- Shared UI ------------------------------- */
-
-function SectionHeading({
-  eyebrow,
-  title,
-  description,
-  align = "center",
-}: {
-  eyebrow: string;
-  title: string;
-  description?: string;
-  align?: "center" | "left";
-}) {
-  return (
-    <div className={align === "center" ? "mx-auto max-w-2xl text-center" : ""}>
-      <p className="text-primary font-display text-sm font-semibold tracking-[0.18em] uppercase">
-        {eyebrow}
-      </p>
-      <AnimatedHeading
-        as="h2"
-        text={title}
-        center={align === "center"}
-        className="font-display mt-2 text-3xl font-bold tracking-tight sm:text-4xl"
-      />
-      {description ? (
-        <p className="text-muted-foreground mt-4 leading-relaxed">
-          {description}
-        </p>
-      ) : null}
-    </div>
+    <CtaBand
+      tone="dark"
+      eyebrow="Order Online"
+      title="Hungry yet? Let's get you some gumbo."
+      description="Order online for delivery or pickup in just a few taps."
+      primary={{ href: "/order", label: "Order Now" }}
+      secondary={{ href: "/catering", label: "Catering Inquiries" }}
+    />
   );
 }

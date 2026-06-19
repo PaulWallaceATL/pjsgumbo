@@ -7,6 +7,7 @@ import { SITE, HOURS } from "@/lib/content/site";
 export function SiteFooter() {
   return (
     <footer className="bg-charcoal-900 text-cream-100">
+      <div className="from-cajun-500 via-roux-500 to-cream-400 h-1 w-full bg-gradient-to-r" />
       <div className="container-px mx-auto max-w-7xl py-16">
         <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-4">
           <div className="space-y-4">
@@ -26,6 +27,10 @@ export function SiteFooter() {
               Authentic Louisiana gumbo, made from scratch in Atlanta with a
               slow-cooked roux and the freshest ingredients.
             </p>
+            <span className="border-cream-100/15 text-cream-200/80 inline-flex items-center gap-2 rounded-full border px-3 py-1 text-xs font-semibold tracking-wide uppercase">
+              <span className="bg-cajun-500 size-1.5 rounded-full" />
+              Est. 2024 · Atlanta, GA
+            </span>
             <div className="flex gap-3">
               <a
                 href={SITE.social.instagram}
