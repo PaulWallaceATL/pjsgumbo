@@ -18,6 +18,8 @@ export const metadata: Metadata = {
 type Tile = {
   label?: string;
   src?: string;
+  video?: string;
+  poster?: string;
   tone?: "roux" | "cajun" | "cream" | "dark";
   span?: string;
   ratio: string;
@@ -25,8 +27,8 @@ type Tile = {
 
 const TILES: Tile[] = [
   {
-    src: SITE.founders,
-    label: "The founders of PJ's Gumbo",
+    video: "/gallery/closeup-stir.mp4",
+    label: "Stirring the pot, low and slow",
     span: "sm:col-span-2 sm:row-span-2",
     ratio: "aspect-square",
   },
@@ -74,13 +76,31 @@ export default function GalleryPage() {
               delay={(i % 4) * 0.05}
               className={tile.span ?? ""}
             >
-              <MediaPlaceholder
-                src={tile.src}
-                tone={tile.tone}
-                label={tile.label}
-                alt={tile.label ?? "PJ's Gumbo"}
-                className={`${tile.ratio} h-full w-full`}
-              />
+              {tile.video ? (
+                <div
+                  className={`relative overflow-hidden rounded-2xl ${tile.ratio} h-full w-full`}
+                >
+                  <video
+                    src={tile.video}
+                    poster={tile.poster}
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                    preload="metadata"
+                    aria-label={tile.label ?? "PJ's Gumbo"}
+                    className="absolute inset-0 size-full object-cover"
+                  />
+                </div>
+              ) : (
+                <MediaPlaceholder
+                  src={tile.src}
+                  tone={tile.tone}
+                  label={tile.label}
+                  alt={tile.label ?? "PJ's Gumbo"}
+                  className={`${tile.ratio} h-full w-full`}
+                />
+              )}
             </Reveal>
           ))}
         </div>
