@@ -33,7 +33,13 @@ export function MediaPlaceholder({
   if (src) {
     return (
       <div className={cn("relative overflow-hidden", rounded, className)}>
-        <Image src={src} alt={alt ?? ""} fill className="object-cover" />
+        <Image
+          src={src}
+          alt={alt ?? ""}
+          fill
+          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+          className="object-cover"
+        />
       </div>
     );
   }

@@ -3,6 +3,7 @@ import { Check } from "lucide-react";
 
 import { MediaPlaceholder } from "@/components/marketing/media-placeholder";
 import { CateringForm } from "@/components/marketing/catering-form";
+import { AnimatedHeading } from "@/components/marketing/animated-heading";
 
 export const metadata: Metadata = {
   title: "Catering",
@@ -27,9 +28,12 @@ export default function CateringPage() {
           <p className="text-primary font-display text-sm font-semibold tracking-[0.18em] uppercase">
             Catering
           </p>
-          <h1 className="font-display mt-3 text-4xl font-bold tracking-tight sm:text-6xl">
-            Feed the whole crew
-          </h1>
+          <AnimatedHeading
+            as="h1"
+            text="Feed the whole crew"
+            center
+            className="font-display mt-3 text-4xl font-bold tracking-tight sm:text-6xl"
+          />
           <p className="text-muted-foreground mx-auto mt-4 max-w-xl text-lg">
             From office lunches to weddings, we bring a pot of real Louisiana
             gumbo to your Atlanta event.
@@ -41,8 +45,7 @@ export default function CateringPage() {
         <div className="grid gap-12 lg:grid-cols-2">
           <div className="space-y-8">
             <MediaPlaceholder
-              tone="cajun"
-              label="Catering by PJ's Gumbo"
+              src="/menu/blue-crab-sausage-gumbo.png"
               alt="A large pot of gumbo for catering"
               className="aspect-[4/3] w-full shadow-xl"
             />

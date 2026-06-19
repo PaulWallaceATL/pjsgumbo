@@ -22,6 +22,8 @@ import {
 import { Reveal } from "@/components/marketing/reveal";
 import { MediaPlaceholder } from "@/components/marketing/media-placeholder";
 import { StarRating } from "@/components/marketing/star-rating";
+import { AnimatedHeading } from "@/components/marketing/animated-heading";
+import { BrandWaves } from "@/components/marketing/brand-waves";
 import { formatCurrency } from "@/lib/utils";
 import { GUMBOS, menuImage } from "@/lib/content/menu";
 import {
@@ -271,14 +273,18 @@ function WhyDifferent() {
 
 function FreshIngredients() {
   return (
-    <section className="bg-roux-700 text-cream-100">
-      <div className="container-px mx-auto max-w-7xl py-16 text-center">
+    <section className="bg-roux-700 text-cream-100 relative overflow-hidden">
+      <BrandWaves opacity={0.4} speed={0.5} />
+      <div className="container-px relative z-10 mx-auto max-w-7xl py-16 text-center">
         <p className="text-cream-200/80 font-display text-sm font-semibold tracking-[0.2em] uppercase">
           Fresh Ingredients
         </p>
-        <h2 className="font-display text-cream-50 mt-3 text-3xl font-bold sm:text-4xl">
-          Made with what matters
-        </h2>
+        <AnimatedHeading
+          as="h2"
+          text="Made with what matters"
+          center
+          className="font-display text-cream-50 mt-3 text-3xl font-bold sm:text-4xl"
+        />
         <div className="mt-10 flex flex-wrap justify-center gap-3">
           {FRESH_INGREDIENTS.map((ingredient) => (
             <span
@@ -419,11 +425,15 @@ function Faq() {
 
 function FinalCta() {
   return (
-    <section className="bg-charcoal-800">
-      <div className="container-px mx-auto max-w-7xl py-20 text-center">
-        <h2 className="font-display text-cream-50 text-4xl font-bold text-balance sm:text-5xl">
-          Hungry yet? Let&apos;s get you some gumbo.
-        </h2>
+    <section className="bg-charcoal-800 relative overflow-hidden">
+      <BrandWaves opacity={0.55} />
+      <div className="container-px relative z-10 mx-auto max-w-7xl py-20 text-center">
+        <AnimatedHeading
+          as="h2"
+          text="Hungry yet? Let's get you some gumbo."
+          center
+          className="font-display text-cream-50 text-4xl font-bold sm:text-5xl"
+        />
         <p className="text-cream-100/70 mx-auto mt-4 max-w-lg text-lg">
           Order online for delivery or pickup in just a few taps.
         </p>
@@ -466,9 +476,12 @@ function SectionHeading({
       <p className="text-primary font-display text-sm font-semibold tracking-[0.18em] uppercase">
         {eyebrow}
       </p>
-      <h2 className="font-display mt-2 text-3xl font-bold tracking-tight text-balance sm:text-4xl">
-        {title}
-      </h2>
+      <AnimatedHeading
+        as="h2"
+        text={title}
+        center={align === "center"}
+        className="font-display mt-2 text-3xl font-bold tracking-tight sm:text-4xl"
+      />
       {description ? (
         <p className="text-muted-foreground mt-4 leading-relaxed">
           {description}

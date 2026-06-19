@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Camera, Clock, Mail, MapPin, Phone, Share2 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
+import { AnimatedHeading } from "@/components/marketing/animated-heading";
 import { HOURS, SITE } from "@/lib/content/site";
 
 export const metadata: Metadata = {
@@ -23,9 +24,12 @@ export default function ContactPage() {
           <p className="text-primary font-display text-sm font-semibold tracking-[0.18em] uppercase">
             Contact
           </p>
-          <h1 className="font-display mt-3 text-4xl font-bold tracking-tight sm:text-6xl">
-            Come say hey
-          </h1>
+          <AnimatedHeading
+            as="h1"
+            text="Come say hey"
+            center
+            className="font-display mt-3 text-4xl font-bold tracking-tight sm:text-6xl"
+          />
           <p className="text-muted-foreground mx-auto mt-4 max-w-xl text-lg">
             Questions, catering, or just craving a bowl? We&apos;d love to hear
             from you.

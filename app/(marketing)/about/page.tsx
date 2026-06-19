@@ -6,6 +6,8 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { MediaPlaceholder } from "@/components/marketing/media-placeholder";
 import { Reveal } from "@/components/marketing/reveal";
+import { AnimatedHeading } from "@/components/marketing/animated-heading";
+import { BrandWaves } from "@/components/marketing/brand-waves";
 import { FRESH_INGREDIENTS, SITE } from "@/lib/content/site";
 
 export const metadata: Metadata = {
@@ -74,9 +76,12 @@ export default function AboutPage() {
         <Reveal>
           <div className="space-y-6 text-center">
             <Badge variant="cream">Family-owned</Badge>
-            <h2 className="font-display text-3xl font-bold sm:text-4xl">
-              From a cast-iron pot to your door
-            </h2>
+            <AnimatedHeading
+              as="h2"
+              text="From a cast-iron pot to your door"
+              center
+              className="font-display text-3xl font-bold sm:text-4xl"
+            />
             <div className="text-muted-foreground space-y-4 text-left leading-relaxed">
               <p>
                 It started with a cast-iron pot, a wooden spoon, and a recipe
@@ -108,9 +113,12 @@ export default function AboutPage() {
             <p className="text-primary font-display text-sm font-semibold tracking-[0.18em] uppercase">
               How We Cook
             </p>
-            <h2 className="font-display mt-2 text-3xl font-bold sm:text-4xl">
-              Three steps, no shortcuts
-            </h2>
+            <AnimatedHeading
+              as="h2"
+              text="Three steps, no shortcuts"
+              center
+              className="font-display mt-2 text-3xl font-bold sm:text-4xl"
+            />
           </div>
           <div className="mt-12 grid gap-6 md:grid-cols-3">
             {PROCESS.map((step, i) => (
@@ -137,9 +145,12 @@ export default function AboutPage() {
         <p className="text-primary font-display text-sm font-semibold tracking-[0.18em] uppercase">
           What Goes In
         </p>
-        <h2 className="font-display mt-2 text-3xl font-bold sm:text-4xl">
-          Fresh ingredients, every batch
-        </h2>
+        <AnimatedHeading
+          as="h2"
+          text="Fresh ingredients, every batch"
+          center
+          className="font-display mt-2 text-3xl font-bold sm:text-4xl"
+        />
         <div className="mt-10 flex flex-wrap justify-center gap-3">
           {FRESH_INGREDIENTS.map((ingredient) => (
             <span
@@ -153,12 +164,16 @@ export default function AboutPage() {
       </section>
 
       {/* CTA */}
-      <section className="bg-roux-700 text-cream-100">
-        <div className="container-px mx-auto max-w-7xl py-16 text-center">
+      <section className="bg-roux-700 text-cream-100 relative overflow-hidden">
+        <BrandWaves opacity={0.4} speed={0.5} />
+        <div className="container-px relative z-10 mx-auto max-w-7xl py-16 text-center">
           <Heart className="text-cream-100/80 mx-auto size-8" />
-          <h2 className="font-display text-cream-50 mt-4 text-3xl font-bold sm:text-4xl">
-            Made with love in Atlanta
-          </h2>
+          <AnimatedHeading
+            as="h2"
+            text="Made with love in Atlanta"
+            center
+            className="font-display text-cream-50 mt-4 text-3xl font-bold sm:text-4xl"
+          />
           <p className="text-cream-100/75 mx-auto mt-3 max-w-md">
             Taste the difference a slow-cooked roux makes.
           </p>

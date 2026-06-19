@@ -9,6 +9,8 @@ import { Separator } from "@/components/ui/separator";
 import { MediaPlaceholder } from "@/components/marketing/media-placeholder";
 import { MenuNav } from "@/components/marketing/menu-nav";
 import { Reveal } from "@/components/marketing/reveal";
+import { AnimatedHeading } from "@/components/marketing/animated-heading";
+import { BrandWaves } from "@/components/marketing/brand-waves";
 import { formatCurrency } from "@/lib/utils";
 import {
   ADD_ONS,
@@ -80,9 +82,12 @@ function MenuHeader() {
         <p className="text-primary font-display text-sm font-semibold tracking-[0.18em] uppercase">
           Our Menu
         </p>
-        <h1 className="font-display mt-3 text-4xl font-bold tracking-tight text-balance sm:text-6xl">
-          Made from scratch, every day
-        </h1>
+        <AnimatedHeading
+          as="h1"
+          text="Made from scratch, every day"
+          center
+          className="font-display mt-3 text-4xl font-bold tracking-tight sm:text-6xl"
+        />
         <p className="text-muted-foreground mx-auto mt-5 max-w-xl text-lg leading-relaxed">
           Every gumbo is slow-cooked over a dark roux and available mild or
           spicy. Choose your size, add your favorites, and dig in.
@@ -289,11 +294,15 @@ function SimpleSection({
 
 function MenuCta() {
   return (
-    <section className="bg-roux-700 text-cream-100 mt-8">
-      <div className="container-px mx-auto max-w-7xl py-16 text-center">
-        <h2 className="font-display text-cream-50 text-3xl font-bold sm:text-4xl">
-          Ready to order?
-        </h2>
+    <section className="bg-roux-700 text-cream-100 relative mt-8 overflow-hidden">
+      <BrandWaves opacity={0.45} />
+      <div className="container-px relative z-10 mx-auto max-w-7xl py-16 text-center">
+        <AnimatedHeading
+          as="h2"
+          text="Ready to order?"
+          center
+          className="font-display text-cream-50 text-3xl font-bold sm:text-4xl"
+        />
         <p className="text-cream-100/75 mx-auto mt-3 max-w-md">
           Build your order for delivery or pickup in just a few taps.
         </p>
@@ -326,9 +335,12 @@ function SectionHeading({
       <p className="text-primary font-display text-sm font-semibold tracking-[0.18em] uppercase">
         {eyebrow}
       </p>
-      <h2 className="font-display mt-2 text-3xl font-bold tracking-tight text-balance sm:text-4xl">
-        {title}
-      </h2>
+      <AnimatedHeading
+        as="h2"
+        text={title}
+        center={align === "center"}
+        className="font-display mt-2 text-3xl font-bold tracking-tight sm:text-4xl"
+      />
       {description ? (
         <p className="text-muted-foreground mt-3 leading-relaxed">
           {description}
