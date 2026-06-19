@@ -85,7 +85,10 @@ export function GumboCustomizer({
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>{children}</DialogTrigger>
-      <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-md">
+      <DialogContent
+        data-lenis-prevent
+        className="max-h-[90vh] overflow-y-auto overscroll-contain sm:max-w-md"
+      >
         <DialogHeader>
           <DialogTitle>{gumbo.name}</DialogTitle>
           <DialogDescription>{gumbo.description}</DialogDescription>
