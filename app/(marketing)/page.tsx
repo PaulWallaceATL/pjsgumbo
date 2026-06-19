@@ -31,7 +31,6 @@ import {
   FAQS,
   FRESH_INGREDIENTS,
   REVIEWS,
-  SITE,
   WHY_DIFFERENT,
 } from "@/lib/content/site";
 
@@ -101,24 +100,18 @@ function Hero() {
         </div>
 
         <div className="relative">
-          <div className="from-cream-100 via-cream-50 to-cream-300 relative flex aspect-[4/5] w-full items-center justify-center overflow-hidden rounded-2xl bg-gradient-to-br shadow-2xl ring-1 ring-black/5">
-            <div className="bg-cajun-500/10 pointer-events-none absolute -top-10 -right-10 size-56 rounded-full blur-3xl" />
-            <div className="bg-roux-500/10 pointer-events-none absolute -bottom-12 -left-12 size-56 rounded-full blur-3xl" />
-            <div className="relative flex flex-col items-center gap-5 px-8 text-center">
-              <Image
-                src={SITE.logo}
-                alt="PJ's Gumbo"
-                width={360}
-                height={360}
-                priority
-                className="h-auto w-52 drop-shadow-xl sm:w-64"
-              />
-              <p className="font-display text-roux-800 text-xl font-semibold tracking-tight">
-                {SITE.tagline}
-              </p>
-            </div>
-          </div>
-          <Card className="absolute -bottom-6 -left-6 hidden w-52 py-4 shadow-xl sm:block">
+          <div className="bg-cajun-500/10 pointer-events-none absolute top-1/4 right-0 size-72 rounded-full blur-3xl" />
+          <div className="bg-roux-500/10 pointer-events-none absolute bottom-0 left-0 size-72 rounded-full blur-3xl" />
+          <Image
+            src="/graffiti/founders-graffiti-v2.png"
+            alt="Paul and John, founders of PJ's Gumbo"
+            width={1024}
+            height={683}
+            priority
+            sizes="(max-width: 1024px) 90vw, 45vw"
+            className="relative h-auto w-full drop-shadow-2xl"
+          />
+          <Card className="absolute -bottom-2 -left-2 hidden w-52 py-4 shadow-xl sm:block">
             <CardContent className="px-4">
               <div className="flex items-center gap-2">
                 <StarRating rating={5} />
@@ -199,11 +192,17 @@ function OurStory() {
     <section id="story" className="bg-cream-50">
       <div className="container-px mx-auto grid max-w-7xl items-center gap-12 py-20 lg:grid-cols-2">
         <Reveal>
-          <MediaPlaceholder
-            src={SITE.founders}
-            alt="The founders of PJ's Gumbo"
-            className="aspect-[5/4] w-full shadow-xl"
-          />
+          <div className="relative">
+            <div className="bg-cajun-500/10 pointer-events-none absolute inset-0 scale-90 rounded-full blur-3xl" />
+            <Image
+              src="/graffiti/hero-graffiti-v2.png"
+              alt="PJ's Gumbo — Atlanta Made, Cajun Soul"
+              width={1024}
+              height={683}
+              sizes="(max-width: 1024px) 90vw, 45vw"
+              className="relative h-auto w-full drop-shadow-2xl"
+            />
+          </div>
         </Reveal>
         <Reveal delay={0.1}>
           <div>

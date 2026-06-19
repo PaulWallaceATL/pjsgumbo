@@ -12,10 +12,7 @@ async function dataUrl(relativePath: string) {
 }
 
 export default async function OpengraphImage() {
-  const [logo, gumbo] = await Promise.all([
-    dataUrl("public/brand/pjs-logo.png"),
-    dataUrl("public/menu/pjs-signature-gumbo.png"),
-  ]);
+  const graffiti = await dataUrl("public/graffiti/founders-graffiti-v2.png");
 
   return new ImageResponse(
     (
@@ -24,83 +21,23 @@ export default async function OpengraphImage() {
           width: "100%",
           height: "100%",
           display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
           position: "relative",
-          backgroundColor: "#1c1410",
+          background:
+            "radial-gradient(120% 120% at 50% 0%, #FBF3E7 0%, #F2E2C6 55%, #E7CfA0 100%)",
         }}
       >
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src={gumbo}
+          src={graffiti}
           alt=""
-          width={size.width}
-          height={size.height}
           style={{
-            position: "absolute",
-            inset: 0,
-            width: "100%",
-            height: "100%",
-            objectFit: "cover",
+            width: "94%",
+            height: "94%",
+            objectFit: "contain",
           }}
         />
-        <div
-          style={{
-            position: "absolute",
-            inset: 0,
-            background:
-              "linear-gradient(90deg, rgba(28,20,16,0.92) 0%, rgba(28,20,16,0.78) 45%, rgba(28,20,16,0.25) 100%)",
-          }}
-        />
-        <div
-          style={{
-            position: "relative",
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            gap: 28,
-            padding: "0 80px",
-            maxWidth: 760,
-          }}
-        >
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src={logo}
-            alt="PJ's Gumbo"
-            width={150}
-            height={150}
-            style={{ borderRadius: 999 }}
-          />
-          <div
-            style={{
-              display: "flex",
-              fontSize: 84,
-              fontWeight: 800,
-              color: "#FBF3E7",
-              lineHeight: 1.02,
-              letterSpacing: -2,
-            }}
-          >
-            Authentic Louisiana Gumbo
-          </div>
-          <div
-            style={{
-              display: "flex",
-              fontSize: 38,
-              color: "#E7B85C",
-              fontWeight: 600,
-            }}
-          >
-            Atlanta Made. Cajun Soul.
-          </div>
-          <div
-            style={{
-              display: "flex",
-              fontSize: 26,
-              color: "rgba(251,243,231,0.75)",
-            }}
-          >
-            Made from scratch · Delivery & pickup · pjsgumbo.com
-          </div>
-        </div>
       </div>
     ),
     { ...size },

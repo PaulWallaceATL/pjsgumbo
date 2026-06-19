@@ -1,14 +1,14 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, ChefHat, Heart, Leaf, Soup } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { MediaPlaceholder } from "@/components/marketing/media-placeholder";
 import { Reveal } from "@/components/marketing/reveal";
 import { AnimatedHeading } from "@/components/marketing/animated-heading";
 import { BrandWaves } from "@/components/marketing/brand-waves";
-import { FRESH_INGREDIENTS, SITE } from "@/lib/content/site";
+import { FRESH_INGREDIENTS } from "@/lib/content/site";
 
 export const metadata: Metadata = {
   title: "About",
@@ -62,11 +62,17 @@ export default function AboutPage() {
             </Button>
           </div>
           <Reveal>
-            <MediaPlaceholder
-              src={SITE.founders}
-              alt="The founders of PJ's Gumbo"
-              className="aspect-square w-full shadow-2xl"
-            />
+            <div className="relative">
+              <div className="bg-cajun-500/10 pointer-events-none absolute inset-0 scale-90 rounded-full blur-3xl" />
+              <Image
+                src="/graffiti/founders-graffiti-v2.png"
+                alt="The founders of PJ's Gumbo"
+                width={1024}
+                height={683}
+                sizes="(max-width: 1024px) 90vw, 45vw"
+                className="relative h-auto w-full drop-shadow-2xl"
+              />
+            </div>
           </Reveal>
         </div>
       </section>
