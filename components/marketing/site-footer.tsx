@@ -60,6 +60,7 @@ export function SiteFooter() {
                 { href: "/catering", label: "Catering" },
                 { href: "/gallery", label: "Gallery" },
                 { href: "/contact", label: "Contact" },
+                { href: "/investor", label: "Investors" },
               ].map((l) => (
                 <li key={l.href}>
                   <Link
