@@ -14,9 +14,27 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const recipe = getRecipeBySlug(slug);
   if (!recipe) return { title: "Recipe Not Found" };
+
+  const title = `${recipe.name} · Recipes`;
+  const description = recipe.description;
+
   return {
     title: recipe.name,
-    description: recipe.description,
+    description,
+    openGraph: {
+      title,
+      description,
+      url: `/recipes/${slug}`,
+      type: "website",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+    },
+    alternates: {
+      canonical: `/recipes/${slug}`,
+    },
   };
 }
 

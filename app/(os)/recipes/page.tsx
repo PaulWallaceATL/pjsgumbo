@@ -7,8 +7,25 @@ import { Badge } from "@/components/ui/badge";
 import { getAllListItems } from "@/lib/content/recipes";
 
 export const metadata: Metadata = {
-  title: "Recipe Book",
-  description: "PJ's Gumbo digital kitchen bible — scaled recipes, costing, and prep standards.",
+  title: "Recipes",
+  description:
+    "Recipes for PJ's Gumbo — gumbo, sides, drinks, and desserts with home-to-restaurant batch scaling, food cost, and chef prep standards.",
+  openGraph: {
+    title: "Recipes · PJ's Gumbo",
+    description:
+      "Recipes for PJ's Gumbo — gumbo, sides, drinks, and desserts with home-to-restaurant batch scaling, food cost, and chef prep standards.",
+    url: "/recipes",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Recipes · PJ's Gumbo",
+    description:
+      "Recipes for PJ's Gumbo — gumbo, sides, drinks, and desserts with home-to-restaurant batch scaling, food cost, and chef prep standards.",
+  },
+  alternates: {
+    canonical: "/recipes",
+  },
 };
 
 export default function RecipesPage() {
