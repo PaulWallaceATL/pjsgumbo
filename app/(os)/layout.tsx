@@ -2,9 +2,7 @@ import { requireUser } from "@/lib/auth/session";
 import { OsShell } from "@/components/os/os-shell";
 
 /**
- * Restaurant OS shell. `requireUser` enforces authentication server-side
- * (Proxy provides the optimistic redirect). OsShell renders the sidebar
- * navigation, top bar, and sign-out.
+ * Restaurant OS shell. Auth is optional until `AUTH_ENABLED` is turned on.
  */
 export default async function OsLayout({
   children,

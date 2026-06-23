@@ -257,3 +257,32 @@ html.lenis body {
     animation: none;
   }
 }
+
+/* Recipe book — print & kitchen view */
+@media print {
+  aside,
+  header,
+  .no-print {
+    display: none !important;
+  }
+
+  body {
+    background: white !important;
+    color: black !important;
+  }
+
+  .recipe-detail,
+  .kitchen-view {
+    max-width: 100% !important;
+    padding: 0 !important;
+  }
+
+  .print-batch {
+    display: block !important;
+    margin-bottom: 1rem;
+  }
+
+  main {
+    padding: 0 !important;
+  }
+}

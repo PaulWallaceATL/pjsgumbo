@@ -10,6 +10,7 @@ import {
   type Permission,
   type Role,
 } from "./rbac";
+import { AUTH_ENABLED } from "./config";
 
 export type AuthUser = {
   id: string;
@@ -19,27 +20,27 @@ export type AuthUser = {
   role: Role;
 };
 
-/**
- * Resolve the current application user (joining the Supabase auth session to
- * the local `User` record). Memoized per-request via React `cache`.
- * Returns null when not authenticated or Supabase isn't configured yet.
- */
-/**
- * Demo user used only in non-production environments before Supabase is wired
- * up, so the Restaurant OS is explorable locally. In production with no
- * Supabase config this is skipped and protected routes redirect to /login.
- */
-const DEV_OWNER: AuthUser = {
-  id: "dev-owner",
-  supabaseId: "dev-owner",
-  email: "owner@pjsgumbo.com",
-  name: "PJ Owner (Demo)",
+/** Flip to `true` when Supabase auth is wired up. */
+export { AUTH_ENABLED } from "./config";
+
+const GUEST_USER: AuthUser = {
+  id: "guest",
+  supabaseId: "guest",
+  email: "kitchen@pjsgumbo.com",
+  name: "Kitchen Team",
   role: "OWNER",
 };
 
+/**
+ * Resolve the current application user (joining the Supabase auth session to
+ * the local `User` record). Memoized per-request via React `cache`.
+ * When auth is disabled, returns a guest user so the OS is fully accessible.
+ */
 export const getCurrentUser = cache(async (): Promise<AuthUser | null> => {
+  if (!AUTH_ENABLED) return GUEST_USER;
+
   if (!isSupabaseConfigured()) {
-    return process.env.NODE_ENV === "production" ? null : DEV_OWNER;
+    return process.env.NODE_ENV === "production" ? null : GUEST_USER;
   }
 
   const supabase = await createClient();
@@ -61,6 +62,8 @@ export const getCurrentUser = cache(async (): Promise<AuthUser | null> => {
 
 /** Require an authenticated user or redirect to login. */
 export async function requireUser(): Promise<AuthUser> {
+  if (!AUTH_ENABLED) return GUEST_USER;
+
   const user = await getCurrentUser();
   if (!user) redirect("/login");
   return user;

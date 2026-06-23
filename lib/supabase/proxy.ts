@@ -1,10 +1,16 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { createServerClient } from "@supabase/ssr";
 
+import { AUTH_ENABLED } from "@/lib/auth/config";
 import { getSupabaseEnv, isSupabaseConfigured } from "./env";
 
 /** Routes under the Restaurant OS that require an authenticated session. */
-const PROTECTED_PREFIXES = ["/dashboard", "/os"];
+const PROTECTED_PREFIXES = [
+  "/dashboard",
+  "/inventory",
+  "/recipes",
+  "/os",
+];
 const AUTH_ROUTES = ["/login"];
 
 /**
@@ -14,6 +20,10 @@ const AUTH_ROUTES = ["/login"];
  */
 export async function updateSession(request: NextRequest) {
   let response = NextResponse.next({ request });
+
+  if (!AUTH_ENABLED) {
+    return response;
+  }
 
   // Before Supabase is configured, don't block any routes.
   if (!isSupabaseConfigured()) {

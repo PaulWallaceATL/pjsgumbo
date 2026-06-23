@@ -36,6 +36,7 @@ import {
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { AUTH_ENABLED } from "@/lib/auth/config";
 import { signOut } from "@/lib/auth/actions";
 import type { AuthUser } from "@/lib/auth/session";
 
@@ -70,7 +71,7 @@ const NAV: NavGroup[] = [
   {
     title: "Recipes & Costing",
     items: [
-      { label: "Recipes", icon: BookOpen },
+      { label: "Recipes", href: "/recipes", icon: BookOpen },
       { label: "Food Cost", icon: DollarSign },
       { label: "Profit Margin", icon: TrendingUp },
       { label: "Portions", icon: Scale },
@@ -144,7 +145,9 @@ export function OsShell({
               </p>
               <ul className="space-y-0.5">
                 {group.items.map((item) => {
-                  const active = item.href && pathname === item.href;
+                  const active =
+                    item.href &&
+                    (pathname === item.href || pathname.startsWith(`${item.href}/`));
                   const content = (
                     <span
                       className={cn(
@@ -221,15 +224,17 @@ export function OsShell({
               <p className="text-muted-foreground text-xs">{user.role}</p>
             </div>
             <ThemeToggle />
-            <form action={signOut}>
-              <button
-                type="submit"
-                className="hover:bg-accent flex size-9 items-center justify-center rounded-md"
-                aria-label="Sign out"
-              >
-                <LogOut className="size-4" />
-              </button>
-            </form>
+            {AUTH_ENABLED ? (
+              <form action={signOut}>
+                <button
+                  type="submit"
+                  className="hover:bg-accent flex size-9 items-center justify-center rounded-md"
+                  aria-label="Sign out"
+                >
+                  <LogOut className="size-4" />
+                </button>
+              </form>
+            ) : null}
           </div>
         </header>
 
