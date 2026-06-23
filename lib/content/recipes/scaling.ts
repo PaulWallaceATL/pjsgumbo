@@ -6,25 +6,30 @@ import type {
   ScaledIngredient,
 } from "./types";
 
-const MASTER_BATCH_KEY: BatchSizeKey = "restaurant";
+const DEFAULT_MASTER_BATCH: BatchSizeKey = "restaurant";
 
-/** Resolve a batch size config from a recipe. Falls back to restaurant batch. */
+export function getMasterBatchKey(recipe: Recipe): BatchSizeKey {
+  return recipe.masterBatchKey ?? DEFAULT_MASTER_BATCH;
+}
+
+/** Resolve a batch size config from a recipe. Falls back to master batch. */
 export function getBatchSize(
   recipe: Recipe,
   key: BatchSizeKey,
 ): RecipeBatchSize {
+  const masterKey = getMasterBatchKey(recipe);
   return (
     recipe.batchSizes.find((b) => b.key === key) ??
-    recipe.batchSizes.find((b) => b.key === MASTER_BATCH_KEY)!
+    recipe.batchSizes.find((b) => b.key === masterKey)!
   );
 }
 
-/** Scale factor from master (restaurant) batch to the selected batch. */
+/** Scale factor from master batch to the selected batch. */
 export function getScaleFactor(
   recipe: Recipe,
   batchKey: BatchSizeKey,
 ): number {
-  const master = getBatchSize(recipe, MASTER_BATCH_KEY);
+  const master = getBatchSize(recipe, getMasterBatchKey(recipe));
   const selected = getBatchSize(recipe, batchKey);
   return selected.multiplier / master.multiplier;
 }

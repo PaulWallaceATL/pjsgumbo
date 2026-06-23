@@ -1,39 +1,39 @@
 import type { RecipeBatchSize } from "./types";
 
-/** Large-format gumbo production batches (10 gal restaurant standard). */
+/** Gumbo batches — home single-pot recipe is the master (multiplier = 1). */
 export const GUMBO_BATCH_SIZES: RecipeBatchSize[] = [
   {
     key: "home",
     label: "Home Batch",
-    multiplier: 0.125,
-    yield: "1.25 gal",
-    portionCount: 5,
+    multiplier: 1,
+    yield: "~2 gal (single pot)",
+    portionCount: 9,
   },
   {
     key: "restaurant",
     label: "Restaurant Batch",
-    multiplier: 1,
+    multiplier: 4.5,
     yield: "10 gal",
     portionCount: 40,
   },
   {
     key: "double",
     label: "Double Batch",
-    multiplier: 2,
+    multiplier: 9,
     yield: "20 gal",
     portionCount: 80,
   },
   {
     key: "20-gallon",
     label: "20 Gallon",
-    multiplier: 2,
+    multiplier: 9,
     yield: "20 gal",
     portionCount: 80,
   },
   {
     key: "40-gallon",
     label: "40 Gallon",
-    multiplier: 4,
+    multiplier: 18,
     yield: "40 gal",
     portionCount: 160,
   },

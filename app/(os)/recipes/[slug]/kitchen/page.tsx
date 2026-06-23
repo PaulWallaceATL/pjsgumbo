@@ -5,6 +5,7 @@ import { KitchenView } from "@/components/recipes/kitchen-view";
 import {
   getRecipeBySlug,
   getRecipeSlugs,
+  getMasterBatchKey,
   type BatchSizeKey,
 } from "@/lib/content/recipes";
 
@@ -41,7 +42,7 @@ export default async function KitchenViewPage({ params, searchParams }: Props) {
   const batchKey =
     batch && BATCH_KEYS.includes(batch as BatchSizeKey)
       ? (batch as BatchSizeKey)
-      : "restaurant";
+      : getMasterBatchKey(recipe);
 
   return <KitchenView recipe={recipe} initialBatch={batchKey} />;
 }

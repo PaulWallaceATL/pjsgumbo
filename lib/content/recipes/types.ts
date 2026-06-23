@@ -16,11 +16,10 @@ export type BatchSizeKey =
   | "20-gallon"
   | "40-gallon";
 
-/** Master batch is always `restaurant` (multiplier = 1). */
 export type RecipeBatchSize = {
   key: BatchSizeKey;
   label: string;
-  /** Scale factor relative to the restaurant (master) batch. */
+  /** Scale factor relative to this recipe's master batch. */
   multiplier: number;
   yield: string;
   portionCount: number;
@@ -28,7 +27,7 @@ export type RecipeBatchSize = {
 
 export type RecipeIngredient = {
   name: string;
-  /** Amount at restaurant (master) batch — scaled at runtime. */
+  /** Amount at the master batch — scaled at runtime. */
   amount: number;
   unit: string;
   prepNotes?: string;
@@ -83,6 +82,8 @@ export type Recipe = {
   /** Seed data for "Most Used" sorting — will sync from usage analytics later. */
   usageCount: number;
   batchSizes: RecipeBatchSize[];
+  /** Batch used as the ingredient master list (defaults to restaurant). Gumbos use home. */
+  masterBatchKey?: BatchSizeKey;
   /** Master ingredient list — single source scaled by batch selector. */
   ingredients: RecipeIngredient[];
   steps: string[];

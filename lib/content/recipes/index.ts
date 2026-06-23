@@ -2,7 +2,7 @@ import { GUMBO_RECIPES } from "./gumbos";
 import { SIDE_RECIPES } from "./sides";
 import { BEVERAGE_RECIPES, DESSERT_RECIPES } from "./drinks-desserts";
 import type { BatchSizeKey, Recipe, RecipeCategory, RecipeListItem } from "./types";
-import { getBatchSize } from "./scaling";
+import { getBatchSize, getMasterBatchKey } from "./scaling";
 
 export const ALL_RECIPES: Recipe[] = [
   ...GUMBO_RECIPES,
@@ -28,7 +28,7 @@ export function getRecipeSlugs(): string[] {
 }
 
 export function toListItem(recipe: Recipe): RecipeListItem {
-  const batch = getBatchSize(recipe, "restaurant");
+  const batch = getBatchSize(recipe, getMasterBatchKey(recipe));
   return {
     slug: recipe.slug,
     name: recipe.name,
@@ -47,7 +47,7 @@ export function getAllListItems(): RecipeListItem[] {
   return ALL_RECIPES.map(toListItem);
 }
 
-export const DEFAULT_BATCH: BatchSizeKey = "restaurant";
+export const DEFAULT_BATCH: BatchSizeKey = "home";
 
 export type { Recipe, RecipeCategory, BatchSizeKey, RecipeListItem } from "./types";
 export {
@@ -56,5 +56,6 @@ export {
   formatAmount,
   formatDuration,
   getBatchSize,
+  getMasterBatchKey,
   getScaleFactor,
 } from "./scaling";

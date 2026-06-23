@@ -11,6 +11,7 @@ import {
   formatAmount,
   formatDuration,
   getBatchSize,
+  getMasterBatchKey,
   scaleIngredients,
   type BatchSizeKey,
   type Recipe,
@@ -18,12 +19,14 @@ import {
 
 export function KitchenView({
   recipe,
-  initialBatch = "restaurant",
+  initialBatch,
 }: {
   recipe: Recipe;
   initialBatch?: BatchSizeKey;
 }) {
-  const [batchKey] = React.useState<BatchSizeKey>(initialBatch);
+  const [batchKey] = React.useState<BatchSizeKey>(
+    () => initialBatch ?? getMasterBatchKey(recipe),
+  );
   const batch = getBatchSize(recipe, batchKey);
   const ingredients = scaleIngredients(recipe, batchKey);
 

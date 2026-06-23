@@ -31,6 +31,7 @@ import {
   formatAmount,
   formatDuration,
   getBatchSize,
+  getMasterBatchKey,
   scaleIngredients,
   type BatchSizeKey,
   type Recipe,
@@ -114,7 +115,9 @@ function ChefNotesSection({ recipe }: { recipe: Recipe }) {
 }
 
 export function RecipeDetailView({ recipe }: { recipe: Recipe }) {
-  const [batchKey, setBatchKey] = React.useState<BatchSizeKey>("restaurant");
+  const [batchKey, setBatchKey] = React.useState<BatchSizeKey>(() =>
+    getMasterBatchKey(recipe),
+  );
   const { toggleFavorite, markViewed, isFavorite, ready } = useRecipePrefs();
 
   React.useEffect(() => {
@@ -268,7 +271,10 @@ export function RecipeDetailView({ recipe }: { recipe: Recipe }) {
           </TabsList>
         </Tabs>
         <p className="text-muted-foreground mt-2 text-sm">
-          {batch.label} · {batch.yield} · {batch.portionCount} portions — quantities scale from master recipe
+          {batch.label} · {batch.yield} · {batch.portionCount} portions —{" "}
+          {recipe.masterBatchKey === "home"
+            ? "scaled from home single-pot master"
+            : "quantities scale from master recipe"}
         </p>
       </div>
 
