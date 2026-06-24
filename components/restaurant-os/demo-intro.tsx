@@ -1,6 +1,6 @@
 import { Cpu, LineChart, ShieldCheck } from "lucide-react";
 
-import { Reveal } from "@/components/marketing/reveal";
+import { RevealLite } from "@/components/marketing/reveal-lite";
 import { SectionHeading } from "@/components/marketing/section-heading";
 import { BrandIcon } from "@/components/marketing/brand-icon";
 import { Card, CardContent } from "@/components/ui/card";
@@ -32,13 +32,13 @@ export function DemoIntro() {
       <div className="container-px mx-auto max-w-7xl">
         <SectionHeading
           eyebrow="Platform Overview"
-          title="Eight modules. One operating system."
-          description="Scroll through a live demo of the software that runs PJ's Gumbo — from the first ticket of the day to the forecast for a second Atlanta location."
+          title="Eleven modules. One operating system."
+          description="Select any module in the interactive demo below — bookkeeping, production, orders, inventory, and more — the same views our team uses daily."
         />
 
         <div className="mt-12 grid gap-5 md:grid-cols-3">
           {PILLARS.map((p, i) => (
-            <Reveal key={p.title} delay={0.1 * i}>
+            <RevealLite key={p.title} delayMs={80 * i}>
               <Card className="h-full border-dashed transition-shadow hover:shadow-md">
                 <CardContent className="pt-6">
                   <BrandIcon icon={p.icon} size="sm" className="mb-4" />
@@ -48,7 +48,7 @@ export function DemoIntro() {
                   </p>
                 </CardContent>
               </Card>
-            </Reveal>
+            </RevealLite>
           ))}
         </div>
       </div>

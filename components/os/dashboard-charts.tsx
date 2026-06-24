@@ -12,8 +12,8 @@ import {
   YAxis,
 } from "recharts";
 
-const CAJUN = "#b23a2e";
-const ROUX = "#8a5a32";
+const CHART_PRIMARY = "var(--primary)";
+const CHART_SECONDARY = "var(--secondary)";
 
 export function SalesTrendChart({
   data,
@@ -38,9 +38,9 @@ export function SalesTrendChart({
         <Line
           type="monotone"
           dataKey="sales"
-          stroke={CAJUN}
+          stroke={CHART_PRIMARY}
           strokeWidth={3}
-          dot={{ r: 3, fill: CAJUN }}
+          dot={{ r: 3, fill: CHART_PRIMARY }}
           activeDot={{ r: 5 }}
         />
       </LineChart>
@@ -69,7 +69,7 @@ export function CategorySalesChart({
           cursor={{ fill: "rgba(120,100,80,0.08)" }}
           contentStyle={{ borderRadius: 12, border: "1px solid rgba(0,0,0,0.1)" }}
         />
-        <Bar dataKey="sales" fill={ROUX} radius={[6, 6, 0, 0]} />
+        <Bar dataKey="sales" fill={CHART_SECONDARY} radius={[6, 6, 0, 0]} />
       </BarChart>
     </ResponsiveContainer>
   );

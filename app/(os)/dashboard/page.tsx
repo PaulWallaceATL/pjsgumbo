@@ -1,14 +1,18 @@
 import Link from "next/link";
-import { ArrowRight, TriangleAlert } from "lucide-react";
+import { ArrowRight, RefreshCw, Receipt, Trash2, TriangleAlert } from "lucide-react";
 
+import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { KpiCard } from "@/components/os/kpi-card";
+import { OsPageShell } from "@/components/os/os-page-shell";
+import { LazyChart } from "@/components/os/lazy-chart";
 import {
   CategorySalesChart,
   SalesTrendChart,
 } from "@/components/os/dashboard-charts";
 import { InventoryTable } from "@/components/os/inventory-table";
+import { StatusBadge } from "@/components/os/status-badge";
+import { statusToneFromInventory } from "@/lib/os/status-utils";
 import {
   getCategorySales,
   getDashboardKpis,
@@ -16,7 +20,6 @@ import {
   getSalesTrend,
   getUpcomingPrep,
 } from "@/lib/os/data";
-import { cn } from "@/lib/utils";
 
 export default function DashboardPage() {
   const kpis = getDashboardKpis();
@@ -28,14 +31,32 @@ export default function DashboardPage() {
     .sort((a, b) => a.onHand / a.par - b.onHand / b.par);
 
   return (
-    <div className="mx-auto max-w-7xl space-y-6">
-      <div>
-        <h1 className="font-display text-3xl font-bold">Dashboard</h1>
-        <p className="text-muted-foreground mt-1">
-          Today&apos;s operations at a glance.
-        </p>
-      </div>
-
+    <OsPageShell
+      title="Dashboard"
+      description="Today's operations at a glance."
+      actions={
+        <>
+          <Button asChild variant="outline" size="sm">
+            <Link href="/weekly-reorder">
+              <RefreshCw className="size-4" />
+              Reorder
+            </Link>
+          </Button>
+          <Button asChild variant="outline" size="sm">
+            <Link href="/waste-log">
+              <Trash2 className="size-4" />
+              Log waste
+            </Link>
+          </Button>
+          <Button asChild size="sm">
+            <Link href="/orders">
+              <Receipt className="size-4" />
+              View orders
+            </Link>
+          </Button>
+        </>
+      }
+    >
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {kpis.map((kpi) => (
           <KpiCard key={kpi.label} kpi={kpi} />
@@ -48,7 +69,9 @@ export default function DashboardPage() {
             <CardTitle>Sales — last 7 days</CardTitle>
           </CardHeader>
           <CardContent>
-            <SalesTrendChart data={salesTrend} />
+            <LazyChart>
+              <SalesTrendChart data={salesTrend} />
+            </LazyChart>
           </CardContent>
         </Card>
         <Card>
@@ -56,7 +79,9 @@ export default function DashboardPage() {
             <CardTitle>Sales by category</CardTitle>
           </CardHeader>
           <CardContent>
-            <CategorySalesChart data={categorySales} />
+            <LazyChart>
+              <CategorySalesChart data={categorySales} />
+            </LazyChart>
           </CardContent>
         </Card>
       </div>
@@ -77,9 +102,10 @@ export default function DashboardPage() {
           </CardHeader>
           <CardContent className="space-y-2">
             {lowStock.slice(0, 5).map((row) => (
-              <div
+              <Link
                 key={row.sku}
-                className="flex items-center justify-between rounded-lg border p-3"
+                href="/inventory"
+                className="hover:border-primary/30 flex items-center justify-between rounded-lg border p-3 transition-colors"
               >
                 <div>
                   <p className="font-medium">{row.name}</p>
@@ -87,25 +113,24 @@ export default function DashboardPage() {
                     {row.onHand} / {row.par} {row.unit} on hand
                   </p>
                 </div>
-                <Badge
-                  variant="muted"
-                  className={cn(
-                    "border-transparent",
-                    row.status === "critical"
-                      ? "bg-destructive/15 text-destructive"
-                      : "bg-warning/15 text-warning",
-                  )}
-                >
-                  {row.status === "critical" ? "Critical" : "Low"}
-                </Badge>
-              </div>
+                <StatusBadge
+                  label={row.status === "critical" ? "Critical" : "Low"}
+                  tone={statusToneFromInventory(row.status)}
+                />
+              </Link>
             ))}
           </CardContent>
         </Card>
 
         <Card>
-          <CardHeader>
+          <CardHeader className="flex-row items-center justify-between">
             <CardTitle>Upcoming prep</CardTitle>
+            <Link
+              href="/daily-prep"
+              className="text-primary flex items-center gap-1 text-sm font-medium"
+            >
+              Prep queue <ArrowRight className="size-3.5" />
+            </Link>
           </CardHeader>
           <CardContent className="space-y-2">
             {upcoming.map((task) => (
@@ -153,6 +178,6 @@ export default function DashboardPage() {
           </Link>
         ))}
       </div>
-    </div>
+    </OsPageShell>
   );
 }

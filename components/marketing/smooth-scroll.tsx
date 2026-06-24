@@ -17,6 +17,10 @@ export function SmoothScroll({ children }: { children: React.ReactNode }) {
     if ("scrollRestoration" in window.history) {
       window.history.scrollRestoration = "manual";
     }
+    // Native scroll on data-heavy demo — Lenis fights table/chart interaction.
+    if (pathname === "/restaurant-os") {
+      return;
+    }
     if (
       typeof window === "undefined" ||
       window.matchMedia("(prefers-reduced-motion: reduce)").matches
@@ -60,7 +64,7 @@ export function SmoothScroll({ children }: { children: React.ReactNode }) {
       lenis.destroy();
       lenisRef.current = null;
     };
-  }, []);
+  }, [pathname]);
 
   // Start every route change at the top of the page.
   useEffect(() => {

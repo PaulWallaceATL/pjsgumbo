@@ -3,15 +3,14 @@ import { ArrowRight, type LucideIcon } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { AnimatedHeading } from "@/components/marketing/animated-heading";
-import { BrandWaves } from "@/components/marketing/brand-waves";
 import { BrandIcon } from "@/components/marketing/brand-icon";
+import { BrandWaves } from "@/components/marketing/brand-waves";
 
 type CtaLink = { href: string; label: string };
 
 /**
  * Shared closing call-to-action band. Every marketing page ends with the same
- * branded, wave-backed CTA so the whole site reads as one franchise.
+ * branded CTA so the whole site reads as one franchise.
  */
 export function CtaBand({
   eyebrow,
@@ -22,6 +21,7 @@ export function CtaBand({
   icon,
   tone = "roux",
   className,
+  staticBackground = false,
 }: {
   eyebrow?: string;
   title: string;
@@ -31,16 +31,24 @@ export function CtaBand({
   icon?: LucideIcon;
   tone?: "roux" | "dark";
   className?: string;
+  /** Skip WebGL waves — use CSS gradient only (better for perf on demo page) */
+  staticBackground?: boolean;
 }) {
   return (
     <section
       className={cn(
         "text-cream-100 relative overflow-hidden",
-        tone === "dark" ? "bg-charcoal-800" : "bg-roux-700",
+        staticBackground
+          ? tone === "dark"
+            ? "bg-gradient-to-br from-charcoal-800 via-charcoal-900 to-charcoal-950"
+            : "bg-gradient-to-br from-roux-700 via-roux-800 to-roux-900"
+          : tone === "dark"
+            ? "bg-charcoal-800"
+            : "bg-roux-700",
         className,
       )}
     >
-      <BrandWaves opacity={tone === "dark" ? 0.55 : 0.4} speed={0.5} />
+      {!staticBackground ? <BrandWaves opacity={tone === "dark" ? 0.55 : 0.4} speed={0.5} /> : null}
       <div className="container-px relative z-10 mx-auto max-w-7xl py-16 text-center sm:py-20">
         {icon ? (
           <BrandIcon icon={icon} size="lg" className="mx-auto mb-5" />
@@ -50,12 +58,9 @@ export function CtaBand({
             {eyebrow}
           </p>
         ) : null}
-        <AnimatedHeading
-          as="h2"
-          text={title}
-          center
-          className="font-display text-cream-50 mt-3 text-3xl font-bold sm:text-5xl"
-        />
+        <h2 className="font-display text-cream-50 mt-3 text-3xl font-bold sm:text-5xl">
+          {title}
+        </h2>
         {description ? (
           <p className="text-cream-100/75 mx-auto mt-4 max-w-lg text-lg leading-relaxed">
             {description}

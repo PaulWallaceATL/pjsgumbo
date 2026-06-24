@@ -10,6 +10,7 @@ import {
   Building2,
   Calculator,
   CalendarDays,
+  ChevronDown,
   ChefHat,
   Clock,
   DollarSign,
@@ -22,6 +23,7 @@ import {
   Receipt,
   RefreshCw,
   Scale,
+  Search,
   ShoppingCart,
   Snowflake,
   Sparkles,
@@ -35,6 +37,7 @@ import {
   X,
 } from "lucide-react";
 
+import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { AUTH_ENABLED } from "@/lib/auth/config";
@@ -108,6 +111,29 @@ const NAV: NavGroup[] = [
   },
 ];
 
+const STORAGE_KEY = "pjs-os-nav-collapsed";
+
+function findNavContext(pathname: string) {
+  for (const group of NAV) {
+    for (const item of group.items) {
+      if (pathname === item.href || pathname.startsWith(`${item.href}/`)) {
+        return { group: group.title, page: item.label };
+      }
+    }
+  }
+  return null;
+}
+
+function loadCollapsed(): Record<string, boolean> {
+  if (typeof window === "undefined") return {};
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    return raw ? (JSON.parse(raw) as Record<string, boolean>) : {};
+  } catch {
+    return {};
+  }
+}
+
 export function OsShell({
   user,
   children,
@@ -116,7 +142,44 @@ export function OsShell({
   children: React.ReactNode;
 }) {
   const [open, setOpen] = React.useState(false);
+  const [query, setQuery] = React.useState("");
+  const [collapsed, setCollapsed] = React.useState<Record<string, boolean>>({});
   const pathname = usePathname();
+  const crumbs = findNavContext(pathname);
+
+  React.useEffect(() => {
+    setCollapsed(loadCollapsed());
+  }, []);
+
+  React.useEffect(() => {
+    const ctx = findNavContext(pathname);
+    if (!ctx) return;
+    setCollapsed((prev) => {
+      if (prev[ctx.group] === false) return prev;
+      const next = { ...prev, [ctx.group]: false };
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
+      return next;
+    });
+  }, [pathname]);
+
+  const toggleGroup = (title: string) => {
+    setCollapsed((prev) => {
+      const next = { ...prev, [title]: !prev[title] };
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
+      return next;
+    });
+  };
+
+  const normalizedQuery = query.trim().toLowerCase();
+  const filteredNav = NAV.map((group) => ({
+    ...group,
+    items: group.items.filter(
+      (item) =>
+        !normalizedQuery ||
+        item.label.toLowerCase().includes(normalizedQuery) ||
+        group.title.toLowerCase().includes(normalizedQuery),
+    ),
+  })).filter((group) => group.items.length > 0);
 
   return (
     <div className="bg-muted/30 min-h-screen lg:grid lg:grid-cols-[16rem_1fr]">
@@ -144,37 +207,61 @@ export function OsShell({
           </button>
         </div>
 
-        <nav className="h-[calc(100vh-4rem)] space-y-5 overflow-y-auto p-3">
-          {NAV.map((group) => (
-            <div key={group.title}>
-              <p className="text-muted-foreground px-3 pb-1.5 text-[11px] font-semibold tracking-wider uppercase">
-                {group.title}
-              </p>
-              <ul className="space-y-0.5">
-                {group.items.map((item) => {
-                  const active =
-                    pathname === item.href || pathname.startsWith(`${item.href}/`);
-                  return (
-                    <li key={item.href}>
-                      <Link href={item.href} onClick={() => setOpen(false)}>
-                        <span
-                          className={cn(
-                            "flex items-center gap-2.5 rounded-md px-3 py-2 text-sm transition-colors",
-                            active
-                              ? "bg-primary text-primary-foreground font-medium"
-                              : "hover:bg-accent",
-                          )}
-                        >
-                          <item.icon className="size-4 shrink-0" />
-                          <span className="flex-1">{item.label}</span>
-                        </span>
-                      </Link>
-                    </li>
-                  );
-                })}
-              </ul>
-            </div>
-          ))}
+        <div className="border-b p-3">
+          <div className="relative">
+            <Search className="text-muted-foreground pointer-events-none absolute top-1/2 left-2.5 size-4 -translate-y-1/2" />
+            <Input
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              placeholder="Search modules…"
+              className="h-9 pl-8 text-sm"
+            />
+          </div>
+        </div>
+
+        <nav className="h-[calc(100vh-8.5rem)] space-y-2 overflow-y-auto p-3">
+          {filteredNav.map((group) => {
+            const isCollapsed = collapsed[group.title] ?? false;
+            return (
+              <div key={group.title}>
+                <button
+                  type="button"
+                  onClick={() => toggleGroup(group.title)}
+                  className="text-muted-foreground hover:text-foreground flex w-full items-center justify-between rounded-md px-3 py-1.5 text-[11px] font-semibold tracking-wider uppercase"
+                >
+                  {group.title}
+                  <ChevronDown
+                    className={cn("size-3.5 transition-transform", isCollapsed && "-rotate-90")}
+                  />
+                </button>
+                {!isCollapsed ? (
+                  <ul className="mt-0.5 space-y-0.5">
+                    {group.items.map((item) => {
+                      const active =
+                        pathname === item.href || pathname.startsWith(`${item.href}/`);
+                      return (
+                        <li key={item.href}>
+                          <Link href={item.href} onClick={() => setOpen(false)}>
+                            <span
+                              className={cn(
+                                "flex items-center gap-2.5 rounded-md px-3 py-2 text-sm transition-colors",
+                                active
+                                  ? "bg-primary text-primary-foreground font-medium"
+                                  : "hover:bg-accent",
+                              )}
+                            >
+                              <item.icon className="size-4 shrink-0" />
+                              <span className="flex-1">{item.label}</span>
+                            </span>
+                          </Link>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                ) : null}
+              </div>
+            );
+          })}
         </nav>
       </aside>
 
@@ -187,18 +274,28 @@ export function OsShell({
           <button className="lg:hidden" onClick={() => setOpen(true)} aria-label="Open menu">
             <Menu className="size-5" />
           </button>
-          <div className="flex items-center gap-2">
-            <Clock className="text-muted-foreground size-4" />
-            <span className="text-muted-foreground text-sm">
-              {new Date().toLocaleDateString("en-US", {
-                weekday: "long",
-                month: "short",
-                day: "numeric",
-              })}
-            </span>
+          <div className="min-w-0 flex-1">
+            {crumbs ? (
+              <p className="truncate text-sm">
+                <span className="text-muted-foreground">{crumbs.group}</span>
+                <span className="text-muted-foreground mx-1.5">/</span>
+                <span className="font-medium">{crumbs.page}</span>
+              </p>
+            ) : (
+              <div className="flex items-center gap-2">
+                <Clock className="text-muted-foreground size-4" />
+                <span className="text-muted-foreground text-sm">
+                  {new Date().toLocaleDateString("en-US", {
+                    weekday: "long",
+                    month: "short",
+                    day: "numeric",
+                  })}
+                </span>
+              </div>
+            )}
           </div>
           <div className="ml-auto flex items-center gap-3">
-            <div className="text-right">
+            <div className="hidden text-right sm:block">
               <p className="text-sm font-medium leading-tight">{user.name ?? user.email}</p>
               <p className="text-muted-foreground text-xs">{user.role}</p>
             </div>

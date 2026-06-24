@@ -1,41 +1,36 @@
 "use client";
 
 import type { LucideIcon } from "lucide-react";
+import Link from "next/link";
+import { ArrowUpRight } from "lucide-react";
 
-import { Reveal } from "@/components/marketing/reveal";
-import { AnimatedHeading } from "@/components/marketing/animated-heading";
-import { BrandWaves } from "@/components/marketing/brand-waves";
-import { HeroBackdrop } from "@/components/marketing/hero-backdrop";
 import { Eyebrow } from "@/components/marketing/section-heading";
-import { BrandIcon } from "@/components/marketing/brand-icon";
-import { Card, CardContent } from "@/components/ui/card";
+import { useDemoShell } from "@/components/restaurant-os/demo-context";
 import { MODULE_META, type ModuleTone } from "@/lib/restaurant-os/data";
 import { cn } from "@/lib/utils";
 
 const TONE_STYLES: Record<
   ModuleTone,
-  { section: string; text?: string; muted?: string; card?: string }
+  { section: string; text?: string; muted?: string }
 > = {
   cream: {
-    section: "from-cream-100 via-cream-50/80 to-background relative overflow-hidden bg-gradient-to-b",
+    section: "from-cream-100/80 via-cream-50/50 to-background bg-gradient-to-b",
   },
   light: {
-    section: "bg-background border-y",
+    section: "bg-background",
   },
   muted: {
-    section: "bg-muted/40 border-y border-muted",
+    section: "bg-muted/30",
   },
   dark: {
-    section: "bg-charcoal-900 text-cream-100 relative overflow-hidden",
+    section: "from-charcoal-900 to-charcoal-800 bg-gradient-to-b text-cream-100",
     text: "text-cream-50",
     muted: "text-cream-200/70",
-    card: "bg-charcoal-800/80 border-cream-100/10 text-cream-50",
   },
   roux: {
-    section: "bg-roux-800 text-cream-100 relative overflow-hidden",
+    section: "from-roux-800 to-roux-900 bg-gradient-to-b text-cream-100",
     text: "text-cream-50",
     muted: "text-cream-200/75",
-    card: "bg-roux-900/60 border-cream-100/10 text-cream-50",
   },
 };
 
@@ -51,87 +46,107 @@ export function ModuleBand({
   const meta = MODULE_META.find((m) => m.id === id)!;
   const tone = TONE_STYLES[meta.tone];
   const isDark = meta.tone === "dark" || meta.tone === "roux";
+  const { presentation } = useDemoShell();
+  const primaryHighlight = meta.highlights?.[0];
 
   return (
-    <section id={id} className={cn("scroll-mt-36 py-16 sm:py-20", tone.section)}>
-      {meta.tone === "cream" ? <HeroBackdrop opacity={0.14} /> : null}
-      {meta.tone === "dark" ? <BrandWaves opacity={0.45} speed={0.55} /> : null}
-      {meta.tone === "roux" ? (
-        <BrandWaves
-          opacity={0.35}
-          speed={0.45}
-          className="opacity-90"
-        />
-      ) : null}
-
-      <div className="container-px relative z-10 mx-auto max-w-7xl">
-        <Reveal>
-          <div className="flex flex-col gap-8 lg:flex-row lg:items-start lg:justify-between">
-            <div className={cn("max-w-2xl", isDark && tone.text)}>
+    <section
+      id={id}
+      className={cn(
+        "h-full",
+        tone.section,
+        presentation && "text-base",
+      )}
+    >
+      <div className={cn("space-y-6 p-4 sm:p-6", presentation && "sm:p-8")}>
+        <header className="space-y-4 border-b pb-5">
+          <div className="flex flex-wrap items-start justify-between gap-3">
+            <div className={cn("min-w-0 flex-1", isDark && tone.text)}>
               <Eyebrow align="left" icon={icon} className={isDark ? "text-cajun-300" : undefined}>
                 {meta.eyebrow}
               </Eyebrow>
-              <AnimatedHeading
-                as="h2"
-                text={meta.title}
+              <h2
                 className={cn(
-                  "font-display mt-3 text-3xl font-bold tracking-tight sm:text-4xl",
+                  "font-display mt-2 text-2xl font-bold tracking-tight sm:text-3xl",
                   isDark && "text-cream-50",
-                )}
-              />
-              <p className={cn("mt-4 leading-relaxed", isDark ? tone.muted : "text-muted-foreground")}>
-                {meta.description}
-              </p>
-              <p
-                className={cn(
-                  "mt-4 text-sm leading-relaxed",
-                  isDark ? "text-cream-200/60" : "text-muted-foreground/80",
+                  presentation && "sm:text-4xl",
                 )}
               >
-                {meta.narrative}
-              </p>
-
-              {meta.highlights?.length ? (
-                <div className="mt-6 grid gap-2 sm:grid-cols-3">
-                  {meta.highlights.map((h, i) => (
-                    <Reveal key={h.label} delay={0.08 * (i + 1)}>
-                      <div
-                        className={cn(
-                          "rounded-xl border px-4 py-3",
-                          isDark
-                            ? "border-cream-100/10 bg-cream-100/5"
-                            : "bg-card/80 backdrop-blur-sm",
-                        )}
-                      >
-                        <p className={cn("text-xs uppercase tracking-wide", isDark ? tone.muted : "text-muted-foreground")}>
-                          {h.label}
-                        </p>
-                        <p className={cn("font-display mt-0.5 text-lg font-bold tabular-nums", isDark && tone.text)}>
-                          {h.value}
-                        </p>
-                      </div>
-                    </Reveal>
-                  ))}
-                </div>
+                {meta.title}
+              </h2>
+              {!presentation ? (
+                <p className={cn("mt-2 max-w-2xl text-sm leading-relaxed sm:text-base", isDark ? tone.muted : "text-muted-foreground")}>
+                  {meta.description}
+                </p>
               ) : null}
             </div>
-
-            <BrandIcon icon={icon} size="lg" variant={isDark ? "soft" : "solid"} className="hidden shrink-0 sm:inline-flex" />
+            <Link
+              href={meta.osHref}
+              className={cn(
+                "inline-flex shrink-0 items-center gap-1 rounded-lg border px-3 py-2 text-xs font-medium transition-colors sm:text-sm",
+                isDark
+                  ? "border-cream-100/20 hover:bg-cream-100/10"
+                  : "hover:bg-accent",
+              )}
+            >
+              Open in OS
+              <ArrowUpRight className="size-3.5" />
+            </Link>
           </div>
-        </Reveal>
 
-        <Reveal delay={0.12} className="mt-10 space-y-6 [&_[data-slot=card]]:shadow-sm">
           <div
             className={cn(
-              isDark &&
-                "[&_[data-slot=card]]:border-cream-100/10 [&_[data-slot=card]]:bg-charcoal-800/90 [&_[data-slot=card-title]]:text-cream-50 [&_.text-muted-foreground]:text-cream-200/65 [&_th]:text-cream-200/80 [&_td]:text-cream-100 [&_.rounded-xl.border]:border-cream-100/10",
-              meta.tone === "roux" &&
-                "[&_[data-slot=card]]:border-cream-100/10 [&_[data-slot=card]]:bg-roux-900/70 [&_[data-slot=card-title]]:text-cream-50 [&_.text-muted-foreground]:text-cream-200/65 [&_th]:text-cream-200/80 [&_td]:text-cream-100 [&_.rounded-xl.border]:border-cream-100/10",
+              "flex flex-wrap items-center gap-3 rounded-xl border px-4 py-3 text-sm",
+              isDark ? "border-cream-100/10 bg-cream-100/5" : "bg-background/80",
             )}
           >
-            {children}
+            <p className={cn("flex-1 leading-relaxed", isDark ? tone.muted : "text-muted-foreground")}>
+              {meta.narrative}
+            </p>
+            {primaryHighlight ? (
+              <div className={cn("shrink-0 text-right", isDark && tone.text)}>
+                <p className={cn("text-xs uppercase tracking-wide", isDark ? tone.muted : "text-muted-foreground")}>
+                  {primaryHighlight.label}
+                </p>
+                <p className="font-display text-lg font-bold tabular-nums">{primaryHighlight.value}</p>
+              </div>
+            ) : null}
           </div>
-        </Reveal>
+
+          {meta.highlights?.length ? (
+            <div className="grid gap-2 sm:grid-cols-3">
+              {meta.highlights.map((h) => (
+                <div
+                  key={h.label}
+                  className={cn(
+                    "rounded-lg border px-3 py-2.5",
+                    isDark ? "border-cream-100/10 bg-cream-100/5" : "bg-background/90",
+                  )}
+                >
+                  <p className={cn("text-xs uppercase tracking-wide", isDark ? tone.muted : "text-muted-foreground")}>
+                    {h.label}
+                  </p>
+                  <p className={cn("font-display mt-0.5 text-base font-bold tabular-nums sm:text-lg", isDark && tone.text)}>
+                    {h.value}
+                  </p>
+                </div>
+              ))}
+            </div>
+          ) : null}
+        </header>
+
+        <div
+          className={cn(
+            "space-y-6 [&_[data-slot=card]]:shadow-sm",
+            isDark &&
+              "[&_[data-slot=card]]:border-cream-100/10 [&_[data-slot=card]]:bg-charcoal-800/90 [&_[data-slot=card-title]]:text-cream-50 [&_.text-muted-foreground]:text-cream-200/65 [&_th]:text-cream-200/80 [&_td]:text-cream-100",
+            meta.tone === "roux" &&
+              "[&_[data-slot=card]]:border-cream-100/10 [&_[data-slot=card]]:bg-roux-900/70 [&_[data-slot=card-title]]:text-cream-50 [&_.text-muted-foreground]:text-cream-200/65 [&_th]:text-cream-200/80 [&_td]:text-cream-100",
+            presentation && "[&_[data-slot=card-content]]:p-6 [&_.recharts-responsive-container]:min-h-[320px]",
+          )}
+        >
+          {children}
+        </div>
       </div>
     </section>
   );
@@ -147,16 +162,12 @@ export function ModuleStatStrip({
 }) {
   return (
     <div className={cn("grid gap-3 sm:grid-cols-3", className)}>
-      {stats.map((s, i) => (
-        <Reveal key={s.label} delay={0.05 * i}>
-          <Card className="border-dashed">
-            <CardContent className="py-4">
-              <p className="text-muted-foreground text-xs uppercase tracking-wide">{s.label}</p>
-              <p className="font-display mt-1 text-xl font-bold tabular-nums">{s.value}</p>
-              {s.hint ? <p className="text-muted-foreground mt-0.5 text-xs">{s.hint}</p> : null}
-            </CardContent>
-          </Card>
-        </Reveal>
+      {stats.map((s) => (
+        <div key={s.label} className="rounded-xl border border-dashed px-4 py-3">
+          <p className="text-muted-foreground text-xs uppercase tracking-wide">{s.label}</p>
+          <p className="font-display mt-1 text-xl font-bold tabular-nums">{s.value}</p>
+          {s.hint ? <p className="text-muted-foreground mt-0.5 text-xs">{s.hint}</p> : null}
+        </div>
       ))}
     </div>
   );

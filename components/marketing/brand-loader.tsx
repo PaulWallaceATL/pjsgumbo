@@ -2,12 +2,14 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "motion/react";
 
 import { SITE } from "@/lib/content/site";
 
 const TAGLINE = "Atlanta Made. Cajun Soul.";
 const MIN_VISIBLE_MS = 1900;
+const DEMO_MIN_VISIBLE_MS = 600;
 const HARD_CAP_MS = 4500;
 
 /**
@@ -17,12 +19,24 @@ const HARD_CAP_MS = 4500;
  * scrolled to the top.
  */
 export function BrandLoader() {
+  const pathname = usePathname();
+  const isDemo = pathname === "/restaurant-os";
   // Start visible so the overlay is present in the very first paint (no flash
   // of the page before the loader appears).
-  const [show, setShow] = useState(true);
+  const [show, setShow] = useState(!isDemo);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
+
+    if (isDemo) {
+      if ("scrollRestoration" in window.history) {
+        window.history.scrollRestoration = "manual";
+      }
+      window.scrollTo(0, 0);
+      return;
+    }
+
+    setShow(true);
 
     // Always (re)load at the top of the page.
     if ("scrollRestoration" in window.history) {
@@ -36,7 +50,8 @@ export function BrandLoader() {
     const finish = () => {
       if (finished) return;
       finished = true;
-      const wait = Math.max(0, MIN_VISIBLE_MS - (Date.now() - start));
+      const minVisible = isDemo ? DEMO_MIN_VISIBLE_MS : MIN_VISIBLE_MS;
+      const wait = Math.max(0, minVisible - (Date.now() - start));
       window.setTimeout(() => {
         setShow(false);
         document.body.style.overflow = "";
@@ -52,7 +67,7 @@ export function BrandLoader() {
       window.clearTimeout(cap);
       document.body.style.overflow = "";
     };
-  }, []);
+  }, [isDemo]);
 
   return (
     <AnimatePresence>

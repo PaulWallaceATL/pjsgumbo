@@ -157,6 +157,8 @@ const SilkWaves: React.FC<SilkWavesProps> = ({
   const rendererRef = useRef<THREE.WebGLRenderer | null>(null);
   const materialRef = useRef<THREE.ShaderMaterial | null>(null);
   const animationFrameRef = useRef<number | null>(null);
+  const isVisibleRef = useRef(true);
+  const isDocumentVisibleRef = useRef(true);
 
   useEffect(() => {
     if (!containerRef.current) return;
@@ -169,6 +171,9 @@ const SilkWaves: React.FC<SilkWavesProps> = ({
 
     const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
 
+    const pixelRatioCap =
+      typeof window !== "undefined" && window.innerWidth < 768 ? 1.5 : 2;
+
     const renderer = new THREE.WebGLRenderer({
       antialias: true,
       alpha: true,
@@ -176,7 +181,7 @@ const SilkWaves: React.FC<SilkWavesProps> = ({
     });
     renderer.setClearColor(0x000000, 0);
     renderer.setSize(width, height);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, pixelRatioCap));
     container.appendChild(renderer.domElement);
     rendererRef.current = renderer;
 
@@ -216,14 +221,51 @@ const SilkWaves: React.FC<SilkWavesProps> = ({
     scene.add(mesh);
 
     const clock = new THREE.Clock();
-    const animate = () => {
-      const elapsedTime = clock.getElapsedTime();
-      material.uniforms.uTime.value = elapsedTime;
+    let rafId: number | null = null;
 
+    const tick = () => {
+      if (!isVisibleRef.current || !isDocumentVisibleRef.current) {
+        rafId = null;
+        return;
+      }
+      material.uniforms.uTime.value = clock.getElapsedTime();
       renderer.render(scene, camera);
-      animationFrameRef.current = requestAnimationFrame(animate);
+      rafId = requestAnimationFrame(tick);
+      animationFrameRef.current = rafId;
     };
-    animate();
+
+    const startLoop = () => {
+      if (rafId !== null) return;
+      rafId = requestAnimationFrame(tick);
+      animationFrameRef.current = rafId;
+    };
+
+    const stopLoop = () => {
+      if (rafId !== null) {
+        cancelAnimationFrame(rafId);
+        rafId = null;
+        animationFrameRef.current = null;
+      }
+    };
+
+    const visibilityObserver = new IntersectionObserver(
+      ([entry]) => {
+        isVisibleRef.current = entry.isIntersecting;
+        if (isVisibleRef.current && isDocumentVisibleRef.current) startLoop();
+        else stopLoop();
+      },
+      { threshold: 0.01 },
+    );
+    visibilityObserver.observe(container);
+
+    const onVisibilityChange = () => {
+      isDocumentVisibleRef.current = !document.hidden;
+      if (isDocumentVisibleRef.current && isVisibleRef.current) startLoop();
+      else stopLoop();
+    };
+    document.addEventListener("visibilitychange", onVisibilityChange);
+
+    startLoop();
 
     const handleResize = () => {
       const newWidth = container.clientWidth;
@@ -237,9 +279,9 @@ const SilkWaves: React.FC<SilkWavesProps> = ({
     resizeObserver.observe(container);
 
     return () => {
-      if (animationFrameRef.current) {
-        cancelAnimationFrame(animationFrameRef.current);
-      }
+      stopLoop();
+      visibilityObserver.disconnect();
+      document.removeEventListener("visibilitychange", onVisibilityChange);
       resizeObserver.disconnect();
 
       renderer.dispose();

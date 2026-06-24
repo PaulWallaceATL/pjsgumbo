@@ -6,11 +6,11 @@ import type { ColumnDef } from "@tanstack/react-table";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { SortableTable } from "@/components/os/sortable-table";
+import { LazyChart } from "@/components/os/lazy-chart";
 import {
   CategorySalesChart,
   SalesTrendChart,
 } from "@/components/os/dashboard-charts";
-import { SalesReportChart } from "@/components/restaurant-os/charts/demo-charts";
 import {
   getCategorySales,
   getChannelMix,
@@ -148,7 +148,9 @@ export function ReportingView() {
             <CardTitle>Sales — Last 7 Days</CardTitle>
           </CardHeader>
           <CardContent>
-            <SalesTrendChart data={salesTrend} />
+            <LazyChart>
+              <SalesTrendChart data={salesTrend} />
+            </LazyChart>
           </CardContent>
         </Card>
         <Card>
@@ -156,7 +158,9 @@ export function ReportingView() {
             <CardTitle>Sales by Category</CardTitle>
           </CardHeader>
           <CardContent>
-            <CategorySalesChart data={categorySales} />
+            <LazyChart>
+              <CategorySalesChart data={categorySales} />
+            </LazyChart>
           </CardContent>
         </Card>
       </div>
@@ -167,7 +171,11 @@ export function ReportingView() {
             <CardTitle>12-Month Sales Report</CardTitle>
           </CardHeader>
           <CardContent>
-            <SalesReportChart data={salesMonthly} />
+            <LazyChart>
+              <SalesTrendChart
+                data={salesMonthly.map((m) => ({ day: m.month.slice(0, 3), sales: m.sales }))}
+              />
+            </LazyChart>
           </CardContent>
         </Card>
         <Card>
@@ -185,9 +193,11 @@ export function ReportingView() {
           <CardTitle>Monthly Sales — Atlanta Seasonality</CardTitle>
         </CardHeader>
         <CardContent>
-          <SalesTrendChart
-            data={salesMonthly.map((m) => ({ day: m.month.slice(0, 3), sales: m.sales }))}
-          />
+          <LazyChart>
+            <SalesTrendChart
+              data={salesMonthly.map((m) => ({ day: m.month.slice(0, 3), sales: m.sales }))}
+            />
+          </LazyChart>
         </CardContent>
       </Card>
     </div>

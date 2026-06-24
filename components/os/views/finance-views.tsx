@@ -8,6 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { SortableTable } from "@/components/os/sortable-table";
+import { LazyChart } from "@/components/os/lazy-chart";
 import {
   CashFlowForecastChart,
   ExpansionRoiChart,
@@ -228,6 +229,7 @@ export function FinancialReportsView() {
   const cashFlow = getCashFlowStatement();
   const salesMonthly = getSalesReportMonthly();
   const laborWeekly = getLaborCostWeekly();
+  const [statementTab, setStatementTab] = useState("pl");
 
   const plColumns = useMemo<ColumnDef<PlLineItem>[]>(
     () => [
@@ -273,42 +275,48 @@ export function FinancialReportsView() {
 
   return (
     <div className="space-y-4">
-      <Tabs defaultValue="pl">
+      <Tabs value={statementTab} onValueChange={setStatementTab}>
         <TabsList>
           <TabsTrigger value="pl">P&L Statement</TabsTrigger>
           <TabsTrigger value="balance">Balance Sheet</TabsTrigger>
           <TabsTrigger value="cashflow">Cash Flow</TabsTrigger>
         </TabsList>
-        <TabsContent value="pl" className="mt-4">
-          <Card>
-            <CardHeader>
-              <CardTitle>Income Statement — June 2026</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <SortableTable data={pl} columns={plColumns} />
-            </CardContent>
-          </Card>
-        </TabsContent>
-        <TabsContent value="balance" className="mt-4">
-          <Card>
-            <CardHeader>
-              <CardTitle>Balance Sheet — As of Jun 23, 2026</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <SortableTable data={balanceSheet} columns={bsColumns} />
-            </CardContent>
-          </Card>
-        </TabsContent>
-        <TabsContent value="cashflow" className="mt-4">
-          <Card>
-            <CardHeader>
-              <CardTitle>Cash Flow Statement — June 2026</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <SortableTable data={cashFlow} columns={cfColumns} />
-            </CardContent>
-          </Card>
-        </TabsContent>
+        {statementTab === "pl" ? (
+          <TabsContent value="pl" className="mt-4">
+            <Card>
+              <CardHeader>
+                <CardTitle>Income Statement — June 2026</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <SortableTable data={pl} columns={plColumns} />
+              </CardContent>
+            </Card>
+          </TabsContent>
+        ) : null}
+        {statementTab === "balance" ? (
+          <TabsContent value="balance" className="mt-4">
+            <Card>
+              <CardHeader>
+                <CardTitle>Balance Sheet — As of Jun 23, 2026</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <SortableTable data={balanceSheet} columns={bsColumns} />
+              </CardContent>
+            </Card>
+          </TabsContent>
+        ) : null}
+        {statementTab === "cashflow" ? (
+          <TabsContent value="cashflow" className="mt-4">
+            <Card>
+              <CardHeader>
+                <CardTitle>Cash Flow Statement — June 2026</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <SortableTable data={cashFlow} columns={cfColumns} />
+              </CardContent>
+            </Card>
+          </TabsContent>
+        ) : null}
       </Tabs>
 
       <div className="grid gap-4 lg:grid-cols-2">
@@ -317,7 +325,9 @@ export function FinancialReportsView() {
             <CardTitle>Sales Report — 12 Month (Atlanta Seasonality)</CardTitle>
           </CardHeader>
           <CardContent>
-            <SalesReportChart data={salesMonthly} />
+            <LazyChart>
+              <SalesReportChart data={salesMonthly} />
+            </LazyChart>
           </CardContent>
         </Card>
         <Card>
@@ -325,7 +335,9 @@ export function FinancialReportsView() {
             <CardTitle>Labor Cost vs Sales — Weekly</CardTitle>
           </CardHeader>
           <CardContent>
-            <LaborCostChart data={laborWeekly} />
+            <LazyChart>
+              <LaborCostChart data={laborWeekly} />
+            </LazyChart>
           </CardContent>
         </Card>
       </div>
@@ -442,7 +454,9 @@ export function BudgetingView() {
           <CardTitle>Sales Projections — Atlanta Seasonality</CardTitle>
         </CardHeader>
         <CardContent>
-          <SeasonalForecastChart data={forecast} />
+          <LazyChart>
+            <SeasonalForecastChart data={forecast} />
+          </LazyChart>
         </CardContent>
       </Card>
 
@@ -526,7 +540,9 @@ export function CashFlowView() {
           <CardTitle>30-Day Cash Forecast</CardTitle>
         </CardHeader>
         <CardContent>
-          <CashFlowForecastChart data={forecast} />
+          <LazyChart height={320}>
+            <CashFlowForecastChart data={forecast} />
+          </LazyChart>
         </CardContent>
       </Card>
 
@@ -602,7 +618,9 @@ export function InsightsView() {
               <p className="font-display text-xl font-bold tabular-nums">Month {expansion.breakevenMonth}</p>
             </div>
           </div>
-          <ExpansionRoiChart data={expansion.roiData} />
+          <LazyChart height={320}>
+            <ExpansionRoiChart data={expansion.roiData} />
+          </LazyChart>
         </CardContent>
       </Card>
     </div>

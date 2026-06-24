@@ -12,6 +12,7 @@ import {
   SalesTrendChart,
 } from "@/components/os/dashboard-charts";
 import { SortableTable } from "@/components/os/sortable-table";
+import { LazyChart } from "@/components/os/lazy-chart";
 import {
   getCategorySales,
   getChannelMix,
@@ -39,7 +40,9 @@ export function OperationsPulseView() {
             <CardTitle>Sales — Last 7 Days</CardTitle>
           </CardHeader>
           <CardContent>
-            <SalesTrendChart data={salesTrend} />
+            <LazyChart>
+              <SalesTrendChart data={salesTrend} />
+            </LazyChart>
           </CardContent>
         </Card>
         <Card>
@@ -47,7 +50,9 @@ export function OperationsPulseView() {
             <CardTitle>Sales by Category</CardTitle>
           </CardHeader>
           <CardContent>
-            <CategorySalesChart data={categorySales} />
+            <LazyChart>
+              <CategorySalesChart data={categorySales} />
+            </LazyChart>
           </CardContent>
         </Card>
       </div>
