@@ -2,15 +2,10 @@ import { NextResponse, type NextRequest } from "next/server";
 import { createServerClient } from "@supabase/ssr";
 
 import { AUTH_ENABLED } from "@/lib/auth/config";
+import { PROTECTED_OS_PREFIXES } from "@/lib/auth/protected-routes";
 import { getSupabaseEnv, isSupabaseConfigured } from "./env";
 
-/** Routes under the Restaurant OS that require an authenticated session. */
-const PROTECTED_PREFIXES = [
-  "/dashboard",
-  "/inventory",
-  "/recipes",
-  "/os",
-];
+const PROTECTED_PREFIXES = [...PROTECTED_OS_PREFIXES, "/os"];
 const AUTH_ROUTES = ["/login"];
 
 /**

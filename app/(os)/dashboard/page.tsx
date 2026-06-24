@@ -132,6 +132,27 @@ export default function DashboardPage() {
           <InventoryTable rows={getInventoryRows().slice(0, 6)} />
         </CardContent>
       </Card>
+
+      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+        {[
+          { href: "/restaurant-depot", label: "Restaurant Depot", desc: "Weekly wholesale cart" },
+          { href: "/daily-prep", label: "Production", desc: "Prep queue & schedule" },
+          { href: "/bookkeeping", label: "Finance", desc: "Books, tax & cash flow" },
+          { href: "/orders", label: "Orders", desc: "Live queue & delivery" },
+        ].map((link) => (
+          <Link key={link.href} href={link.href}>
+            <Card className="hover:border-primary/40 h-full transition-colors hover:shadow-sm">
+              <CardContent className="py-5">
+                <p className="font-display font-bold">{link.label}</p>
+                <p className="text-muted-foreground mt-1 text-sm">{link.desc}</p>
+                <span className="text-primary mt-3 flex items-center gap-1 text-sm font-medium">
+                  Open <ArrowRight className="size-3.5" />
+                </span>
+              </CardContent>
+            </Card>
+          </Link>
+        ))}
+      </div>
     </div>
   );
 }

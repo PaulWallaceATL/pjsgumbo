@@ -24,23 +24,24 @@ import {
   Scale,
   ShoppingCart,
   Snowflake,
+  Sparkles,
   Thermometer,
   TrendingUp,
   Trash2,
   Truck,
   UtensilsCrossed,
   Users,
+  Wallet,
   X,
 } from "lucide-react";
 
 import { cn } from "@/lib/utils";
-import { Badge } from "@/components/ui/badge";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { AUTH_ENABLED } from "@/lib/auth/config";
 import { signOut } from "@/lib/auth/actions";
 import type { AuthUser } from "@/lib/auth/session";
 
-type NavItem = { label: string; href?: string; icon: React.ComponentType<{ className?: string }> };
+type NavItem = { label: string; href: string; icon: React.ComponentType<{ className?: string }> };
 type NavGroup = { title: string; items: NavItem[] };
 
 const NAV: NavGroup[] = [
@@ -52,46 +53,57 @@ const NAV: NavGroup[] = [
     title: "Inventory & Purchasing",
     items: [
       { label: "Inventory", href: "/inventory", icon: Boxes },
-      { label: "Restaurant Depot", icon: ShoppingCart },
-      { label: "Weekly Reorder", icon: RefreshCw },
-      { label: "Freezer", icon: Snowflake },
-      { label: "Walk-In Cooler", icon: Thermometer },
+      { label: "Restaurant Depot", href: "/restaurant-depot", icon: ShoppingCart },
+      { label: "Weekly Reorder", href: "/weekly-reorder", icon: RefreshCw },
+      { label: "Freezer", href: "/freezer", icon: Snowflake },
+      { label: "Walk-In Cooler", href: "/walk-in-cooler", icon: Thermometer },
     ],
   },
   {
     title: "Production",
     items: [
-      { label: "Protein Prep", icon: Drumstick },
-      { label: "Daily Prep", icon: ChefHat },
-      { label: "Gumbo Batch Calc", icon: Calculator },
-      { label: "Production Schedule", icon: CalendarDays },
-      { label: "Packaging", icon: Package },
+      { label: "Protein Prep", href: "/protein-prep", icon: Drumstick },
+      { label: "Daily Prep", href: "/daily-prep", icon: ChefHat },
+      { label: "Gumbo Batch Calc", href: "/batch-calc", icon: Calculator },
+      { label: "Production Schedule", href: "/production-schedule", icon: CalendarDays },
+      { label: "Packaging", href: "/packaging", icon: Package },
     ],
   },
   {
     title: "Recipes & Costing",
     items: [
       { label: "Recipes", href: "/recipes", icon: BookOpen },
-      { label: "Food Cost", icon: DollarSign },
-      { label: "Profit Margin", icon: TrendingUp },
-      { label: "Portions", icon: Scale },
+      { label: "Food Cost", href: "/food-cost", icon: DollarSign },
+      { label: "Profit Margin", href: "/profit-margin", icon: TrendingUp },
+      { label: "Portions", href: "/portions", icon: Scale },
     ],
   },
   {
     title: "Sales",
     items: [
-      { label: "Orders", icon: Receipt },
-      { label: "Menu Management", icon: UtensilsCrossed },
-      { label: "Delivery Analytics", icon: Truck },
+      { label: "Orders", href: "/orders", icon: Receipt },
+      { label: "Menu Management", href: "/menu-management", icon: UtensilsCrossed },
+      { label: "Delivery Analytics", href: "/delivery-analytics", icon: Truck },
+    ],
+  },
+  {
+    title: "Finance",
+    items: [
+      { label: "Bookkeeping", href: "/bookkeeping", icon: Receipt },
+      { label: "Financial Reports", href: "/financial-reports", icon: FileBarChart },
+      { label: "Tax Compliance", href: "/tax-compliance", icon: Building2 },
+      { label: "Budgeting", href: "/budgeting", icon: TrendingUp },
+      { label: "Cash Flow", href: "/cash-flow", icon: Wallet },
+      { label: "AI Insights", href: "/insights", icon: Sparkles },
     ],
   },
   {
     title: "People & Reports",
     items: [
-      { label: "Waste Log", icon: Trash2 },
-      { label: "Vendors", icon: Building2 },
-      { label: "Employees", icon: Users },
-      { label: "Reporting", icon: FileBarChart },
+      { label: "Waste Log", href: "/waste-log", icon: Trash2 },
+      { label: "Vendors", href: "/vendors", icon: Building2 },
+      { label: "Employees", href: "/employees", icon: Users },
+      { label: "Reporting", href: "/reporting", icon: FileBarChart },
     ],
   },
 ];
@@ -108,7 +120,6 @@ export function OsShell({
 
   return (
     <div className="bg-muted/30 min-h-screen lg:grid lg:grid-cols-[16rem_1fr]">
-      {/* Sidebar */}
       <aside
         className={cn(
           "bg-background fixed inset-y-0 left-0 z-50 w-64 border-r transition-transform lg:static lg:translate-x-0",
@@ -128,11 +139,7 @@ export function OsShell({
               PJ&apos;s Restaurant OS
             </span>
           </Link>
-          <button
-            className="lg:hidden"
-            onClick={() => setOpen(false)}
-            aria-label="Close menu"
-          >
+          <button className="lg:hidden" onClick={() => setOpen(false)} aria-label="Close menu">
             <X className="size-5" />
           </button>
         </div>
@@ -146,40 +153,22 @@ export function OsShell({
               <ul className="space-y-0.5">
                 {group.items.map((item) => {
                   const active =
-                    item.href &&
-                    (pathname === item.href || pathname.startsWith(`${item.href}/`));
-                  const content = (
-                    <span
-                      className={cn(
-                        "flex items-center gap-2.5 rounded-md px-3 py-2 text-sm transition-colors",
-                        active
-                          ? "bg-primary text-primary-foreground font-medium"
-                          : item.href
-                            ? "hover:bg-accent"
-                            : "text-muted-foreground/70 cursor-default",
-                      )}
-                    >
-                      <item.icon className="size-4 shrink-0" />
-                      <span className="flex-1">{item.label}</span>
-                      {!item.href ? (
-                        <Badge
-                          variant="muted"
-                          className="px-1.5 py-0 text-[9px] tracking-wide"
-                        >
-                          Soon
-                        </Badge>
-                      ) : null}
-                    </span>
-                  );
+                    pathname === item.href || pathname.startsWith(`${item.href}/`);
                   return (
-                    <li key={item.label}>
-                      {item.href ? (
-                        <Link href={item.href} onClick={() => setOpen(false)}>
-                          {content}
-                        </Link>
-                      ) : (
-                        content
-                      )}
+                    <li key={item.href}>
+                      <Link href={item.href} onClick={() => setOpen(false)}>
+                        <span
+                          className={cn(
+                            "flex items-center gap-2.5 rounded-md px-3 py-2 text-sm transition-colors",
+                            active
+                              ? "bg-primary text-primary-foreground font-medium"
+                              : "hover:bg-accent",
+                          )}
+                        >
+                          <item.icon className="size-4 shrink-0" />
+                          <span className="flex-1">{item.label}</span>
+                        </span>
+                      </Link>
                     </li>
                   );
                 })}
@@ -190,20 +179,12 @@ export function OsShell({
       </aside>
 
       {open ? (
-        <div
-          className="fixed inset-0 z-40 bg-black/40 lg:hidden"
-          onClick={() => setOpen(false)}
-        />
+        <div className="fixed inset-0 z-40 bg-black/40 lg:hidden" onClick={() => setOpen(false)} />
       ) : null}
 
-      {/* Main column */}
       <div className="flex min-h-screen flex-col">
         <header className="bg-background/90 sticky top-0 z-30 flex h-16 items-center gap-3 border-b px-4 backdrop-blur sm:px-6">
-          <button
-            className="lg:hidden"
-            onClick={() => setOpen(true)}
-            aria-label="Open menu"
-          >
+          <button className="lg:hidden" onClick={() => setOpen(true)} aria-label="Open menu">
             <Menu className="size-5" />
           </button>
           <div className="flex items-center gap-2">
@@ -218,9 +199,7 @@ export function OsShell({
           </div>
           <div className="ml-auto flex items-center gap-3">
             <div className="text-right">
-              <p className="text-sm font-medium leading-tight">
-                {user.name ?? user.email}
-              </p>
+              <p className="text-sm font-medium leading-tight">{user.name ?? user.email}</p>
               <p className="text-muted-foreground text-xs">{user.role}</p>
             </div>
             <ThemeToggle />

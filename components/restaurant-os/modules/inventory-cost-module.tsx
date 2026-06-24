@@ -1,22 +1,21 @@
 "use client";
 
-import { useMemo } from "react";
-import type { ColumnDef } from "@tanstack/react-table";
 import { Boxes } from "lucide-react";
 
+import { ModuleBand } from "@/components/restaurant-os/module-band";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { ModuleBand } from "@/components/restaurant-os/module-band";
-import { SortableTable } from "@/components/restaurant-os/sortable-table";
 import { CostPercentPie } from "@/components/restaurant-os/charts/demo-charts";
+import { WasteLogView } from "@/components/os/views/operations-views";
 import {
   getCostPercentages,
   getHighlightedInventory,
   getInventoryDemoRows,
-  getWasteLog,
-} from "@/lib/restaurant-os/data";
-import type { WasteEntry } from "@/lib/restaurant-os/types";
+} from "@/lib/os/data";
+import { SortableTable } from "@/components/os/sortable-table";
 import type { InventoryRow } from "@/lib/os/data";
+import { useMemo } from "react";
+import type { ColumnDef } from "@tanstack/react-table";
 import { cn, formatCurrency } from "@/lib/utils";
 
 const STATUS_STYLES = {
@@ -27,7 +26,6 @@ const STATUS_STYLES = {
 
 export function InventoryCostModule() {
   const inventory = getInventoryDemoRows();
-  const waste = getWasteLog();
   const costs = getCostPercentages();
   const highlights = getHighlightedInventory();
 
@@ -59,18 +57,6 @@ export function InventoryCostModule() {
     [],
   );
 
-  const wasteColumns = useMemo<ColumnDef<WasteEntry>[]>(
-    () => [
-      { accessorKey: "date", header: "Date" },
-      { accessorKey: "item", header: "Item" },
-      { accessorKey: "qty", header: "Qty" },
-      { accessorKey: "reason", header: "Reason" },
-      { accessorKey: "cogsImpact", header: "COGS Impact", cell: ({ getValue }) => <span className="tabular-nums text-destructive font-medium">{formatCurrency(getValue<number>())}</span> },
-      { accessorKey: "loggedBy", header: "Logged By" },
-    ],
-    [],
-  );
-
   return (
     <ModuleBand id="inventory" icon={Boxes}>
       <div className="grid gap-4 sm:grid-cols-3">
@@ -78,60 +64,30 @@ export function InventoryCostModule() {
           <Card key={item!.sku}>
             <CardContent className="py-5">
               <p className="text-muted-foreground text-xs uppercase tracking-wide">{item!.name}</p>
-              <p className="font-display mt-1 text-xl font-bold tabular-nums">
-                {item!.onHand} {item!.unit}
-              </p>
+              <p className="font-display mt-1 text-xl font-bold tabular-nums">{item!.onHand} {item!.unit}</p>
               <p className="text-muted-foreground text-sm">{formatCurrency(item!.value)} on hand</p>
             </CardContent>
           </Card>
         ))}
       </div>
-
       <div className="grid gap-4 lg:grid-cols-3">
         <Card>
-          <CardHeader>
-            <CardTitle>Cost Percentages</CardTitle>
-          </CardHeader>
+          <CardHeader><CardTitle>Cost Percentages</CardTitle></CardHeader>
           <CardContent>
             <div className="space-y-3">
-              <div className="flex justify-between">
-                <span>Food Cost</span>
-                <span className={cn("font-bold tabular-nums", costs.food <= costs.foodTarget ? "text-success" : "text-destructive")}>
-                  {costs.food}%
-                </span>
-              </div>
-              <div className="flex justify-between">
-                <span>Beverage Cost</span>
-                <span className={cn("font-bold tabular-nums", costs.beverage <= costs.beverageTarget ? "text-success" : "text-destructive")}>
-                  {costs.beverage}%
-                </span>
-              </div>
-              <div className="flex justify-between border-t pt-3">
-                <span className="font-medium">Combined</span>
-                <span className="font-bold tabular-nums">{costs.combined}%</span>
-              </div>
+              <div className="flex justify-between"><span>Food Cost</span><span className="font-bold tabular-nums">{costs.food}%</span></div>
+              <div className="flex justify-between"><span>Beverage Cost</span><span className="font-bold tabular-nums">{costs.beverage}%</span></div>
+              <div className="flex justify-between border-t pt-3"><span className="font-medium">Combined</span><span className="font-bold tabular-nums">{costs.combined}%</span></div>
             </div>
             <CostPercentPie food={costs.food} beverage={costs.beverage} />
           </CardContent>
         </Card>
         <Card className="lg:col-span-2">
-          <CardHeader>
-            <CardTitle>Inventory Values</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <SortableTable data={inventory} columns={invColumns} />
-          </CardContent>
+          <CardHeader><CardTitle>Inventory Values</CardTitle></CardHeader>
+          <CardContent><SortableTable data={inventory} columns={invColumns} /></CardContent>
         </Card>
       </div>
-
-      <Card>
-        <CardHeader>
-          <CardTitle>Waste Log — Shrinkage Impact on COGS</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <SortableTable data={waste} columns={wasteColumns} />
-        </CardContent>
-      </Card>
+      <WasteLogView />
     </ModuleBand>
   );
 }
