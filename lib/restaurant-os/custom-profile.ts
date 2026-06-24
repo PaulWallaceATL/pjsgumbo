@@ -42,6 +42,27 @@ export const DEFAULT_CUSTOM_PROFILE: CustomRestaurantProfile = {
   ],
 };
 
+/** Realistic PJ's Gumbo demo numbers — used by the autofill button. */
+export const DEMO_AUTOFILL_PROFILE: CustomRestaurantProfile = {
+  restaurantName: "PJ's Gumbo",
+  city: "Atlanta, GA",
+  address: "229 Peachtree St NE, Atlanta, GA 30303",
+  cuisineType: "Louisiana Cajun",
+  todaySales: 3482,
+  todayOrders: 146,
+  foodCostPct: 28.4,
+  laborPct: 28.7,
+  inventoryValue: 12840,
+  lowStockCount: 3,
+  waste7d: 214,
+  categories: [
+    { name: "Signature Gumbos", sales: 2240 },
+    { name: "Sides", sales: 520 },
+    { name: "Drinks", sales: 410 },
+    { name: "Desserts", sales: 312 },
+  ],
+};
+
 export function deriveKpis(profile: CustomRestaurantProfile): Kpi[] {
   const primeCost = profile.foodCostPct + profile.laborPct;
   return [

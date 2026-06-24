@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { Building2, Soup, TrendingUp } from "lucide-react";
+import { Building2, Soup, Sparkles, TrendingUp } from "lucide-react";
 import { useState } from "react";
 
 import { Button } from "@/components/ui/button";
@@ -11,6 +11,7 @@ import { Label } from "@/components/ui/label";
 import { useCustomDashboard } from "@/components/restaurant-os/custom-dashboard-provider";
 import {
   DEFAULT_CUSTOM_PROFILE,
+  DEMO_AUTOFILL_PROFILE,
   profileFromForm,
   type CustomRestaurantProfile,
 } from "@/lib/restaurant-os/custom-profile";
@@ -32,6 +33,13 @@ export function CustomSetupForm({ compact = false, onComplete }: CustomSetupForm
     setForm((prev) => ({ ...prev, [key]: value }));
   }
 
+  function handleAutofill() {
+    setForm({
+      ...DEMO_AUTOFILL_PROFILE,
+      categories: DEMO_AUTOFILL_PROFILE.categories.map((c) => ({ ...c })),
+    });
+  }
+
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     const profile = profileFromForm(form);
@@ -43,14 +51,28 @@ export function CustomSetupForm({ compact = false, onComplete }: CustomSetupForm
   return (
     <Card className={compact ? "border-dashed shadow-none" : "shadow-lg"}>
       <CardHeader>
-        <CardTitle className="font-display flex items-center gap-2 text-xl">
-          <Building2 className="text-primary size-5" />
-          Build your dashboard
-        </CardTitle>
-        <CardDescription>
-          Enter your restaurant details and we&apos;ll generate a live dashboard you can
-          edit in full-screen mode.
-        </CardDescription>
+        <div className="flex flex-wrap items-start justify-between gap-3">
+          <div>
+            <CardTitle className="font-display flex items-center gap-2 text-xl">
+              <Building2 className="text-primary size-5" />
+              Build your dashboard
+            </CardTitle>
+            <CardDescription className="mt-1.5">
+              Enter your restaurant details and we&apos;ll generate a live dashboard you can
+              edit in full-screen mode.
+            </CardDescription>
+          </div>
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            className="shrink-0 gap-2"
+            onClick={handleAutofill}
+          >
+            <Sparkles className="size-4" />
+            Autofill demo data
+          </Button>
+        </div>
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit} className="space-y-6">
