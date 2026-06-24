@@ -15,6 +15,7 @@ const NAV_LINKS = [
   { href: "/menu", label: "Menu" },
   { href: "/#story", label: "Our Story" },
   { href: "/catering", label: "Catering" },
+  { href: "/restaurant-os", label: "Restaurant OS" },
   { href: "/gallery", label: "Gallery" },
   { href: "/#faq", label: "FAQ" },
   { href: "/contact", label: "Contact" },
