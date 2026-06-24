@@ -1,39 +1,43 @@
 import React from "react";
-import { AbsoluteFill, Img } from "remotion";
+import { AbsoluteFill, Img, interpolate, spring, useCurrentFrame, useVideoConfig } from "remotion";
 import { ComicPanel } from "../components/ComicPanel";
 import { ComicText } from "../components/ComicText";
 import { HalftoneOverlay } from "../components/HalftoneOverlay";
+import { choppyFrame } from "../lib/choppy";
 import { MANUS } from "../lib/assets";
 import { BRAND } from "../lib/constants";
 
 export function FoundersScene() {
+  const frame = useCurrentFrame();
+  const { fps } = useVideoConfig();
+  const f = choppyFrame(frame);
+
+  const panelProgress = spring({
+    frame: f,
+    fps,
+    config: { damping: 14, stiffness: 180 },
+  });
+  const scale = interpolate(panelProgress, [0, 1], [1.15, 1]);
+
   return (
     <AbsoluteFill style={{ backgroundColor: BRAND.charcoal }}>
       <AbsoluteFill className="flex flex-col items-center justify-center gap-6 px-8">
-        <div className="flex w-full gap-4" style={{ height: 520 }}>
-          <ComicPanel from="left" delay={0} width="50%" height="100%">
-            <div
-              className="flex h-full items-end justify-center"
-              style={{ backgroundColor: "#271812" }}
-            >
-              <Img
-                src={MANUS.founderPaul}
-                style={{ width: "100%", height: "100%", objectFit: "cover" }}
-              />
-            </div>
-          </ComicPanel>
-          <ComicPanel from="right" delay={6} width="50%" height="100%">
-            <div
-              className="flex h-full items-end justify-center"
-              style={{ backgroundColor: "#271812" }}
-            >
-              <Img
-                src={MANUS.founderJonathan}
-                style={{ width: "100%", height: "100%", objectFit: "cover" }}
-              />
-            </div>
-          </ComicPanel>
-        </div>
+        <ComicPanel from="bottom" delay={0} width="100%" height={520}>
+          <div
+            className="flex h-full items-center justify-center overflow-hidden"
+            style={{ backgroundColor: "#271812" }}
+          >
+            <Img
+              src={MANUS.foundersFull}
+              style={{
+                width: "100%",
+                height: "100%",
+                objectFit: "cover",
+                transform: `scale(${scale})`,
+              }}
+            />
+          </div>
+        </ComicPanel>
 
         <ComicText
           text="THE ROUX MASTERS"

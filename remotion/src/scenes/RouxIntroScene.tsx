@@ -20,18 +20,29 @@ export function RouxIntroScene() {
 
   const potPhase = f < 70;
   const logoStart = 70;
+  const heroFlashEnd = logoStart + 8;
 
   const potRotate = interpolate(f, [0, 70], [0, 12]);
   const potScale = interpolate(Math.sin(f * 0.2), [-1, 1], [0.95, 1.05]);
-  const potOpacity = interpolate(f, [55, 70], [1, 0], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+  const potOpacity = interpolate(f, [55, 70], [1, 0], {
+    extrapolateLeft: "clamp",
+    extrapolateRight: "clamp",
+  });
+
+  const heroFlashOpacity = interpolate(
+    f,
+    [logoStart, logoStart + 3, heroFlashEnd],
+    [0, 1, 0],
+    { extrapolateLeft: "clamp", extrapolateRight: "clamp" },
+  );
 
   const logoProgress = spring({
-    frame: f - logoStart,
+    frame: f - heroFlashEnd,
     fps,
     config: { damping: 10, stiffness: 160 },
   });
   const logoScale = interpolate(logoProgress, [0, 1], [3, 1]);
-  const logoOpacity = interpolate(f, [logoStart, logoStart + 8], [0, 1], {
+  const logoOpacity = interpolate(f, [heroFlashEnd, heroFlashEnd + 8], [0, 1], {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
   });
@@ -66,7 +77,19 @@ export function RouxIntroScene() {
         </AbsoluteFill>
       )}
 
-      {!potPhase && (
+      {!potPhase && heroFlashOpacity > 0 && (
+        <AbsoluteFill
+          className="flex items-center justify-center"
+          style={{ opacity: heroFlashOpacity }}
+        >
+          <Img
+            src={MANUS.heroGraffiti}
+            style={{ width: "92%", objectFit: "contain" }}
+          />
+        </AbsoluteFill>
+      )}
+
+      {!potPhase && f >= heroFlashEnd && (
         <AbsoluteFill className="flex items-center justify-center">
           <Img
             src={ASSETS.logo}
