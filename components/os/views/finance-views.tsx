@@ -584,7 +584,7 @@ export function InsightsView() {
 
   return (
     <div className="space-y-4">
-      <InsightsChat />
+      <InsightsChat surface="light" />
 
       <Card>
         <CardHeader>

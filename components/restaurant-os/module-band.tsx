@@ -36,14 +36,14 @@ const TONE_STYLES: Record<
   dark: {
     section: "from-charcoal-900 via-charcoal-900 to-charcoal-950 bg-gradient-to-br text-cream-100",
     text: "text-cream-50",
-    muted: "text-cream-200/70",
-    header: "border-cream-100/10 bg-cream-100/5",
+    muted: "text-cream-200/80",
+    header: "border-cream-100/20 bg-cream-100/8",
   },
   roux: {
     section: "from-roux-900 via-roux-950 to-charcoal-950 bg-gradient-to-br text-cream-100",
     text: "text-cream-50",
-    muted: "text-cream-200/75",
-    header: "border-cream-100/10 bg-cream-100/5",
+    muted: "text-cream-200/80",
+    header: "border-cream-100/20 bg-cream-100/8",
   },
 };
 
@@ -51,10 +51,12 @@ export function ModuleBand({
   id,
   icon: Icon,
   children,
+  compactHeader = false,
 }: {
   id: string;
   icon: LucideIcon;
   children: React.ReactNode;
+  compactHeader?: boolean;
 }) {
   const meta = MODULE_META.find((m) => m.id === id)!;
   const tone = TONE_STYLES[meta.tone];
@@ -69,9 +71,10 @@ export function ModuleBand({
             className={cn(
               "relative overflow-hidden rounded-2xl border p-4 sm:p-5",
               tone.header,
+              compactHeader && "py-3 sm:py-4",
             )}
           >
-            {id === "advice" ? (
+            {id === "advice" && !compactHeader ? (
               <div
                 aria-hidden
                 className="pointer-events-none absolute -top-8 -right-8 opacity-40 mix-blend-screen"
@@ -87,7 +90,7 @@ export function ModuleBand({
                     variant={isDark ? "outline" : "secondary"}
                     className={cn(
                       "gap-1 font-normal",
-                      isDark && "border-cream-100/20 text-cajun-200",
+                      isDark && "border-cajun-400/35 bg-cajun-500/15 text-cajun-100",
                     )}
                   >
                     <Icon className="size-3" />
@@ -96,14 +99,15 @@ export function ModuleBand({
                 </div>
                 <h2
                   className={cn(
-                    "font-display text-xl font-bold tracking-tight sm:text-2xl",
+                    "font-display font-bold tracking-tight",
+                    compactHeader ? "text-lg sm:text-xl" : "text-xl sm:text-2xl",
                     isDark && "text-cream-50",
-                    presentation && "sm:text-3xl",
+                    presentation && !compactHeader && "sm:text-3xl",
                   )}
                 >
                   {meta.title}
                 </h2>
-                {!presentation ? (
+                {!presentation && !compactHeader ? (
                   <p
                     className={cn(
                       "mt-1.5 max-w-2xl text-sm leading-relaxed",
@@ -113,12 +117,21 @@ export function ModuleBand({
                     {meta.description}
                   </p>
                 ) : null}
+                {compactHeader ? (
+                  <p className={cn("mt-1 max-w-2xl text-sm", isDark ? tone.muted : "text-muted-foreground")}>
+                    {meta.description}
+                  </p>
+                ) : null}
               </div>
               <Button
                 asChild
                 variant={isDark ? "outline" : "secondary"}
                 size="sm"
-                className={cn("shrink-0 gap-1", isDark && "border-cream-100/20 hover:bg-cream-100/10")}
+                className={cn(
+                  "shrink-0 gap-1",
+                  isDark &&
+                    "border-cream-100/30 bg-cream-100/5 text-cream-100 hover:border-cajun-300/50 hover:bg-cream-100/12",
+                )}
               >
                 <Link href={meta.osHref}>
                   Open in OS
@@ -127,14 +140,14 @@ export function ModuleBand({
               </Button>
             </div>
 
-            {meta.highlights?.length ? (
+            {!compactHeader && meta.highlights?.length ? (
               <div className="relative mt-4 grid gap-2 sm:grid-cols-3">
                 {meta.highlights.map((h) => (
                   <div
                     key={h.label}
                     className={cn(
                       "rounded-xl border px-3 py-2.5 backdrop-blur-sm",
-                      isDark ? "border-cream-100/10 bg-charcoal-800/40" : "bg-background/80",
+                      isDark ? "border-cream-100/20 bg-charcoal-800/50" : "bg-background/80",
                     )}
                   >
                     <p
@@ -158,25 +171,28 @@ export function ModuleBand({
               </div>
             ) : null}
 
-            <p
-              className={cn(
-                "relative mt-4 border-t pt-3 text-sm leading-relaxed",
-                isDark ? tone.muted : "text-muted-foreground",
-              )}
-            >
-              {meta.narrative}
-            </p>
+            {!compactHeader ? (
+              <p
+                className={cn(
+                  "relative mt-4 border-t pt-3 text-sm leading-relaxed",
+                  isDark ? cn(tone.muted, "border-cream-100/15") : "text-muted-foreground border-border",
+                )}
+              >
+                {meta.narrative}
+              </p>
+            ) : null}
           </header>
         </RevealLite>
 
         <RevealLite delayMs={80}>
           <div
             className={cn(
-              "space-y-5 [&_[data-slot=card]]:shadow-sm",
+              compactHeader ? "space-y-0" : "space-y-5",
+              "[&_[data-slot=card]]:shadow-sm",
               isDark &&
-                "[&_[data-slot=card]]:border-cream-100/10 [&_[data-slot=card]]:bg-charcoal-800/90 [&_[data-slot=card-title]]:text-cream-50 [&_.text-muted-foreground]:text-cream-200/65 [&_th]:text-cream-200/80 [&_td]:text-cream-100",
+                "[&_[data-slot=card]]:border-cream-100/20 [&_[data-slot=card]]:bg-charcoal-800/90 [&_[data-slot=card-title]]:text-cream-50 [&_.text-muted-foreground]:text-cream-200/75 [&_th]:text-cream-100/90 [&_td]:text-cream-50 [&_button]:border-cream-100/25",
               meta.tone === "roux" &&
-                "[&_[data-slot=card]]:border-cream-100/10 [&_[data-slot=card]]:bg-roux-900/70 [&_[data-slot=card-title]]:text-cream-50 [&_.text-muted-foreground]:text-cream-200/65 [&_th]:text-cream-200/80 [&_td]:text-cream-100",
+                "[&_[data-slot=card]]:border-cream-100/20 [&_[data-slot=card]]:bg-roux-900/70 [&_[data-slot=card-title]]:text-cream-50 [&_.text-muted-foreground]:text-cream-200/75 [&_th]:text-cream-100/90 [&_td]:text-cream-50",
               presentation && "[&_[data-slot=card-content]]:p-6 [&_.recharts-responsive-container]:min-h-[320px]",
             )}
           >
