@@ -348,16 +348,143 @@ export function getExpansionAnalysis() {
   };
 }
 
-export const MODULE_SECTIONS = [
-  { id: "bookkeeping", label: "Bookkeeping" },
-  { id: "financial", label: "Financial Reporting" },
-  { id: "inventory", label: "Inventory & Cost" },
-  { id: "payroll", label: "Payroll & Labor" },
-  { id: "tax", label: "Tax Compliance" },
-  { id: "budgeting", label: "Budgeting" },
-  { id: "cashflow", label: "Cash Flow" },
-  { id: "advice", label: "AI Insights" },
-] as const;
+export type ModuleTone = "cream" | "light" | "muted" | "dark" | "roux";
+
+export type ModuleMeta = {
+  id: string;
+  label: string;
+  eyebrow: string;
+  title: string;
+  description: string;
+  narrative: string;
+  tone: ModuleTone;
+  highlights?: { label: string; value: string }[];
+};
+
+export const MODULE_META: ModuleMeta[] = [
+  {
+    id: "bookkeeping",
+    label: "Bookkeeping",
+    eyebrow: "Real-Time Records",
+    title: "Bookkeeping & Records",
+    description: "Live POS sales, expense tracking, and bank reconciliation for 229 Peachtree St NE.",
+    narrative:
+      "Every Signature Gumbo bowl and Blue Crab quart sold today hits this feed in real time. Expenses from Gulf Coast Seafood, Peach State Produce, and Georgia Power reconcile against deposits automatically — so the books close clean every night.",
+    tone: "cream",
+    highlights: [
+      { label: "Today's tickets", value: "146" },
+      { label: "Matched deposits", value: "$6,670" },
+      { label: "Pending payouts", value: "1" },
+    ],
+  },
+  {
+    id: "financial",
+    label: "Financial Reporting",
+    eyebrow: "The Full Picture",
+    title: "Financial Reporting",
+    description: "P&L, balance sheet, cash flow, and interactive sales and labor charts.",
+    narrative:
+      "June revenue crossed $105K with gumbo sales driving 65% of the top line. Atlanta's colder months lift sales 18% above summer — you can see the seasonality in the 12-month chart below.",
+    tone: "light",
+    highlights: [
+      { label: "Net income", value: "$36,260" },
+      { label: "Gross margin", value: "74.0%" },
+      { label: "Cash on hand", value: "$42,180" },
+    ],
+  },
+  {
+    id: "inventory",
+    label: "Inventory & Cost",
+    eyebrow: "From Gulf to Pot",
+    title: "Inventory & Cost Management",
+    description: "Track Gulf shrimp, blue crab, roux inputs, food cost percentages, and waste shrinkage.",
+    narrative:
+      "Gulf Shrimp and Blue Crab are the heartbeat of our seafood gumbos. When walk-in temps spike or weekend prep runs long, the waste log captures every dollar lost — and pushes it straight into COGS.",
+    tone: "muted",
+    highlights: [
+      { label: "Food cost", value: "28.4%" },
+      { label: "Low / critical SKUs", value: "5" },
+      { label: "Waste (7d)", value: "$110" },
+    ],
+  },
+  {
+    id: "payroll",
+    label: "Payroll & Labor",
+    eyebrow: "People & Hours",
+    title: "Payroll & Labor Control",
+    description: "Hours, overtime, tip reporting, labor cost gauge, and payroll tax compliance.",
+    narrative:
+      "Keisha's line crew, Marcus on prep, Jordan on delivery — every hour, OT minute, and reported tip flows through payroll before biweekly runs. Labor sits at 28.7% of sales, inside our 25–30% target band.",
+    tone: "dark",
+    highlights: [
+      { label: "Active staff", value: "9" },
+      { label: "Labor %", value: "28.7%" },
+      { label: "Biweekly payroll", value: "~$15K" },
+    ],
+  },
+  {
+    id: "tax",
+    label: "Tax Compliance",
+    eyebrow: "Stay Compliant",
+    title: "Tax Compliance",
+    description: "Sales tax (GA + Atlanta 8.9%), payroll tax, income tax status and upcoming filing deadlines.",
+    narrative:
+      "Atlanta's combined 8.9% sales tax, federal 941 payroll filings, and quarterly estimated income tax — all tracked with filing deadlines on the calendar so nothing slips through the cracks.",
+    tone: "light",
+    highlights: [
+      { label: "Sales tax rate", value: "8.9%" },
+      { label: "Open deadlines", value: "6" },
+      { label: "Last filing", value: "Jun 20" },
+    ],
+  },
+  {
+    id: "budgeting",
+    label: "Budgeting",
+    eyebrow: "Plan Ahead",
+    title: "Budgeting & Forecasting",
+    description: "Seasonal Atlanta demand projections and staffing needs based on expected volume.",
+    narrative:
+      "Comfort food peaks when Atlanta cools down — November through February projects 15–20% above summer covers. Staffing scales with volume: extra expo and drivers on Fri–Sun, a third line cook when covers break 1,400.",
+    tone: "cream",
+    highlights: [
+      { label: "Peak month", value: "December" },
+      { label: "Summer dip", value: "−8%" },
+      { label: "Nov covers", value: "1,420/wk" },
+    ],
+  },
+  {
+    id: "cashflow",
+    label: "Cash Flow",
+    eyebrow: "Cash Position",
+    title: "Cash Flow Management",
+    description: "30-day cash forecast and vendor payment queue for seafood suppliers and rent.",
+    narrative:
+      "Gulf Coast Seafood invoices land every Friday. Commissary rent hits the first. Payroll every other week. The 30-day forecast shows exactly when cash gets tight — and which vendor payments need approval first.",
+    tone: "roux",
+    highlights: [
+      { label: "30-day net", value: "+$75K" },
+      { label: "Due this week", value: "$6,440" },
+      { label: "Approved", value: "2" },
+    ],
+  },
+  {
+    id: "advice",
+    label: "AI Insights",
+    eyebrow: "Smart Decisions",
+    title: "Business Advice (AI Insights)",
+    description: "Menu engineering analysis and expansion profitability for a second Atlanta location.",
+    narrative:
+      "Signature Gumbo is a Star — high volume, strong margin. Blue Crab is a Puzzle: premium contribution but weekend-only. The expansion model projects a second location in Old Fourth Ward hitting breakeven by month 14.",
+    tone: "dark",
+    highlights: [
+      { label: "Menu stars", value: "2" },
+      { label: "Expansion ROI", value: "Month 14" },
+      { label: "Y1 revenue (proj.)", value: "$980K" },
+    ],
+  },
+];
+
+export const MODULE_SECTIONS = MODULE_META.map(({ id, label }) => ({ id, label }));
 
 /** Highlight inventory items for demo callouts */
 export function getHighlightedInventory() {

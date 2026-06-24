@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
+import { Soup } from "lucide-react";
 
 import { RestaurantOsHero } from "@/components/restaurant-os/restaurant-os-hero";
+import { DemoIntro } from "@/components/restaurant-os/demo-intro";
 import { ModuleNav } from "@/components/restaurant-os/module-nav";
 import { BookkeepingModule } from "@/components/restaurant-os/modules/bookkeeping-module";
 import { FinancialReportingModule } from "@/components/restaurant-os/modules/financial-reporting-module";
@@ -10,6 +12,7 @@ import { TaxComplianceModule } from "@/components/restaurant-os/modules/tax-comp
 import { BudgetingModule } from "@/components/restaurant-os/modules/budgeting-module";
 import { CashFlowModule } from "@/components/restaurant-os/modules/cash-flow-module";
 import { BusinessAdviceModule } from "@/components/restaurant-os/modules/business-advice-module";
+import { CtaBand } from "@/components/marketing/cta-band";
 
 export const metadata: Metadata = {
   title: "Restaurant OS — Live Demo",
@@ -22,16 +25,23 @@ export default function RestaurantOsPage() {
     <>
       <RestaurantOsHero />
       <ModuleNav />
-      <div className="container-px mx-auto max-w-7xl space-y-16 pb-20 pt-6">
-        <BookkeepingModule />
-        <FinancialReportingModule />
-        <InventoryCostModule />
-        <PayrollLaborModule />
-        <TaxComplianceModule />
-        <BudgetingModule />
-        <CashFlowModule />
-        <BusinessAdviceModule />
-      </div>
+      <DemoIntro />
+      <BookkeepingModule />
+      <FinancialReportingModule />
+      <InventoryCostModule />
+      <PayrollLaborModule />
+      <TaxComplianceModule />
+      <BudgetingModule />
+      <CashFlowModule />
+      <BusinessAdviceModule />
+      <CtaBand
+        eyebrow="Taste the difference"
+        title="See the food. Order the gumbo."
+        description="Restaurant OS runs the kitchen. Our gumbo runs on three generations of Louisiana recipes — order a bowl and taste why."
+        primary={{ href: "/order", label: "Order Gumbo" }}
+        secondary={{ href: "/contact", label: "Talk to Us" }}
+        icon={Soup}
+      />
     </>
   );
 }

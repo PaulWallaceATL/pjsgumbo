@@ -6,7 +6,7 @@ import { BarChart3 } from "lucide-react";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { ModuleSection } from "@/components/restaurant-os/module-section";
+import { ModuleBand } from "@/components/restaurant-os/module-band";
 import { SortableTable } from "@/components/restaurant-os/sortable-table";
 import {
   LaborCostChart,
@@ -72,12 +72,7 @@ export function FinancialReportingModule() {
   );
 
   return (
-    <ModuleSection
-      id="financial"
-      icon={BarChart3}
-      title="Financial Reporting"
-      description="P&L, balance sheet, cash flow, and interactive sales and labor charts."
-    >
+    <ModuleBand id="financial" icon={BarChart3}>
       <Tabs defaultValue="pl">
         <TabsList>
           <TabsTrigger value="pl">P&L Statement</TabsTrigger>
@@ -134,6 +129,6 @@ export function FinancialReportingModule() {
           </CardContent>
         </Card>
       </div>
-    </ModuleSection>
+    </ModuleBand>
   );
 }

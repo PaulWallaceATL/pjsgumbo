@@ -5,7 +5,7 @@ import type { ColumnDef } from "@tanstack/react-table";
 import { TrendingUp } from "lucide-react";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { ModuleSection } from "@/components/restaurant-os/module-section";
+import { ModuleBand } from "@/components/restaurant-os/module-band";
 import { SortableTable } from "@/components/restaurant-os/sortable-table";
 import { SeasonalForecastChart } from "@/components/restaurant-os/charts/demo-charts";
 import { getSeasonalForecast, getStaffingForecast } from "@/lib/restaurant-os/data";
@@ -28,18 +28,10 @@ export function BudgetingModule() {
   );
 
   return (
-    <ModuleSection
-      id="budgeting"
-      icon={TrendingUp}
-      title="Budgeting & Forecasting"
-      description="Seasonal Atlanta demand projections and staffing needs based on expected volume."
-    >
+    <ModuleBand id="budgeting" icon={TrendingUp}>
       <Card>
         <CardHeader>
           <CardTitle>Sales Projections — Atlanta Seasonality</CardTitle>
-          <p className="text-muted-foreground text-sm">
-            Higher demand in colder months (Nov–Feb) when comfort food peaks in Midtown and Buckhead.
-          </p>
         </CardHeader>
         <CardContent>
           <SeasonalForecastChart data={forecast} />
@@ -54,6 +46,6 @@ export function BudgetingModule() {
           <SortableTable data={staffing} columns={columns} />
         </CardContent>
       </Card>
-    </ModuleSection>
+    </ModuleBand>
   );
 }

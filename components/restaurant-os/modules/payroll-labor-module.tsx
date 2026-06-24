@@ -6,7 +6,7 @@ import { Users } from "lucide-react";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { ModuleSection } from "@/components/restaurant-os/module-section";
+import { ModuleBand } from "@/components/restaurant-os/module-band";
 import { SortableTable } from "@/components/restaurant-os/sortable-table";
 import { LaborGaugeChart } from "@/components/restaurant-os/charts/demo-charts";
 import {
@@ -45,12 +45,7 @@ export function PayrollLaborModule() {
   );
 
   return (
-    <ModuleSection
-      id="payroll"
-      icon={Users}
-      title="Payroll & Labor Control"
-      description="Hours, overtime, tip reporting, labor cost gauge, and payroll tax compliance."
-    >
+    <ModuleBand id="payroll" icon={Users}>
       <div className="grid gap-4 lg:grid-cols-3">
         <Card>
           <CardHeader>
@@ -93,6 +88,6 @@ export function PayrollLaborModule() {
           <SortableTable data={payroll} columns={columns} />
         </CardContent>
       </Card>
-    </ModuleSection>
+    </ModuleBand>
   );
 }

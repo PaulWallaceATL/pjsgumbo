@@ -7,7 +7,7 @@ import { BookOpen, Landmark } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { ModuleSection } from "@/components/restaurant-os/module-section";
+import { ModuleBand } from "@/components/restaurant-os/module-band";
 import { SortableTable } from "@/components/restaurant-os/sortable-table";
 import {
   getBankTransactions,
@@ -100,12 +100,7 @@ export function BookkeepingModule() {
     .reduce((s, t) => s + t.amount, 0);
 
   return (
-    <ModuleSection
-      id="bookkeeping"
-      icon={BookOpen}
-      title="Bookkeeping & Records"
-      description="Live POS sales, expense tracking, and bank reconciliation for 229 Peachtree St NE."
-    >
+    <ModuleBand id="bookkeeping" icon={BookOpen}>
       <Card>
         <CardHeader>
           <CardTitle>Live POS Sales — Today</CardTitle>
@@ -165,6 +160,6 @@ export function BookkeepingModule() {
           </CardContent>
         </Card>
       </div>
-    </ModuleSection>
+    </ModuleBand>
   );
 }

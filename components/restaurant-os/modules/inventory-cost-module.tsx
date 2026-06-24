@@ -6,7 +6,7 @@ import { Boxes } from "lucide-react";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { ModuleSection } from "@/components/restaurant-os/module-section";
+import { ModuleBand } from "@/components/restaurant-os/module-band";
 import { SortableTable } from "@/components/restaurant-os/sortable-table";
 import { CostPercentPie } from "@/components/restaurant-os/charts/demo-charts";
 import {
@@ -72,12 +72,7 @@ export function InventoryCostModule() {
   );
 
   return (
-    <ModuleSection
-      id="inventory"
-      icon={Boxes}
-      title="Inventory & Cost Management"
-      description="Track Gulf shrimp, blue crab, roux inputs, food cost percentages, and waste shrinkage."
-    >
+    <ModuleBand id="inventory" icon={Boxes}>
       <div className="grid gap-4 sm:grid-cols-3">
         {highlights.filter(Boolean).map((item) => (
           <Card key={item!.sku}>
@@ -137,6 +132,6 @@ export function InventoryCostModule() {
           <SortableTable data={waste} columns={wasteColumns} />
         </CardContent>
       </Card>
-    </ModuleSection>
+    </ModuleBand>
   );
 }

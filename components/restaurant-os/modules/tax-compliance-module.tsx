@@ -4,7 +4,7 @@ import { Receipt } from "lucide-react";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { ModuleSection } from "@/components/restaurant-os/module-section";
+import { ModuleBand } from "@/components/restaurant-os/module-band";
 import { getTaxComplianceItems, getTaxDeadlines } from "@/lib/restaurant-os/data";
 import { cn, formatCurrency } from "@/lib/utils";
 
@@ -34,12 +34,7 @@ export function TaxComplianceModule() {
   });
 
   return (
-    <ModuleSection
-      id="tax"
-      icon={Receipt}
-      title="Tax Compliance"
-      description="Sales tax (GA + Atlanta 8.9%), payroll tax, income tax status and upcoming filing deadlines."
-    >
+    <ModuleBand id="tax" icon={Receipt}>
       <div className="grid gap-4 sm:grid-cols-3">
         {items.map((item) => (
           <Card key={item.id}>
@@ -114,6 +109,6 @@ export function TaxComplianceModule() {
           </div>
         </CardContent>
       </Card>
-    </ModuleSection>
+    </ModuleBand>
   );
 }

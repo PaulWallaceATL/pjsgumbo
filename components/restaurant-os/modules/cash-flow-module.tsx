@@ -6,7 +6,7 @@ import { Wallet } from "lucide-react";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { ModuleSection } from "@/components/restaurant-os/module-section";
+import { ModuleBand } from "@/components/restaurant-os/module-band";
 import { SortableTable } from "@/components/restaurant-os/sortable-table";
 import { CashFlowForecastChart } from "@/components/restaurant-os/charts/demo-charts";
 import { getCashFlowForecast, getVendorPayments } from "@/lib/restaurant-os/data";
@@ -60,12 +60,7 @@ export function CashFlowModule() {
   const net30 = forecast.reduce((s, d) => s + d.inflows - d.outflows, 0);
 
   return (
-    <ModuleSection
-      id="cashflow"
-      icon={Wallet}
-      title="Cash Flow Management"
-      description="30-day cash forecast and vendor payment queue for seafood suppliers and rent."
-    >
+    <ModuleBand id="cashflow" icon={Wallet}>
       <div className="grid gap-4 sm:grid-cols-3">
         <Card>
           <CardContent className="py-5">
@@ -110,6 +105,6 @@ export function CashFlowModule() {
           <SortableTable data={vendors} columns={columns} />
         </CardContent>
       </Card>
-    </ModuleSection>
+    </ModuleBand>
   );
 }

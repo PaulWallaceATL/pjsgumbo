@@ -6,7 +6,7 @@ import { MapPin, Sparkles } from "lucide-react";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { ModuleSection } from "@/components/restaurant-os/module-section";
+import { ModuleBand } from "@/components/restaurant-os/module-band";
 import { SortableTable } from "@/components/restaurant-os/sortable-table";
 import { ExpansionRoiChart } from "@/components/restaurant-os/charts/demo-charts";
 import { getExpansionAnalysis, getMenuEngineering } from "@/lib/restaurant-os/data";
@@ -44,21 +44,13 @@ export function BusinessAdviceModule() {
   );
 
   return (
-    <ModuleSection
-      id="advice"
-      icon={Sparkles}
-      title="Business Advice (AI Insights)"
-      description="Menu engineering analysis and expansion profitability for a second Atlanta location."
-    >
+    <ModuleBand id="advice" icon={Sparkles}>
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Sparkles className="text-primary size-4" />
             Menu Engineering
           </CardTitle>
-          <p className="text-muted-foreground text-sm">
-            Signature Gumbo is a Star (high popularity, strong margin). Blue Crab is a Puzzle — premium margin but weekend-only volume limits throughput.
-          </p>
         </CardHeader>
         <CardContent>
           <SortableTable data={menu} columns={columns} />
@@ -93,6 +85,6 @@ export function BusinessAdviceModule() {
           <ExpansionRoiChart data={expansion.roiData} />
         </CardContent>
       </Card>
-    </ModuleSection>
+    </ModuleBand>
   );
 }
