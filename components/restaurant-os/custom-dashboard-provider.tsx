@@ -17,6 +17,7 @@ import {
   deriveCategorySales,
   deriveKpis,
   deriveSalesTrend,
+  normalizeProfile,
   type CustomRestaurantProfile,
 } from "@/lib/restaurant-os/custom-profile";
 
@@ -37,7 +38,7 @@ const CustomDashboardContext = createContext<CustomDashboardContextValue | null>
 function parseStoredProfile(raw: string | null): CustomRestaurantProfile | null {
   if (!raw) return null;
   try {
-    return JSON.parse(raw) as CustomRestaurantProfile;
+    return normalizeProfile(JSON.parse(raw) as Partial<CustomRestaurantProfile>);
   } catch {
     return null;
   }
@@ -103,8 +104,7 @@ export function CustomDashboardProvider({ children }: { children: ReactNode }) {
   const updateProfile = useCallback(
     (patch: Partial<CustomRestaurantProfile>) => {
       setProfileState((current) => {
-        const base = current ?? DEFAULT_CUSTOM_PROFILE;
-        const next = { ...base, ...patch };
+        const next = normalizeProfile({ ...(current ?? DEFAULT_CUSTOM_PROFILE), ...patch });
         localStorage.setItem(CUSTOM_PROFILE_STORAGE_KEY, JSON.stringify(next));
         return next;
       });

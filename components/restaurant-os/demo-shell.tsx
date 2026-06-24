@@ -103,10 +103,21 @@ function resolveModuleId(hash: string) {
 function DemoChrome({
   activeLabel,
   moduleIndex,
+  variant = "marketing",
+  restaurantName,
+  city,
 }: {
   activeLabel: string;
   moduleIndex: number;
+  variant?: "marketing" | "custom";
+  restaurantName?: string;
+  city?: string;
 }) {
+  const title =
+    variant === "custom" && restaurantName ?
+      restaurantName
+    : "PJ's Restaurant OS";
+
   return (
     <div className="bg-muted/40 flex shrink-0 items-center gap-3 border-b px-4 py-2.5">
       <div className="flex items-center gap-1.5" aria-hidden>
@@ -115,9 +126,15 @@ function DemoChrome({
         <span className="size-2.5 rounded-full bg-emerald-400/90 shadow-sm" />
       </div>
       <p className="text-muted-foreground min-w-0 flex-1 truncate text-center text-xs font-medium">
-        PJ&apos;s Restaurant OS
+        {title}
         <span className="text-foreground mx-1.5">·</span>
         {activeLabel}
+        {variant === "custom" && city ? (
+          <span className="text-muted-foreground hidden sm:inline">
+            {" "}
+            · {city}
+          </span>
+        ) : null}
       </p>
       <Badge variant="outline" className="h-5 shrink-0 px-1.5 text-[10px] tabular-nums">
         {moduleIndex + 1}/{MODULE_IDS.length}
@@ -126,9 +143,23 @@ function DemoChrome({
   );
 }
 
-export function DemoShell() {
+export type DemoShellProps = {
+  variant?: "marketing" | "custom";
+  restaurantName?: string;
+  city?: string;
+  initialPresentation?: boolean;
+  onEditSetup?: () => void;
+};
+
+export function DemoShell({
+  variant = "marketing",
+  restaurantName,
+  city,
+  initialPresentation = false,
+  onEditSetup,
+}: DemoShellProps = {}) {
   const [active, setActive] = useState(MODULE_IDS[0]);
-  const [presentation, setPresentation] = useState(false);
+  const [presentation, setPresentation] = useState(initialPresentation);
 
   const activeMeta = useMemo(
     () => MODULE_META.find((m) => m.id === active) ?? MODULE_META[0],
@@ -140,6 +171,10 @@ export function DemoShell() {
     setActive(id);
     window.history.replaceState(null, "", `#${id}`);
   }, []);
+
+  useEffect(() => {
+    setPresentation(initialPresentation);
+  }, [initialPresentation]);
 
   useEffect(() => {
     const hash = window.location.hash.replace("#", "");
@@ -174,28 +209,33 @@ export function DemoShell() {
 
   const ActiveModule = MODULE_COMPONENTS[active];
 
+  const isCustom = variant === "custom";
+
   return (
     <DemoShellContext.Provider value={{ presentation, setPresentation }}>
       <section
         id="demo-shell"
         className={cn(
-          "container-px mx-auto max-w-7xl py-8 sm:py-10",
-          presentation && "max-w-none px-2 sm:px-4",
+          isCustom ?
+            presentation ?
+              "flex h-full min-h-0 flex-col p-0"
+            : "container-px mx-auto max-w-7xl py-4 sm:py-6"
+          : "container-px mx-auto max-w-7xl py-8 sm:py-10",
+          !isCustom && presentation && "max-w-none px-2 sm:px-4",
         )}
       >
-        <RevealLite>
-          <div className="mb-5 flex flex-wrap items-end justify-between gap-4">
+        {isCustom ? (
+          <div className="mb-4 flex flex-wrap items-end justify-between gap-4">
             <div>
-              <Badge variant="secondary" className="mb-2 gap-1">
-                <Sparkles className="size-3" />
-                Live interactive demo
+              <Badge variant="secondary" className="mb-2">
+                Your Restaurant OS
               </Badge>
-              <h2 className="font-display text-2xl font-bold tracking-tight sm:text-3xl">
-                Explore the full OS
+              <h2 className="font-display text-2xl font-bold tracking-tight">
+                {restaurantName ?? "Your dashboard"}
               </h2>
-              <p className="text-muted-foreground mt-1 max-w-xl text-sm sm:text-base">
-                Eleven modules — bookkeeping, production, orders, AI insights, and more.
-                Only one loads at a time for a fast, app-like feel.
+              <p className="text-muted-foreground mt-1 text-sm">
+                All 11 modules loaded with PJ&apos;s demo datasets — edit your setup
+                anytime.
               </p>
             </div>
             <div className="flex flex-wrap items-center gap-2">
@@ -217,23 +257,78 @@ export function DemoShell() {
                       {presentation ? "Exit focus" : "Focus mode"}
                     </Button>
                   </TooltipTrigger>
-                  <TooltipContent>Hide page chrome and expand the demo</TooltipContent>
+                  <TooltipContent>Expand the dashboard to full screen</TooltipContent>
                 </Tooltip>
               </TooltipProvider>
-              <Button asChild size="sm" className="gap-1.5">
-                <Link href={activeMeta.osHref}>
-                  Open {activeMeta.label}
-                  <ArrowUpRight className="size-3.5" />
-                </Link>
+              {onEditSetup ? (
+                <Button type="button" size="sm" variant="outline" onClick={onEditSetup}>
+                  Edit setup
+                </Button>
+              ) : null}
+              <Button asChild variant="ghost" size="sm">
+                <Link href="/restaurant-os">PJ&apos;s demo</Link>
               </Button>
             </div>
           </div>
-        </RevealLite>
+        ) : (
+          <RevealLite>
+            <div className="mb-5 flex flex-wrap items-end justify-between gap-4">
+              <div>
+                <Badge variant="secondary" className="mb-2 gap-1">
+                  <Sparkles className="size-3" />
+                  Live interactive demo
+                </Badge>
+                <h2 className="font-display text-2xl font-bold tracking-tight sm:text-3xl">
+                  Explore the full OS
+                </h2>
+                <p className="text-muted-foreground mt-1 max-w-xl text-sm sm:text-base">
+                  Eleven modules — bookkeeping, production, orders, AI insights, and more.
+                  Only one loads at a time for a fast, app-like feel.
+                </p>
+              </div>
+              <div className="flex flex-wrap items-center gap-2">
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Button
+                        type="button"
+                        variant="outline"
+                        size="sm"
+                        onClick={() => setPresentation((p) => !p)}
+                        className="gap-2"
+                      >
+                        {presentation ? (
+                          <Minimize2 className="size-4" />
+                        ) : (
+                          <Maximize2 className="size-4" />
+                        )}
+                        {presentation ? "Exit focus" : "Focus mode"}
+                      </Button>
+                    </TooltipTrigger>
+                    <TooltipContent>Hide page chrome and expand the demo</TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
+                <Button asChild size="sm" className="gap-1.5">
+                  <Link href={activeMeta.osHref}>
+                    Open {activeMeta.label}
+                    <ArrowUpRight className="size-3.5" />
+                  </Link>
+                </Button>
+              </div>
+            </div>
+          </RevealLite>
+        )}
 
         <div
           className={cn(
             "ring-border/60 overflow-hidden rounded-2xl border bg-card shadow-xl ring-1",
-            presentation ? "min-h-[85vh]" : "min-h-[72vh]",
+            presentation ?
+              isCustom ?
+                "min-h-0 flex-1"
+              : "min-h-[85vh]"
+            : isCustom ?
+              "min-h-[78vh]"
+            : "min-h-[72vh]",
           )}
         >
           <div className="flex h-full min-h-[inherit] flex-col lg:grid lg:grid-cols-[260px_1fr]">
@@ -241,7 +336,13 @@ export function DemoShell() {
               <DemoModuleNav active={active} onSelect={selectModule} />
             </div>
             <div className="flex min-h-0 min-w-0 flex-1 flex-col">
-              <DemoChrome activeLabel={activeMeta.label} moduleIndex={moduleIndex} />
+              <DemoChrome
+                activeLabel={activeMeta.label}
+                moduleIndex={moduleIndex}
+                variant={variant}
+                restaurantName={restaurantName}
+                city={city}
+              />
               <div className="lg:hidden">
                 <DemoModuleNav active={active} onSelect={selectModule} vertical={false} />
               </div>
