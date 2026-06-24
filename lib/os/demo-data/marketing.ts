@@ -17,9 +17,9 @@ export type ModuleMeta = {
 export const MODULE_META: ModuleMeta[] = [
   {
     id: "operations",
-    label: "Operations Pulse",
-    eyebrow: "Today at a Glance",
-    title: "Operations Pulse",
+    label: "Dashboard",
+    eyebrow: "Operations",
+    title: "Today at a Glance",
     description: "Daily KPIs, category sales, and low-stock alerts — the same view our kitchen team opens first.",
     narrative: "146 orders today, prime cost at 57.1%, and five SKUs below par. Signature Gumbos are driving 64% of category sales while Gulf Shrimp and Blue Crab need a reorder before the weekend rush.",
     tone: "light",

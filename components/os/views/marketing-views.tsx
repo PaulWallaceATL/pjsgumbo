@@ -4,19 +4,19 @@ import { useMemo } from "react";
 import type { ColumnDef } from "@tanstack/react-table";
 import { TriangleAlert } from "lucide-react";
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { KpiCard } from "@/components/os/kpi-card";
 import {
   CategorySalesChart,
   SalesTrendChart,
 } from "@/components/os/dashboard-charts";
-import { SortableTable } from "@/components/os/sortable-table";
 import { LazyChart } from "@/components/os/lazy-chart";
+import { SortableTable } from "@/components/os/sortable-table";
 import {
   getCategorySales,
   getChannelMix,
   getDailyPrepQueue,
+  getDashboardKpis,
   getDeliveryAnalytics,
   getInventoryRows,
   getLiveOrders,
@@ -28,16 +28,36 @@ import { cn, formatCurrency } from "@/lib/utils";
 export function OperationsPulseView() {
   const salesTrend = getSalesTrend();
   const categorySales = getCategorySales();
+  const kpis = getDashboardKpis();
   const lowStock = getInventoryRows()
     .filter((r) => r.status !== "ok")
     .sort((a, b) => a.onHand / a.par - b.onHand / b.par);
 
+  const headline = kpis.slice(0, 4);
+
   return (
     <div className="space-y-4">
+      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+        {headline.map((kpi) => (
+          <Card key={kpi.label} className="border-dashed shadow-none">
+            <CardContent className="pt-4 pb-4">
+              <p className="text-muted-foreground text-[10px] font-medium tracking-wide uppercase">
+                {kpi.label}
+              </p>
+              <p className="font-display mt-1 text-2xl font-bold tabular-nums">{kpi.value}</p>
+              {kpi.hint ? (
+                <p className="text-muted-foreground mt-0.5 text-xs">{kpi.hint}</p>
+              ) : null}
+            </CardContent>
+          </Card>
+        ))}
+      </div>
+
       <div className="grid gap-4 lg:grid-cols-3">
         <Card className="lg:col-span-2">
-          <CardHeader>
-            <CardTitle>Sales — Last 7 Days</CardTitle>
+          <CardHeader className="pb-2">
+            <CardTitle className="text-base">Sales — Last 7 Days</CardTitle>
+            <CardDescription>Week-over-week trend through today&apos;s close</CardDescription>
           </CardHeader>
           <CardContent>
             <LazyChart>
@@ -46,8 +66,9 @@ export function OperationsPulseView() {
           </CardContent>
         </Card>
         <Card>
-          <CardHeader>
-            <CardTitle>Sales by Category</CardTitle>
+          <CardHeader className="pb-2">
+            <CardTitle className="text-base">Sales by Category</CardTitle>
+            <CardDescription>Signature gumbos lead the mix</CardDescription>
           </CardHeader>
           <CardContent>
             <LazyChart>
@@ -58,11 +79,12 @@ export function OperationsPulseView() {
       </div>
 
       <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
+        <CardHeader className="pb-2">
+          <CardTitle className="flex items-center gap-2 text-base">
             <TriangleAlert className="text-warning size-4" />
             Low Inventory Alerts
           </CardTitle>
+          <CardDescription>Items below par — reorder before the weekend rush</CardDescription>
         </CardHeader>
         <CardContent className="space-y-2">
           {lowStock.slice(0, 5).map((row) => (
