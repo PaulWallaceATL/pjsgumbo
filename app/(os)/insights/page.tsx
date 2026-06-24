@@ -15,7 +15,7 @@ export default function Page() {
   return (
     <OsPageShell
       title="Business Advice (AI Insights)"
-      description="Menu engineering analysis and expansion profitability for a second Atlanta location."
+      description="Ask your kitchen OS for books, orders, inventory, and expansion insights — full reports below."
       stats={[
         { label: "Menu stars", value: stars.toString() },
         { label: "Expansion ROI", value: `Month ${expansion.breakevenMonth}` },

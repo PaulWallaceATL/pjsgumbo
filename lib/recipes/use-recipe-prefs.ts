@@ -27,34 +27,23 @@ export function useRecipePrefs() {
     setReady(true);
   }, []);
 
-  const persistFavorites = React.useCallback((next: string[]) => {
-    setFavorites(next);
-    localStorage.setItem(FAVORITES_KEY, JSON.stringify(next));
+  const toggleFavorite = React.useCallback((slug: string) => {
+    setFavorites((prev) => {
+      const next = prev.includes(slug)
+        ? prev.filter((s) => s !== slug)
+        : [...prev, slug];
+      localStorage.setItem(FAVORITES_KEY, JSON.stringify(next));
+      return next;
+    });
   }, []);
 
-  const persistRecent = React.useCallback((next: string[]) => {
-    setRecent(next);
-    localStorage.setItem(RECENT_KEY, JSON.stringify(next));
+  const markViewed = React.useCallback((slug: string) => {
+    setRecent((prev) => {
+      const next = [slug, ...prev.filter((s) => s !== slug)].slice(0, MAX_RECENT);
+      localStorage.setItem(RECENT_KEY, JSON.stringify(next));
+      return next;
+    });
   }, []);
-
-  const toggleFavorite = React.useCallback(
-    (slug: string) => {
-      persistFavorites(
-        favorites.includes(slug)
-          ? favorites.filter((s) => s !== slug)
-          : [...favorites, slug],
-      );
-    },
-    [favorites, persistFavorites],
-  );
-
-  const markViewed = React.useCallback(
-    (slug: string) => {
-      const next = [slug, ...recent.filter((s) => s !== slug)].slice(0, MAX_RECENT);
-      persistRecent(next);
-    },
-    [recent, persistRecent],
-  );
 
   const isFavorite = React.useCallback(
     (slug: string) => favorites.includes(slug),

@@ -113,10 +113,42 @@ const NAV: NavGroup[] = [
 
 const STORAGE_KEY = "pjs-os-nav-collapsed";
 
+function HeaderDate() {
+  const [label, setLabel] = React.useState<string | null>(null);
+
+  React.useEffect(() => {
+    setLabel(
+      new Date().toLocaleDateString("en-US", {
+        weekday: "long",
+        month: "short",
+        day: "numeric",
+      }),
+    );
+  }, []);
+
+  if (!label) {
+    return <span className="text-muted-foreground text-sm">Today</span>;
+  }
+
+  return (
+    <div className="flex items-center gap-2">
+      <Clock className="text-muted-foreground size-4" />
+      <span className="text-muted-foreground text-sm">{label}</span>
+    </div>
+  );
+}
+
+function isNavItemActive(pathname: string, href: string) {
+  if (href === "/recipes") {
+    return pathname === "/recipes" || pathname.startsWith("/recipes/");
+  }
+  return pathname === href || pathname.startsWith(`${href}/`);
+}
+
 function findNavContext(pathname: string) {
   for (const group of NAV) {
     for (const item of group.items) {
-      if (pathname === item.href || pathname.startsWith(`${item.href}/`)) {
+      if (isNavItemActive(pathname, item.href)) {
         return { group: group.title, page: item.label };
       }
     }
@@ -144,11 +176,14 @@ export function OsShell({
   const [open, setOpen] = React.useState(false);
   const [query, setQuery] = React.useState("");
   const [collapsed, setCollapsed] = React.useState<Record<string, boolean>>({});
+  const [navReady, setNavReady] = React.useState(false);
+  const navRef = React.useRef<HTMLElement>(null);
   const pathname = usePathname();
   const crumbs = findNavContext(pathname);
 
   React.useEffect(() => {
     setCollapsed(loadCollapsed());
+    setNavReady(true);
   }, []);
 
   React.useEffect(() => {
@@ -161,6 +196,14 @@ export function OsShell({
       return next;
     });
   }, [pathname]);
+
+  React.useEffect(() => {
+    if (!navReady) return;
+    const nav = navRef.current;
+    if (!nav) return;
+    const active = nav.querySelector<HTMLElement>('[data-active="true"]');
+    active?.scrollIntoView({ block: "nearest" });
+  }, [pathname, navReady]);
 
   const toggleGroup = (title: string) => {
     setCollapsed((prev) => {
@@ -182,15 +225,16 @@ export function OsShell({
   })).filter((group) => group.items.length > 0);
 
   return (
-    <div className="bg-muted/30 min-h-screen lg:grid lg:grid-cols-[16rem_1fr]">
+    <div className="bg-muted/30 min-h-svh lg:grid lg:grid-cols-[16rem_minmax(0,1fr)]">
       <aside
         className={cn(
-          "bg-background fixed inset-y-0 left-0 z-50 w-64 border-r transition-transform lg:static lg:translate-x-0",
-          open ? "translate-x-0" : "-translate-x-full",
+          "bg-background flex w-64 flex-col overflow-hidden border-r",
+          "fixed inset-y-0 left-0 z-50 transition-transform duration-200 ease-out lg:sticky lg:top-0 lg:z-30 lg:h-svh lg:shrink-0 lg:self-start lg:translate-x-0",
+          open ? "translate-x-0" : "-translate-x-full lg:translate-x-0",
         )}
       >
-        <div className="flex h-16 items-center justify-between border-b px-4">
-          <Link href="/dashboard" className="flex items-center gap-2">
+        <div className="flex h-16 shrink-0 items-center justify-between border-b px-4">
+          <Link href="/dashboard" className="flex items-center gap-2" onClick={() => setOpen(false)}>
             <Image
               src="/brand/pjs-logo.png"
               alt="PJ's"
@@ -202,12 +246,12 @@ export function OsShell({
               PJ&apos;s Restaurant OS
             </span>
           </Link>
-          <button className="lg:hidden" onClick={() => setOpen(false)} aria-label="Close menu">
+          <button type="button" className="lg:hidden" onClick={() => setOpen(false)} aria-label="Close menu">
             <X className="size-5" />
           </button>
         </div>
 
-        <div className="border-b p-3">
+        <div className="shrink-0 border-b p-3">
           <div className="relative">
             <Search className="text-muted-foreground pointer-events-none absolute top-1/2 left-2.5 size-4 -translate-y-1/2" />
             <Input
@@ -219,14 +263,19 @@ export function OsShell({
           </div>
         </div>
 
-        <nav className="h-[calc(100vh-8.5rem)] space-y-2 overflow-y-auto p-3">
+        <nav
+          ref={navRef}
+          aria-label="Restaurant OS modules"
+          className="min-h-0 flex-1 space-y-2 overflow-y-auto overscroll-contain p-3 [scrollbar-gutter:stable]"
+        >
           {filteredNav.map((group) => {
-            const isCollapsed = collapsed[group.title] ?? false;
+            const isCollapsed = navReady ? (collapsed[group.title] ?? false) : false;
             return (
               <div key={group.title}>
                 <button
                   type="button"
                   onClick={() => toggleGroup(group.title)}
+                  aria-expanded={!isCollapsed}
                   className="text-muted-foreground hover:text-foreground flex w-full items-center justify-between rounded-md px-3 py-1.5 text-[11px] font-semibold tracking-wider uppercase"
                 >
                   {group.title}
@@ -237,22 +286,23 @@ export function OsShell({
                 {!isCollapsed ? (
                   <ul className="mt-0.5 space-y-0.5">
                     {group.items.map((item) => {
-                      const active =
-                        pathname === item.href || pathname.startsWith(`${item.href}/`);
+                      const active = isNavItemActive(pathname, item.href);
                       return (
                         <li key={item.href}>
-                          <Link href={item.href} onClick={() => setOpen(false)}>
-                            <span
-                              className={cn(
-                                "flex items-center gap-2.5 rounded-md px-3 py-2 text-sm transition-colors",
-                                active
-                                  ? "bg-primary text-primary-foreground font-medium"
-                                  : "hover:bg-accent",
-                              )}
-                            >
-                              <item.icon className="size-4 shrink-0" />
-                              <span className="flex-1">{item.label}</span>
-                            </span>
+                          <Link
+                            href={item.href}
+                            data-active={active ? "true" : undefined}
+                            aria-current={active ? "page" : undefined}
+                            onClick={() => setOpen(false)}
+                          className={cn(
+                            "relative z-10 flex w-full items-center gap-2.5 rounded-md px-3 py-2 text-sm transition-colors",
+                              active
+                                ? "bg-primary text-primary-foreground font-medium"
+                                : "text-foreground hover:bg-accent",
+                            )}
+                          >
+                            <item.icon className="pointer-events-none size-4 shrink-0" />
+                            <span className="flex-1">{item.label}</span>
                           </Link>
                         </li>
                       );
@@ -269,9 +319,9 @@ export function OsShell({
         <div className="fixed inset-0 z-40 bg-black/40 lg:hidden" onClick={() => setOpen(false)} />
       ) : null}
 
-      <div className="flex min-h-screen flex-col">
-        <header className="bg-background/90 sticky top-0 z-30 flex h-16 items-center gap-3 border-b px-4 backdrop-blur sm:px-6">
-          <button className="lg:hidden" onClick={() => setOpen(true)} aria-label="Open menu">
+      <div className="relative z-0 flex min-h-svh min-w-0 flex-col">
+        <header className="bg-background/90 sticky top-0 z-20 flex h-16 shrink-0 items-center gap-3 border-b px-4 backdrop-blur sm:px-6">
+          <button type="button" className="lg:hidden" onClick={() => setOpen(true)} aria-label="Open menu">
             <Menu className="size-5" />
           </button>
           <div className="min-w-0 flex-1">
@@ -282,16 +332,7 @@ export function OsShell({
                 <span className="font-medium">{crumbs.page}</span>
               </p>
             ) : (
-              <div className="flex items-center gap-2">
-                <Clock className="text-muted-foreground size-4" />
-                <span className="text-muted-foreground text-sm">
-                  {new Date().toLocaleDateString("en-US", {
-                    weekday: "long",
-                    month: "short",
-                    day: "numeric",
-                  })}
-                </span>
-              </div>
+              <HeaderDate />
             )}
           </div>
           <div className="ml-auto flex items-center gap-3">
@@ -314,7 +355,7 @@ export function OsShell({
           </div>
         </header>
 
-        <main className="flex-1 p-4 sm:p-6">{children}</main>
+        <main className="min-w-0 flex-1 p-4 sm:p-6">{children}</main>
       </div>
     </div>
   );

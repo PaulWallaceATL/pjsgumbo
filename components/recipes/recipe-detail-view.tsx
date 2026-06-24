@@ -121,8 +121,9 @@ export function RecipeDetailView({ recipe }: { recipe: Recipe }) {
   const { toggleFavorite, markViewed, isFavorite, ready } = useRecipePrefs();
 
   React.useEffect(() => {
+    if (!ready) return;
     markViewed(recipe.slug);
-  }, [recipe.slug, markViewed]);
+  }, [recipe.slug, markViewed, ready]);
 
   const batch = getBatchSize(recipe, batchKey);
   const ingredients = scaleIngredients(recipe, batchKey);
@@ -146,12 +147,16 @@ export function RecipeDetailView({ recipe }: { recipe: Recipe }) {
         </Button>
         <div className="ml-auto flex flex-wrap gap-2">
           <Button
-            variant={favorite ? "default" : "outline"}
+            variant={ready && favorite ? "default" : "outline"}
             size="sm"
             onClick={() => toggleFavorite(recipe.slug)}
+            disabled={!ready}
           >
-            <Star data-icon="inline-start" className={cn(favorite && "fill-current")} />
-            {favorite ? "Favorited" : "Favorite"}
+            <Star
+              data-icon="inline-start"
+              className={cn(ready && favorite && "fill-current")}
+            />
+            {ready && favorite ? "Favorited" : "Favorite"}
           </Button>
           <Button variant="outline" size="sm" onClick={handlePrint}>
             <Printer data-icon="inline-start" />

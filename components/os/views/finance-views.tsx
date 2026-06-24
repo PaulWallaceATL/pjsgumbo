@@ -9,6 +9,7 @@ import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { SortableTable } from "@/components/os/sortable-table";
 import { LazyChart } from "@/components/os/lazy-chart";
+import { InsightsChat } from "@/components/os/insights-chat";
 import {
   CashFlowForecastChart,
   ExpansionRoiChart,
@@ -583,6 +584,8 @@ export function InsightsView() {
 
   return (
     <div className="space-y-4">
+      <InsightsChat />
+
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
