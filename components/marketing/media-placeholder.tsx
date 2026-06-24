@@ -20,6 +20,7 @@ export function MediaPlaceholder({
   alt,
   label,
   tone = "roux",
+  variant = "photo",
   className,
   rounded = "rounded-2xl",
 }: {
@@ -27,10 +28,31 @@ export function MediaPlaceholder({
   alt?: string;
   label?: string;
   tone?: keyof typeof GRADIENTS;
+  variant?: "photo" | "graffiti";
   className?: string;
   rounded?: string;
 }) {
   if (src) {
+    if (variant === "graffiti") {
+      return (
+        <div
+          className={cn(
+            "relative flex items-center justify-center p-3 sm:p-4",
+            rounded,
+            className,
+          )}
+        >
+          <Image
+            src={src}
+            alt={alt ?? ""}
+            fill
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+            className="object-contain drop-shadow-2xl"
+          />
+        </div>
+      );
+    }
+
     return (
       <div className={cn("relative overflow-hidden", rounded, className)}>
         <Image

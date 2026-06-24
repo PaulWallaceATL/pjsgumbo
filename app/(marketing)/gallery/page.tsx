@@ -6,8 +6,6 @@ import { AnimatedHeading } from "@/components/marketing/animated-heading";
 import { HeroBackdrop } from "@/components/marketing/hero-backdrop";
 import { Eyebrow } from "@/components/marketing/section-heading";
 import { CtaBand } from "@/components/marketing/cta-band";
-import { SITE } from "@/lib/content/site";
-
 export const metadata: Metadata = {
   title: "Gallery",
   description:
@@ -20,6 +18,7 @@ type Tile = {
   video?: string;
   poster?: string;
   tone?: "roux" | "cajun" | "cream" | "dark";
+  variant?: "photo" | "graffiti";
   span?: string;
   ratio: string;
 };
@@ -43,10 +42,16 @@ const TILES: Tile[] = [
   },
   { src: "/menu/fried-okra.png", label: "Crispy fried okra", ratio: "aspect-[4/3]" },
   { src: "/menu/dirty-rice.png", label: "Louisiana dirty rice", ratio: "aspect-[4/3]" },
-  { src: SITE.logo, tone: "cream", label: "PJ's Gumbo", ratio: "aspect-square" },
   {
-    src: "/graffiti/atlanta-city-graffiti.png",
+    src: "/graffiti/hero-graffiti-v2.png",
+    label: "PJ's Gumbo",
+    variant: "graffiti",
+    ratio: "aspect-square",
+  },
+  {
+    src: "/graffiti/atlanta-city-graffiti-v2.png",
     label: "The city of Atlanta",
+    variant: "graffiti",
     span: "col-span-2 sm:col-span-3",
     ratio: "aspect-[16/9] sm:aspect-auto sm:h-full",
   },
@@ -99,6 +104,7 @@ export default function GalleryPage() {
                 <MediaPlaceholder
                   src={tile.src}
                   tone={tile.tone}
+                  variant={tile.variant}
                   label={tile.label}
                   alt={tile.label ?? "PJ's Gumbo"}
                   className={`${tile.ratio} h-full w-full`}
