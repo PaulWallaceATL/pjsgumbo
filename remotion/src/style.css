@@ -1,0 +1,28 @@
+@import "../../app/globals.css";
+@import url("https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=Plus+Jakarta+Sans:wght@400;600;700&display=swap");
+
+:root {
+  --font-heading: "Bricolage Grotesque", system-ui, sans-serif;
+  --font-body: "Plus Jakarta Sans", system-ui, sans-serif;
+}
+.font-display {
+  font-family: var(--font-heading, "Bricolage Grotesque", system-ui, sans-serif);
+}
+
+.font-body {
+  font-family: var(--font-body, "Plus Jakarta Sans", system-ui, sans-serif);
+}
+
+.comic-stroke {
+  -webkit-text-stroke: 3px #1a1714;
+  paint-order: stroke fill;
+}
+
+.comic-shadow {
+  box-shadow: 6px 6px 0 #1a1714;
+}
+
+.halftone-dots {
+  background-image: radial-gradient(circle, #1a1714 1.5px, transparent 1.5px);
+  background-size: 8px 8px;
+}

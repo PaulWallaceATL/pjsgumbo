@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1920" viewBox="0 0 1080 1920">
+  <defs>
+    <radialGradient id="fade" cx="50%" cy="50%" r="70%">
+      <stop offset="0%" stop-color="#ddc48b" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#1a1714" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <g stroke="#ddc48b" stroke-width="3" opacity="0.5">
+    <line x1="540" y1="960" x2="540" y2="0"/>
+    <line x1="540" y1="960" x2="540" y2="1920"/>
+    <line x1="540" y1="960" x2="0" y2="960"/>
+    <line x1="540" y1="960" x2="1080" y2="960"/>
+    <line x1="540" y1="960" x2="120" y2="200"/>
+    <line x1="540" y1="960" x2="960" y2="200"/>
+    <line x1="540" y1="960" x2="120" y2="1720"/>
+    <line x1="540" y1="960" x2="960" y2="1720"/>
+  </g>
+  <circle cx="540" cy="960" r="400" fill="url(#fade)"/>
+</svg>

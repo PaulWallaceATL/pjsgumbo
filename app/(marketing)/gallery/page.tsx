@@ -44,6 +44,12 @@ const TILES: Tile[] = [
   { src: "/menu/fried-okra.png", label: "Crispy fried okra", ratio: "aspect-[4/3]" },
   { src: "/menu/dirty-rice.png", label: "Louisiana dirty rice", ratio: "aspect-[4/3]" },
   { src: SITE.logo, tone: "cream", label: "PJ's Gumbo", ratio: "aspect-square" },
+  {
+    src: "/graffiti/atlanta-city-graffiti.png",
+    label: "The city of Atlanta",
+    span: "col-span-2 sm:col-span-3",
+    ratio: "aspect-[16/9] sm:aspect-auto sm:h-full",
+  },
 ];
 
 export default function GalleryPage() {

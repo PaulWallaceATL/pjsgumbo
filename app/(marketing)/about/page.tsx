@@ -165,6 +165,37 @@ export default function AboutPage() {
         </div>
       </section>
 
+      {/* Atlanta */}
+      <section className="bg-card border-y">
+        <div className="container-px mx-auto max-w-7xl py-16">
+          <Reveal>
+            <div className="mx-auto max-w-3xl text-center">
+              <Eyebrow>Our City</Eyebrow>
+              <AnimatedHeading
+                as="h2"
+                text="Rooted in Atlanta"
+                center
+                className="font-display mt-3 text-3xl font-bold sm:text-4xl"
+              />
+              <p className="text-muted-foreground mt-4 leading-relaxed">
+                From Peachtree Street to every neighborhood we deliver to — PJ&apos;s
+                Gumbo is proud to cook in the heart of the city.
+              </p>
+            </div>
+            <div className="relative mx-auto mt-10 max-w-5xl overflow-hidden rounded-2xl border shadow-xl">
+              <Image
+                src="/graffiti/atlanta-city-graffiti.png"
+                alt="Graffiti-style illustration of the Atlanta skyline"
+                width={1536}
+                height={1024}
+                sizes="(max-width: 1280px) 100vw, 80vw"
+                className="h-auto w-full object-cover"
+              />
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
       {/* CTA */}
       <CtaBand
         icon={Heart}

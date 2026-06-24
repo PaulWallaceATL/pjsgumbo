@@ -14,7 +14,9 @@
     "db:push": "prisma db push",
     "db:migrate": "prisma migrate dev",
     "db:seed": "tsx prisma/seed.ts",
-    "db:studio": "prisma studio"
+    "db:studio": "prisma studio",
+    "video:studio": "cd remotion && npm run studio",
+    "video:render": "cd remotion && npm run render"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.4.0",

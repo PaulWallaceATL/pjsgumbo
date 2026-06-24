@@ -4,6 +4,7 @@ import { Soup } from "lucide-react";
 import { RestaurantOsHero } from "@/components/restaurant-os/restaurant-os-hero";
 import { DemoIntro } from "@/components/restaurant-os/demo-intro";
 import { DemoShell } from "@/components/restaurant-os/demo-shell";
+import { CustomSetupTeaser } from "@/components/restaurant-os/custom-setup-form";
 import { CtaBand } from "@/components/marketing/cta-band";
 
 export const metadata: Metadata = {
@@ -16,6 +17,7 @@ export default function RestaurantOsPage() {
   return (
     <>
       <RestaurantOsHero />
+      <CustomSetupTeaser />
       <DemoIntro />
       <DemoShell />
       <CtaBand
